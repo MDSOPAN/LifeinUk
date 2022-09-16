@@ -1,6 +1,8 @@
-import Home from "./Home";
+// import IndexQuiz from "./PracticeQuizes/IndexQuiz";
+import Home from "./home/Home";
 import { QueryClient, useQuery, QueryClientProvider } from "react-query";
 import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import {
@@ -14,13 +16,15 @@ export default function App() {
   let client = new QueryClient();
 
   return (
-    <QueryClientProvider client={client}>
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.container}>
-          <Home />
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </QueryClientProvider>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <QueryClientProvider client={client}>
+          <SafeAreaView style={styles.container}>
+            <Home />
+          </SafeAreaView>
+        </QueryClientProvider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
@@ -31,6 +35,6 @@ const styles = StyleSheet.create({
     // alignItems: "center",
 
     // justifyContent: "center",
-    paddingTop: Platform.OS === "android" ? st.currentHeight : 0,
+    // paddingTop: Platform.OS === "android" ? st.currentHeight : 0,
   },
 });

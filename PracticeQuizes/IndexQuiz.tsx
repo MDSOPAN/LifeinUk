@@ -18,7 +18,7 @@ import { Text, StatusBar as st } from "react-native";
 //   );
 // };
 
-function Home() {
+function IndexQuiz() {
   let client = useQueryClient();
 
   const { isLoading, error, data }: any = useQuery("ParentData", async () => {
@@ -46,4 +46,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default IndexQuiz;
