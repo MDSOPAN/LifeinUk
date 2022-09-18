@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import Parent from "./Parent";
-import { useQuery, useQueryClient } from "react-query";
-import { Text, StatusBar as st } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Question from "./Question";
+import { Header } from "@rneui/themed";
+import { useRoute } from "@react-navigation/native";
 
 // const renderparent = ({ item }: any) => {
 //   console.log(item);
@@ -19,31 +20,35 @@ import { Text, StatusBar as st } from "react-native";
 // };
 
 function IndexQuiz() {
-  let client = useQueryClient();
+  let route = useRoute();
+  let Qdata: any = route.params;
 
-  const { isLoading, error, data }: any = useQuery("ParentData", async () => {
-    let res = await fetch(
-      "https://liut-362118.ew.r.appspot.com/api/getallparent"
-    );
-    if (res.status == 500) {
-      throw new Error("Database Not online");
-    }
-    res = await res.json();
-    return res;
-  });
-  let pdata: any[] = [];
-  if (!isLoading) {
-    pdata = data["data"];
-  }
-
+  let [question, setQuestion] = useState(0);
   return (
-    <>
-      {!isLoading &&
-        pdata.map((item, i) => <Parent Parent={item} idx={i} key={i} />)}
-
-      <StatusBar style="dark" backgroundColor="#fff" />
-    </>
+    <View>
+      <Header
+        backgroundColor="#318CE7"
+        centerComponent={{
+          text: "Practice Quiz",
+          style: styles.heading,
+        }}
+      />
+      <Question
+        Question={Qdata[question]}
+        nextQ={() => {
+          setQuestion(question + 1);
+        }}
+      />
+      <StatusBar style="light" backgroundColor="#318CE7" />
+    </View>
   );
 }
 
+const styles = StyleSheet.create({
+  heading: {
+    color: "white",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+});
 export default IndexQuiz;

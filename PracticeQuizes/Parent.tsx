@@ -1,4 +1,4 @@
-import { ListItem } from "@rneui/themed";
+import { ListItem, Card } from "@rneui/themed";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { useQuery } from "react-query";
@@ -25,34 +25,36 @@ function Parent({ Parent, i }: any) {
     tdata = data.data;
   }
   return (
-    <ListItem.Accordion
-      key={i}
-      style={styles.list}
-      content={
-        <>
-          {/* <Icon name="place" size={30} /> */}
-          <ListItem.Content>
-            <ListItem.Title>{Parent.Quiz_Name}</ListItem.Title>
-          </ListItem.Content>
-        </>
-      }
-      isExpanded={expanded}
-      onPress={() => {
-        setExpanded(!expanded);
-      }}
-    >
-      {!isLoading &&
-        tdata.map((l, i) => {
-          return (
-            <ListItem key={i} style={styles.listch}>
-              <ListItem.Content>
-                <ListItem.Title>{l.Quiz_Name}</ListItem.Title>
-              </ListItem.Content>
-              <ListItem.Chevron />
-            </ListItem>
-          );
-        })}
-    </ListItem.Accordion>
+    <Card>
+      {/* <ListItem.Accordion
+        key={i}
+        style={styles.list}
+        content={
+          <>
+            <Icon name="place" size={30} />
+            <ListItem.Content>
+              <ListItem.Title>{Parent.Quiz_Name}</ListItem.Title>
+            </ListItem.Content>
+          </>
+        }
+        isExpanded={expanded}
+        onPress={() => {
+          setExpanded(!expanded);
+        }}
+      >
+        {!isLoading &&
+          tdata.map((l, i) => {
+            return (
+              <ListItem key={i} style={styles.listch}>
+                <ListItem.Content>
+                  <ListItem.Title>{l.Quiz_Name}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
+            );
+          })}
+      </ListItem.Accordion> */}
+    </Card>
   );
 }
 
