@@ -2,6 +2,7 @@ import IndexQuiz from "./PracticeQuizes/IndexQuiz";
 import Home from "./home/Home";
 import { QueryClient, useQuery, QueryClientProvider } from "react-query";
 import React from "react";
+// import { MMKV } from "react-native-mmkv";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -13,6 +14,11 @@ import {
   Platform,
   StatusBar as st,
 } from "react-native";
+import Examshome from "./Exams/Examshome";
+import IndexExQuestion from "./Exams/IndexExQuestion";
+import ExResults from "./Exams/ExResults";
+
+// export const storage = new MMKV();
 
 export default function App() {
   let client = new QueryClient();
@@ -29,7 +35,10 @@ export default function App() {
               }}
             >
               <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Practice Quiz" component={IndexQuiz} />
+              <Stack.Screen name="Practice Exam" component={IndexQuiz} />
+              <Stack.Screen name="Exams" component={Examshome} />
+              <Stack.Screen name="ExQuestoins" component={IndexExQuestion} />
+              <Stack.Screen name="ExResults" component={ExResults} />
             </Stack.Navigator>
           </SafeAreaView>
         </QueryClientProvider>

@@ -3,21 +3,6 @@ import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import Options from "./Options";
 import { View } from "react-native";
 
-function arraysEqual(a: any, b: any) {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length !== b.length) return false;
-
-  // If you don't care about the order of the elements inside
-  // the array, you should sort both arrays here.
-  // Please note that calling sort on an array will modify that array.
-  // you might want to clone your array first.
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
-}
 function Question({ Question, nextQ }: any) {
   let answers: Number[] = Question.answers.map((a: String) => {
     return a.charCodeAt(0) - 65;
@@ -29,21 +14,23 @@ function Question({ Question, nextQ }: any) {
   let options: any[] = Question.options;
   return (
     <>
-      <Card
-        containerStyle={{
+      <View
+        style={{
           height: "100%",
+          backgroundColor: "#fff",
+          padding: 20,
         }}
       >
-        <Card.Title>
-          <Text
-            h3
-            h3Style={{
-              fontWeight: "100",
-            }}
-          >
-            {Question.body}
-          </Text>
-        </Card.Title>
+        <Text
+          h3
+          h3Style={{
+            textAlign: "center",
+            fontWeight: "100",
+          }}
+        >
+          {Question.body}
+        </Text>
+
         {/* <ButtonGroup
           buttons={options}
           selectMultiple
@@ -83,7 +70,7 @@ function Question({ Question, nextQ }: any) {
             borderWidth: 0,
           }}
         /> */}
-        <View style={{ height: "65%", display: "flex" }}>
+        <View style={{ height: "50%", display: "flex" }}>
           {options.map((el, ind) => {
             return (
               <Options
@@ -134,7 +121,7 @@ function Question({ Question, nextQ }: any) {
         >
           NEXT
         </Button>
-      </Card>
+      </View>
     </>
   );
 }

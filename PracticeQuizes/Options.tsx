@@ -15,28 +15,31 @@ function Options({
     if (reset) {
       setPressed(false);
       setreset(false);
+      setSelectedAnswers([]);
     }
   }, [reset]);
   return (
     <Button
       title={`${option}`}
       onPress={() => {
-        if (pressed) {
-          setSelectedAnswers((value: String[]) => {
-            let indx = value.indexOf(ind);
-            if (indx != -1) value.splice(indx, 1);
-            return value;
-          });
-          setPressed(false);
-        } else {
-          setSelectedAnswers((value: String[]) => {
-            value.push(ind);
-            return value;
-          });
-          setPressed(true);
+        if (!show) {
+          if (pressed) {
+            setSelectedAnswers((value: String[]) => {
+              let indx = value.indexOf(ind);
+              if (indx != -1) value.splice(indx, 1);
+              return value;
+            });
+            setPressed(false);
+          } else {
+            setSelectedAnswers((value: String[]) => {
+              value.push(ind);
+              return value;
+            });
+            setPressed(true);
+          }
         }
       }}
-      type={pressed ? "solid" : "outline"}
+      type={pressed && !show ? "solid" : "outline"}
       containerStyle={{ borderWidth: 0, flex: 1 }}
       buttonStyle={[
         styles.btn,
@@ -59,21 +62,26 @@ const styles = StyleSheet.create({
   btn: {
     borderColor: "#000",
     flexGrow: 1,
-    backgroundColor: "transparent",
+    backgroundColor: "white",
+    elevation: 5,
     borderRadius: 7,
     marginVertical: 10,
   },
   btnpressed: {
     backgroundColor: "rgba(21,90,117,0.220)",
+    elevation: 0,
   },
   btnright: {
     backgroundColor: "rgba(29, 245, 0, 0.25)",
+    elevation: 0,
   },
   btnrightans: {
     backgroundColor: "rgba(29, 200, 0, 0.5)",
+    elevation: 0,
   },
   btnwrong: {
     backgroundColor: "rgba(245,0,0, 0.25)",
+    elevation: 0,
   },
   title: {
     color: "black",

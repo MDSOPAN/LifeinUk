@@ -27,7 +27,7 @@ function IndexQuiz() {
   return (
     <View>
       <Header
-        backgroundColor="#318CE7"
+        backgroundColor="#fff"
         centerComponent={{
           text: "Practice Quiz",
           style: styles.heading,
@@ -39,14 +39,14 @@ function IndexQuiz() {
           setQuestion(question + 1);
         }}
       />
-      <StatusBar style="light" backgroundColor="#318CE7" />
+      <StatusBar style="dark" backgroundColor="#fff" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    color: "white",
+    color: "#318CE7",
     fontSize: 30,
     fontWeight: "bold",
   },

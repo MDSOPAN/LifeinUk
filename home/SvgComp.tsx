@@ -1,8 +1,7 @@
 import * as React from "react";
 import Svg, { Circle } from "react-native-svg";
 import { StyleSheet, Text } from "react-native";
-const SvgComponent = () => {
-  let percent = 57;
+const SvgComponent = ({ percent }: any) => {
   let radius = 100;
   let dash = 2 * Math.PI * radius;
   return (
@@ -25,7 +24,11 @@ const SvgComponent = () => {
           strokeDashoffset={dash - percent * (dash / 100)}
         />
         <Text
-          style={percent < 99 ? styles.text : styles.text1}
+          style={[
+            styles.text,
+            percent > 99 && styles.text1,
+            percent < 10 && styles.text2,
+          ]}
         >{`${percent} %`}</Text>
       </Svg>
     </>
@@ -49,11 +52,10 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "270deg" }, { translateY: 83 }, { translateX: -90 }],
   },
   text1: {
-    fontSize: 24,
-    color: "#318CE7",
-
-    fontWeight: "400",
     transform: [{ rotate: "270deg" }, { translateY: 75 }, { translateX: -90 }],
+  },
+  text2: {
+    transform: [{ rotate: "270deg" }, { translateY: 90 }, { translateX: -90 }],
   },
 });
 
