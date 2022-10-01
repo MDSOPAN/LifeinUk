@@ -17,6 +17,7 @@ import {
 import Examshome from "./Exams/Examshome";
 import IndexExQuestion from "./Exams/IndexExQuestion";
 import ExResults from "./Exams/ExResults";
+import Qend from "./PracticeQuizes/Qend";
 
 // export const storage = new MMKV();
 
@@ -36,6 +37,7 @@ export default function App() {
             >
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Practice Exam" component={IndexQuiz} />
+              <Stack.Screen name="Practice End" component={Qend} />
               <Stack.Screen name="Exams" component={Examshome} />
               <Stack.Screen name="ExQuestoins" component={IndexExQuestion} />
               <Stack.Screen name="ExResults" component={ExResults} />

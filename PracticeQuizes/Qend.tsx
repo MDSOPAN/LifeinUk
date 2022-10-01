@@ -1,18 +1,10 @@
-import {
-  useNavigation,
-  StackActions,
-  useRoute,
-} from "@react-navigation/native";
-import SvgComponent from "../home/SvgComp";
-import { Header, Text, Button, Card } from "@rneui/themed";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-function ExResults() {
-  let navigation = useNavigation();
-  let route = useRoute();
-  let { QuestionsLength, Right }: any = route.params;
+import { useNavigation, StackActions } from "@react-navigation/native";
 
-  let score = Math.floor((Right / QuestionsLength) * 100);
+import { Header, Text, Button } from "@rneui/themed";
+import React, { useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+function Qend() {
+  let navigation = useNavigation();
 
   let bafn1 = (e: any) => {
     e.preventDefault();
@@ -43,7 +35,7 @@ function ExResults() {
           display: "flex",
           alignContent: "center",
           alignItems: "center",
-          //   justifyContent: "center",
+          justifyContent: "center",
         }}
       >
         <Text
@@ -54,33 +46,21 @@ function ExResults() {
         >
           Well Done!
         </Text>
-        <SvgComponent
-          percent={score}
+
+        <Text
+          h3
           style={{
+            textAlign: "center",
             marginVertical: 25,
           }}
-        />
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-          }}
         >
-          <Card containerStyle={styles.leftcont}>
-            <Card.Title>Correct</Card.Title>
-            <Text style={styles.retext}>{Right}</Text>
-          </Card>
-          <Card containerStyle={styles.rightcont}>
-            <Card.Title>Incorrect</Card.Title>
-            <Text style={styles.retext}>{QuestionsLength - Right}</Text>
-          </Card>
-        </View>
+          You have answered all the available questions!
+        </Text>
         <Button
           containerStyle={{
             marginVertical: 25,
           }}
           onPress={() => {
-            navigation.removeListener("beforeRemove", bafn1);
             navigation.dispatch(StackActions.popToTop());
           }}
         >
@@ -110,4 +90,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-export default ExResults;
+export default Qend;

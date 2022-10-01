@@ -13,6 +13,7 @@
     "@rneui/base": "^4.0.0-rc.6",
     "@rneui/themed": "^4.0.0-rc.6",
     "expo": "~46.0.13",
+    "expo-ads-admob": "^13.0.0",
     "expo-file-system": "~14.1.0",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",

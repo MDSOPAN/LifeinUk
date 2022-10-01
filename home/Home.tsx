@@ -19,16 +19,30 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useQuery, useQueryClient } from "react-query";
 import TouchableScale from "react-native-touchable-scale";
 
+const updreset = async (updid: any, setPercent: any) => {
+  let { exists } = await fs.getInfoAsync(fs.documentDirectory + "updid.txt");
+  console.log(updid);
+  if (exists) {
+    let savedid = await fs.readAsStringAsync(
+      fs.documentDirectory + "updid.txt"
+    );
+    console.log(savedid);
+    if (savedid != updid) {
+      await fs.writeAsStringAsync(fs.documentDirectory + "updid.txt", updid);
+      await fs.deleteAsync(fs.documentDirectory + "ExCompleted.txt");
+      await fs.deleteAsync(fs.documentDirectory + "ExLength.txt");
+      setPercent(0);
+    }
+  } else {
+    await fs.writeAsStringAsync(fs.documentDirectory + "updid.txt", updid);
+  }
+};
+
 const getpercent = async (setPercent: any) => {
   let { exists } = await fs.getInfoAsync(
     fs.documentDirectory + "ExCompleted.txt"
   );
-  // if (storage.contains("ExCompleted")) {
-  //   const datajson = storage.getString("ExCompleted")!;
-  //   let exno = JSON.parse(datajson);
-  //   const ExLength = storage.getNumber("ExLength")!;
-  //   percent = (exno.length / ExLength) * 100;
-  // }
+
   if (exists) {
     let jsonstr = await fs.readAsStringAsync(
       fs.documentDirectory + "ExCompleted.txt"
@@ -38,8 +52,13 @@ const getpercent = async (setPercent: any) => {
     let Exlength: any = await fs.readAsStringAsync(
       fs.documentDirectory + "ExLength.txt"
     );
-
-    setPercent(Math.floor((exn.length / (Exlength * 1)) * 100));
+    if (Exlength != 0) {
+      setPercent(Math.floor((exn.length / (Exlength * 1)) * 100));
+    } else {
+      setPercent(0);
+    }
+  } else {
+    setPercent(0);
   }
 };
 
@@ -67,14 +86,21 @@ function Home() {
   useFocusEffect(
     React.useCallback(() => {
       getpercent(setPercent);
+      client.invalidateQueries("QuestionData");
     }, [])
   );
 
   let pdata: any[] = [];
+  let updid = "";
   if (!isLoading && !error) {
     pdata = data.data;
+    updid = data.updid.value;
   }
-
+  useEffect(() => {
+    if (!isLoading && !error) {
+      updreset(updid, setPercent);
+    }
+  }, [isLoading, pdata]);
   return (
     <View style={styles.cont} onLayout={onLayoutRootView}>
       <Header

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import ExOptions from "./ExOptions";
 import { View } from "react-native";
+import { AdMobBanner } from "expo-ads-admob";
 
 function arraysEqual(a: any, b: any) {
   if (a === b) return true;
@@ -24,6 +25,7 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
   });
 
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+  let [disabled, setDisabled] = useState(true);
 
   const [reset, setreset] = useState(false);
   let options: any[] = Question.options;
@@ -54,6 +56,8 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
                 key={ind}
                 option={el}
                 ind={ind}
+                setDisabled={setDisabled}
+                disabled={disabled}
                 reset={reset ? true : false}
                 setreset={setreset}
                 setSelectedAnswers={setSelectedAnswers}
@@ -69,6 +73,7 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
           containerStyle={{
             marginBottom: 10,
           }}
+          disabled={disabled}
           onPress={() => {
             let ans: any = selectedAnswers.sort((a, b) => (a > b ? 1 : -1));
             let isequal = arraysEqual(ans, answers);
@@ -85,7 +90,13 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
         >
           SUBMIT
         </Button>
+        <AdMobBanner
+          bannerSize="fullBanner"
+          adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+          servePersonalizedAds // true or false
+        />
       </View>
+      {/* onDidFailToReceiveAdWithError={this.bannerError} */}
     </>
   );
 }

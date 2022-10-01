@@ -2,7 +2,15 @@ import { Button } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
-function ExOptions({ option, setSelectedAnswers, ind, reset, setreset }: any) {
+function ExOptions({
+  option,
+  setSelectedAnswers,
+  ind,
+  reset,
+  setreset,
+  setDisabled,
+  disabled,
+}: any) {
   let [pressed, setPressed] = useState(false);
   useEffect(() => {
     if (reset) {
@@ -19,12 +27,22 @@ function ExOptions({ option, setSelectedAnswers, ind, reset, setreset }: any) {
           setSelectedAnswers((value: String[]) => {
             let indx = value.indexOf(ind);
             if (indx != -1) value.splice(indx, 1);
+            if (value.length) {
+              if (disabled) setDisabled(false);
+            } else {
+              if (!disabled) setDisabled(true);
+            }
             return value;
           });
           setPressed(false);
         } else {
           setSelectedAnswers((value: String[]) => {
             value.push(ind);
+            if (value.length) {
+              if (disabled) setDisabled(false);
+            } else {
+              if (!disabled) setDisabled(true);
+            }
             return value;
           });
           setPressed(true);

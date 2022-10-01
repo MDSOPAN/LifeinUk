@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 
 import * as fs from "expo-file-system";
-import { Header, Icon, Text } from "@rneui/themed";
+import { Dialog, Header, Icon, Text } from "@rneui/themed";
 import {
   StackActions,
   useNavigation,
@@ -22,18 +22,38 @@ function IndexExQuestion() {
 
   let [rightans, setRightans] = useState(0);
   let [question, setQuestion] = useState(0);
+
   let [fin, setFin] = useState(false);
-
-  let bafn = (e: any) => {
+  let baf = (e: any) => {
     e.preventDefault();
-    navigation.removeListener("beforeRemove", bafn);
-    navigation.dispatch(StackActions.popToTop());
+    if (fin == false || fin == undefined || fin == null) {
+      Alert.alert(
+        "Are youre you want to leave?",
+        "You will lose your proggress in this exam",
+        [
+          { text: "Don't leave", style: "cancel", onPress: () => {} },
+          {
+            text: "Leave",
+            style: "destructive",
+            // If the user confirmed, then we dispatch the action we blocked earlier
+            // This will continue the action that had triggered the removal of the screen
+            onPress: () => {
+              navigation.dispatch(e.data.action);
+              navigation.removeListener("beforeRemove", baf);
+            },
+          },
+        ]
+      );
+    }
   };
-
   useEffect(() => {
-    navigation.addListener("beforeRemove", bafn);
-  }, []);
-
+    if (!fin) {
+      navigation.addListener("beforeRemove", baf);
+    }
+    return () => {
+      navigation.removeListener("beforeRemove", baf);
+    };
+  }, [fin]);
   useEffect(() => {
     if (fin) {
       navigation.navigate("ExResults", {
@@ -54,7 +74,7 @@ function IndexExQuestion() {
         leftComponent={{
           icon: "close",
           onPress: (e) => {
-            bafn(e);
+            navigation.dispatch(StackActions.pop());
           },
           size: 40,
         }}
@@ -68,10 +88,11 @@ function IndexExQuestion() {
             until={60 * time}
             size={17}
             onFinish={() => {
-              navigation.navigate("ExResults", {
-                Right: rightans,
-                QuestionsLength: Qdata.length,
-              });
+              setFin(true);
+              // navigation.navigate("ExResults", {
+              //   Right: rightans,
+              //   QuestionsLength: Qdata.length,
+              // });
             }}
             digitStyle={{ backgroundColor: "white" }}
             showSeparator
@@ -81,6 +102,7 @@ function IndexExQuestion() {
           />
         }
       />
+
       <ExQuestions
         Question={Qdata[question]}
         setRightans={setRightans}
