@@ -204,7 +204,7 @@ function Examshome() {
           </View>
         )}
       </ScrollView>
-      {edata.length == 0 && (
+      {edata.length == 0 && !isLoading && (
         <View
           style={{
             flexGrow: 1,

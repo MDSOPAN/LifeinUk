@@ -49,7 +49,7 @@ function ExOptions({
         }
       }}
       type={pressed ? "solid" : "outline"}
-      containerStyle={{ borderWidth: 0, flex: 1 }}
+      containerStyle={{ borderWidth: 0, flexGrow: 1 }}
       buttonStyle={[styles.btn, pressed && styles.btnpressed]}
       titleStyle={[styles.title, pressed && styles.titlepressed]}
     />

@@ -13,8 +13,9 @@
     "@rneui/base": "^4.0.0-rc.6",
     "@rneui/themed": "^4.0.0-rc.6",
     "expo": "~46.0.13",
-    "expo-ads-admob": "^13.0.0",
+    "expo-dev-client": "~1.2.1",
     "expo-file-system": "~14.1.0",
+    "expo-modules-core": "~0.11.5",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "expo-storage": "^46.0.0",
@@ -22,6 +23,7 @@
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
     "react-native-countdown-component": "^2.7.1",
+    "react-native-google-mobile-ads": "^8.1.1",
     "react-native-safe-area-context": "4.3.1",
     "react-native-screens": "~3.15.0",
     "react-native-svg": "12.3.0",
@@ -34,6 +36,7 @@
     "@types/react": "~18.0.0",
     "@types/react-native": "~0.69.1",
     "@types/react-native-countdown-component": "^2.7.0",
+    "eas": "^0.1.0",
     "typescript": "^4.6.3"
   },
   "private": true

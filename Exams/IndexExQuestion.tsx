@@ -5,7 +5,7 @@ import { Alert, StyleSheet, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 
 import * as fs from "expo-file-system";
-import { Dialog, Header, Icon, Text } from "@rneui/themed";
+import { Header } from "@rneui/themed";
 import {
   StackActions,
   useNavigation,
@@ -64,7 +64,12 @@ function IndexExQuestion() {
   }, [rightans, fin]);
 
   return (
-    <View>
+    <View
+      style={{
+        display: "flex",
+        flex: 1,
+      }}
+    >
       <Header
         containerStyle={{
           display: "flex",

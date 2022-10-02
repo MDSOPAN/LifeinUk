@@ -2,14 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Button, Header, Card } from "@rneui/themed";
 import * as fs from "expo-file-system";
-
+import mobileAds from "react-native-google-mobile-ads";
 import {
   ActivityIndicator,
-  Pressable,
   StyleSheet,
   Text,
   Platform,
-  Image,
   View,
 } from "react-native";
 
@@ -100,6 +98,12 @@ function Home() {
     if (!isLoading && !error) {
       updreset(updid, setPercent);
     }
+
+    mobileAds()
+      .initialize()
+      .then((adapterStatuses) => {
+        console.log("Initialization complete!");
+      });
   }, [isLoading, pdata]);
   return (
     <View style={styles.cont} onLayout={onLayoutRootView}>

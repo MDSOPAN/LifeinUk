@@ -6,14 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "plugins": [
-      [
-        "expo-ads-admob",
-        {
-          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
-        }
-      ]
-    ],
     "splash": {
       "image": "./assets/1liut.png",
       "resizeMode": "contain",
@@ -25,20 +17,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mdsopan.LifeinUk",
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-2230827364955049~8916416234"
-      }
+      "bundleIdentifier": "com.mdsopan.LifeinUk"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.mdsopan.LifeinUk",
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-2230827364955049~8916416234"
-      }
+      "package": "com.mdsopan.LifeinUk"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -47,6 +33,11 @@
       "eas": {
         "projectId": "a1186c01-95d5-47d9-a9c1-33a7c593e1df"
       }
-    }
+    },
+    "platforms": ["android", "ios"]
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-2230827364955049~8916416234",
+    "ios_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx"
   }
 }

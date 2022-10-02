@@ -1,16 +1,35 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Question from "./Question";
 import { Header, Text as Tx } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  InterstitialAd,
+  TestIds,
+  useInterstitialAd,
+} from "react-native-google-mobile-ads";
 
 function IndexQuiz() {
   let route = useRoute();
   let Qdata: any = route.params;
-
+  let adcountdown = useRef(3);
   let navigation: any = useNavigation();
   let [question, setQuestion] = useState(0);
+
+  //AD
+
+  const { isLoaded, isClosed, load, show } = useInterstitialAd(
+    TestIds.INTERSTITIAL,
+    {}
+  );
+
+  useEffect(() => {
+    if (isLoaded) {
+      show();
+    }
+  }, [isLoaded]);
+
   return (
     <>
       <Header
@@ -25,6 +44,17 @@ function IndexQuiz() {
           <Question
             Question={Qdata[question]}
             nextQ={() => {
+              adcountdown.current = adcountdown.current - 1;
+              console.log(adcountdown.current);
+              if (adcountdown.current <= 0) {
+                // let inter = InterstitialAd.createForAdRequest(
+                //   TestIds.INTERSTITIAL
+                // );
+                // inter.load();
+                // inter.show();
+                load();
+                adcountdown.current = 3;
+              }
               if (question + 1 >= Qdata.length) {
                 navigation.navigate("Practice End");
               } else {

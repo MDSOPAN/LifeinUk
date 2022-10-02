@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import ExOptions from "./ExOptions";
 import { View } from "react-native";
-import { AdMobBanner } from "expo-ads-admob";
+import {
+  BannerAd,
+  BannerAdSize,
+  TestIds,
+} from "react-native-google-mobile-ads";
 
 function arraysEqual(a: any, b: any) {
   if (a === b) return true;
@@ -34,7 +38,8 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
     <>
       <View
         style={{
-          height: "100%",
+          // height: "100%",
+          flexGrow: 1,
           backgroundColor: "#fff",
           padding: 20,
         }}
@@ -90,11 +95,19 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
         >
           SUBMIT
         </Button>
-        <AdMobBanner
-          bannerSize="fullBanner"
-          adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
-          servePersonalizedAds // true or false
-        />
+        <View
+          style={{
+            position: "absolute",
+            flex: 1,
+            bottom: 0,
+            alignSelf: "center",
+          }}
+        >
+          <BannerAd
+            unitId={TestIds.BANNER}
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          />
+        </View>
       </View>
       {/* onDidFailToReceiveAdWithError={this.bannerError} */}
     </>
