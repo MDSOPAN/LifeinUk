@@ -27,7 +27,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.mdsopan.LifeinUk",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/6300978111"
+        "googleMobileAdsAppId": "ca-app-pub-2230827364955049~8916416234"
       }
     },
     "android": {
@@ -37,7 +37,7 @@
       },
       "package": "com.mdsopan.LifeinUk",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/6300978111"
+        "googleMobileAdsAppId": "ca-app-pub-2230827364955049~8916416234"
       }
     },
     "web": {
