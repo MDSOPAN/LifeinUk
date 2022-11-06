@@ -1,25 +1,72 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 
-import { Alert, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
 import CountDown from "react-native-countdown-component";
 
 import * as fs from "expo-file-system";
-import { Header } from "@rneui/themed";
+import { Button, Header, LinearProgress, Text } from "@rneui/themed";
 import {
   StackActions,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
+// import {
+//   BannerAd,
+//   BannerAdSize,
+//   TestIds,
+// } from "react-native-google-mobile-ads";
 import ExQuestions from "./ExQuestions";
+import { QueryClient, useQuery } from "react-query";
 
 function IndexExQuestion() {
   let route = useRoute();
   let navigation: any = useNavigation();
   let Qdata: any = route.params;
   let time = Qdata.Time;
+  let lang = Qdata.lang;
   Qdata = Qdata.Questions;
+  const client = new QueryClient();
+  //For translation
+  let qbodys = new Array();
+  Qdata.forEach((el: any) => {
+    qbodys.push(el.body);
+  });
 
+  const { isLoading, error, data }: any = useQuery(
+    ["Extranslation", Qdata],
+    async () => {
+      let res = await fetch(
+        "http://138.68.162.34:3000/api/app/translation/array",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            translate: qbodys,
+            lang: lang,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+
+      let ares = await res.json();
+      if (ares.status == "Failed") {
+        throw new Error("Could not connect to the database");
+      }
+      return ares;
+    },
+    { enabled: lang != "en" }
+  );
+  if (!isLoading) {
+    console.log(data);
+  }
   let [rightans, setRightans] = useState(0);
   let [question, setQuestion] = useState(0);
 
@@ -46,6 +93,7 @@ function IndexExQuestion() {
       );
     }
   };
+  //For Obstructio from leaving
   useEffect(() => {
     if (!fin) {
       navigation.addListener("beforeRemove", baf);
@@ -54,6 +102,7 @@ function IndexExQuestion() {
       navigation.removeListener("beforeRemove", baf);
     };
   }, [fin]);
+  //TO get to the result screen
   useEffect(() => {
     if (fin) {
       navigation.navigate("ExResults", {
@@ -68,6 +117,7 @@ function IndexExQuestion() {
       style={{
         display: "flex",
         flex: 1,
+        backgroundColor: "#FFF",
       }}
     >
       <Header
@@ -75,6 +125,7 @@ function IndexExQuestion() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          borderBottomColor: "#fff",
         }}
         leftComponent={{
           icon: "close",
@@ -92,6 +143,7 @@ function IndexExQuestion() {
           <CountDown
             until={60 * time}
             size={17}
+            running={!isLoading && !error}
             onFinish={() => {
               setFin(true);
               // navigation.navigate("ExResults", {
@@ -108,45 +160,93 @@ function IndexExQuestion() {
         }
       />
 
-      <ExQuestions
-        Question={Qdata[question]}
-        setRightans={setRightans}
-        nextQ={async () => {
-          if (question + 1 >= Qdata.length) {
-            let { exists } = await fs.getInfoAsync(
-              fs.documentDirectory + "ExCompleted.txt"
-            );
-
-            if (!exists) {
-              let exno = new Set();
-              exno.add(Qdata[0].ExamNo);
-              let exarr = Array.from(exno);
-              await fs.writeAsStringAsync(
-                fs.documentDirectory + "ExCompleted.txt",
-                JSON.stringify(exarr)
-              );
-            } else {
-              let jsonstr = await fs.readAsStringAsync(
+      <LinearProgress
+        style={{ marginVertical: 10 }}
+        value={question / Qdata.length}
+        variant={"determinate"}
+        animation={{
+          duration: 500,
+        }}
+        color="#318CE7"
+      />
+      {isLoading && (
+        <>
+          <ActivityIndicator
+            style={{
+              flexGrow: 1,
+            }}
+            size={Platform.OS == "android" ? 65 : "large"}
+            color="#318CE7"
+          />
+        </>
+      )}
+      {!isLoading && !error && (
+        <ExQuestions
+          Question={Qdata[question]}
+          Translation={lang != "en" ? data.data[question] : false}
+          setRightans={setRightans}
+          nextQ={async () => {
+            if (question + 1 >= Qdata.length) {
+              let { exists } = await fs.getInfoAsync(
                 fs.documentDirectory + "ExCompleted.txt"
               );
-              let exn = JSON.parse(jsonstr);
-              let exno = new Set(exn);
-
-              exno.add(Qdata[0].ExamNo);
-              let exarr = Array.from(exno);
-
-              await fs.writeAsStringAsync(
-                fs.documentDirectory + "ExCompleted.txt",
-                JSON.stringify(exarr)
-              );
+              if (!exists) {
+                let exno = new Set();
+                exno.add(Qdata[0].ExamNo);
+                let exarr = Array.from(exno);
+                await fs.writeAsStringAsync(
+                  fs.documentDirectory + "ExCompleted.txt",
+                  JSON.stringify(exarr)
+                );
+              } else {
+                let jsonstr = await fs.readAsStringAsync(
+                  fs.documentDirectory + "ExCompleted.txt"
+                );
+                let exn = JSON.parse(jsonstr);
+                let exno = new Set(exn);
+                exno.add(Qdata[0].ExamNo);
+                let exarr = Array.from(exno);
+                await fs.writeAsStringAsync(
+                  fs.documentDirectory + "ExCompleted.txt",
+                  JSON.stringify(exarr)
+                );
+              }
+              setFin(true);
+            } else {
+              setQuestion(question + 1);
             }
-
-            setFin(true);
-          } else {
-            setQuestion(question + 1);
-          }
+          }}
+        />
+      )}
+      {error && (
+        <View style={styles.errview}>
+          <Text style={styles.errtext}>Cannnot connect to server</Text>
+          <Text style={styles.errtext}>
+            Please check your internet connection
+          </Text>
+          <Button
+            containerStyle={styles.ProgressText}
+            buttonStyle={styles.errbtn}
+            title="Retry"
+            type="outline"
+            size="md"
+            onPress={() => {
+              client.invalidateQueries("QuestionData");
+            }}
+          />
+        </View>
+      )}
+      <View
+        style={{
+          marginBottom: "auto",
+          alignSelf: "center",
         }}
-      />
+      >
+        {/* <BannerAd
+          unitId={TestIds.BANNER}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        /> */}
+      </View>
       <StatusBar style="dark" backgroundColor="#fff" />
     </View>
   );
@@ -157,6 +257,25 @@ const styles = StyleSheet.create({
     color: "#318CE7",
     fontSize: 30,
     fontWeight: "bold",
+  },
+  errview: {
+    display: "flex",
+    flexGrow: 1,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  errtext: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 5,
+  },
+  ProgressText: {
+    fontSize: 20,
+    marginVertical: 10,
+  },
+  errbtn: {
+    paddingHorizontal: 25,
   },
 });
 

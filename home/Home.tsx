@@ -1,14 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { Button, Header, Card } from "@rneui/themed";
+import React, { Component, useCallback, useEffect, useState } from "react";
+import { setStatusBarStyle, StatusBar } from "expo-status-bar";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+import { Button, Header, Card, ListItem, Icon } from "@rneui/themed";
 import * as fs from "expo-file-system";
-import mobileAds from "react-native-google-mobile-ads";
+
+// import mobileAds from "react-native-google-mobile-ads";
 import {
   ActivityIndicator,
   StyleSheet,
   Text,
   Platform,
   View,
+  TouchableOpacity,
+  ScrollView,
+  Modal,
 } from "react-native";
 
 import * as SplashScreen from "expo-splash-screen";
@@ -16,6 +21,12 @@ import SvgComponent from "./SvgComp";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useQuery, useQueryClient } from "react-query";
 import TouchableScale from "react-native-touchable-scale";
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from "react-native-popup-menu";
 
 const updreset = async (updid: any, setPercent: any) => {
   let { exists } = await fs.getInfoAsync(fs.documentDirectory + "updid.txt");
@@ -34,6 +45,24 @@ const updreset = async (updid: any, setPercent: any) => {
   } else {
     await fs.writeAsStringAsync(fs.documentDirectory + "updid.txt", updid);
   }
+};
+
+const getlang = async (setLang: any, client: any) => {
+  let { exists } = await fs.getInfoAsync(fs.documentDirectory + "lang.txt");
+
+  if (exists) {
+    let lang = await fs.readAsStringAsync(fs.documentDirectory + "lang.txt");
+
+    setLang(lang);
+  } else {
+    await fs.writeAsStringAsync(fs.documentDirectory + "lang.txt", "en");
+    setLang("en");
+  }
+};
+
+const settrlang = async (setLang: any, lang: any) => {
+  await fs.writeAsStringAsync(fs.documentDirectory + "lang.txt", lang);
+  setLang(lang);
 };
 
 const getpercent = async (setPercent: any) => {
@@ -64,22 +93,26 @@ function Home() {
   let navigation: any = useNavigation();
   let client = useQueryClient();
   let [percent, setPercent] = useState(0);
-  const { isLoading, error, data }: any = useQuery("QuestionData", async () => {
-    let res = await fetch("http://192.168.1.107:3000/api/app/getallquestions");
-    // if (res.status == 500) {
-    //   throw new Error("Database Not online");
-    // }
+  let [lang, setLang] = useState("");
+  let [chlang, setchlang] = useState(false);
 
-    let ares = await res.json();
-    if (ares.status == "Failed") {
-      throw new Error("Could not connect to the database");
+  const { isLoading, error, data }: any = useQuery(
+    lang && "QuestionData",
+    async () => {
+      let res = await fetch(
+        `http://138.68.162.34:3000/api/app/getallquestions`
+      );
+      // if (res.status == 500) {
+      //   throw new Error("Database Not online");
+      // }
+
+      let ares = await res.json();
+      if (ares.status == "Failed") {
+        throw new Error("Could not connect to the database");
+      }
+      return ares;
     }
-    return ares;
-  });
-
-  const onLayoutRootView = async () => {
-    await SplashScreen.hideAsync();
-  };
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -92,24 +125,36 @@ function Home() {
   let updid = "";
   if (!isLoading && !error) {
     pdata = data.data;
-    updid = data.updid.value;
+
+    if (data.updid) {
+      updid = data.updid.value;
+    }
   }
   useEffect(() => {
-    if (!isLoading && !error) {
+    if (!isLoading && !error && updid) {
       updreset(updid, setPercent);
     }
-
-    mobileAds()
-      .initialize()
-      .then((adapterStatuses) => {
-        console.log("Initialization complete!");
-      });
+    if (!lang) {
+      getlang(setLang, client);
+    }
+    // mobileAds()
+    //   .initialize()
+    //   .then((adapterStatuses) => {
+    //     console.log("Initialization complete!");
+    //   });
   }, [isLoading, pdata]);
   return (
-    <View style={styles.cont} onLayout={onLayoutRootView}>
+    <View style={styles.cont}>
       <Header
         containerStyle={{
           elevation: 5,
+          shadowOffset: { width: -2, height: 4 },
+          shadowColor: "#000",
+
+          alignItems: "center",
+          justifyContent: "center",
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
         }}
         backgroundColor="#fff"
         leftComponent={{
@@ -117,9 +162,109 @@ function Home() {
 
           style: styles.heading,
         }}
+        // leftContainerStyle={{
+        //   display: "flex",
+        //   justifyContent: "center",
+        // }}
+        rightComponent={
+          <>
+            <Menu onSelect={(value) => settrlang(setLang, value)}>
+              <MenuTrigger
+                customStyles={{
+                  TriggerTouchableComponent: TouchableOpacity,
+                }}
+              >
+                <Icon
+                  name="language"
+                  size={38}
+                  type="material"
+                  color="#318CE7"
+                />
+              </MenuTrigger>
+              <MenuOptions
+                optionsContainerStyle={{
+                  marginTop: "13%",
+
+                  display: "flex",
+                }}
+              >
+                <MenuOption
+                  value={"en"}
+                  style={{
+                    flexGrow: 1,
+                  }}
+                >
+                  <ListItem bottomDivider>
+                    <ListItem.Title>
+                      <Text
+                        style={{ color: lang == "en" ? "#318CE7" : "#000000" }}
+                      >
+                        No Translation
+                      </Text>
+                    </ListItem.Title>
+                  </ListItem>
+                </MenuOption>
+                <MenuOption
+                  value={"hi"}
+                  style={{
+                    flexGrow: 1,
+                  }}
+                >
+                  <ListItem bottomDivider>
+                    <ListItem.Title>
+                      <Text
+                        style={{ color: lang == "hi" ? "#318CE7" : "#000000" }}
+                      >
+                        Hindi
+                      </Text>
+                    </ListItem.Title>
+                  </ListItem>
+                </MenuOption>
+                <MenuOption
+                  value={"ur"}
+                  style={{
+                    flexGrow: 1,
+                  }}
+                >
+                  <ListItem bottomDivider>
+                    <ListItem.Title>
+                      <Text
+                        style={{ color: lang == "ur" ? "#318CE7" : "#000000" }}
+                      >
+                        Urdu
+                      </Text>
+                    </ListItem.Title>
+                  </ListItem>
+                </MenuOption>
+                <MenuOption
+                  value={"bn"}
+                  style={{
+                    flexGrow: 1,
+                  }}
+                >
+                  <ListItem>
+                    <ListItem.Title>
+                      <Text
+                        style={{ color: lang == "bn" ? "#318CE7" : "#000000" }}
+                      >
+                        Bangla
+                      </Text>
+                    </ListItem.Title>
+                  </ListItem>
+                </MenuOption>
+              </MenuOptions>
+            </Menu>
+          </>
+        }
+        rightContainerStyle={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 5,
+        }}
       />
-      <StatusBar style="auto" backgroundColor="#fff" />
-      {isLoading && (
+      <StatusBar style="dark" backgroundColor="#fff" />
+
+      {(isLoading || !lang) && (
         <>
           <ActivityIndicator
             style={{
@@ -148,10 +293,38 @@ function Home() {
           />
         </View>
       )}
-      {!isLoading && !error && (
-        <>
+      {!isLoading && !error && lang && (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Text style={styles.ProgressText}>Total Progress</Text>
-          <SvgComponent percent={percent} />
+          {/* <SvgComponent percent={percent} /> */}
+          <AnimatedCircularProgress
+            size={220}
+            width={10}
+            fill={percent}
+            tintColor="#318CE7"
+            // onAnimationComplete={() => console.log("onAnimationComplete")}
+            rotation={0}
+            backgroundColor="#f5f5f5"
+          >
+            {(fill) => (
+              <Text
+                style={{
+                  fontSize: 24,
+                  color: "#318CE7",
+                  position: "absolute",
+                  fontWeight: "400",
+                }}
+              >
+                {`${percent}%`}
+              </Text>
+            )}
+          </AnimatedCircularProgress>
           <View style={styles.cardcontainer}>
             {/* <Pressable
               onPress={() => {
@@ -163,11 +336,11 @@ function Home() {
               tension={100}
               activeScale={0.95}
               onPress={() => {
-                navigation.navigate("Exams");
+                navigation.navigate("Exams", lang);
               }}
             >
               <Card containerStyle={styles.card}>
-                <Card.Title>Exam</Card.Title>
+                <Card.Title>Practice Exam</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
                   Start an Exam with ordered questions and limited time
@@ -186,11 +359,11 @@ function Home() {
                   let max = 1;
                   return Math.floor(Math.random() * (max - min) + min);
                 });
-                navigation.navigate("Practice Exam", Qdata);
+                navigation.navigate("Practice Exam", { Qdata, lang });
               }}
             >
               <Card containerStyle={styles.card}>
-                <Card.Title>Practice Exam</Card.Title>
+                <Card.Title>Exam</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
                   Start an exam with random questions and unlimited time
@@ -198,7 +371,7 @@ function Home() {
               </Card>
             </TouchableScale>
           </View>
-        </>
+        </ScrollView>
       )}
     </View>
   );
@@ -232,6 +405,10 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     display: "flex",
     elevation: 5,
+    shadowOffset: { width: -2, height: 4 },
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   errview: {
     display: "flex",

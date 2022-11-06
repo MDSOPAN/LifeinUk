@@ -1,7 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import * as fs from "expo-file-system";
-
-import { Button, Header, ListItem, Text as Tx } from "@rneui/themed";
+import { StatusBar } from "expo-status-bar";
+import { Button, Header, Icon, ListItem, Text as Tx } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -64,12 +64,14 @@ const getcompleted = async (setCompleted: any) => {
 function Examshome() {
   let client = useQueryClient();
   let navigation: any = useNavigation();
+  let route = useRoute();
+  let lang = route.params;
   let [compledted, setCompleted] = useState(new Set());
   useEffect(() => {
     getcompleted(setCompleted);
   }, []);
   const { isLoading, error, data }: any = useQuery("Exams", async () => {
-    let res = await fetch("http://192.168.1.107:3000/api/app/getexams");
+    let res = await fetch("http://138.68.162.34:3000/api/app/getexams");
     // if (res.status == 500) {
     //   throw new Error("Database Not online");
     // }
@@ -87,8 +89,10 @@ function Examshome() {
   }
   useEffect(() => {
     if (!isLoading && !error) {
-      updid = data.updid.value;
-      updreset(updid, setCompleted);
+      if (data.updid) {
+        updid = data.updid.value;
+        updreset(updid, setCompleted);
+      }
       saveexamlenth(edata.length * 1);
     }
   }, [isLoading, edata]);
@@ -100,12 +104,30 @@ function Examshome() {
           flexGrow: 1,
         }}
       >
+        <StatusBar style="dark" backgroundColor="#fff" />
         <Header
+          containerStyle={{
+            borderBottomColor: "#fff",
+          }}
           backgroundColor="#fff"
           centerComponent={{
             text: "Exams",
             style: styles.heading,
           }}
+          leftComponent={
+            <Icon
+              type="ionicon"
+              name="arrow-back-outline"
+              color="#318CE7"
+              size={34}
+              style={{
+                alignSelf: "center",
+              }}
+              onPress={() => {
+                navigation.pop();
+              }}
+            />
+          }
         />
         {isLoading && (
           <>
@@ -159,7 +181,9 @@ function Examshome() {
                   onPress={() => {
                     navigation.navigate("ExQuestoins", {
                       Questions: el.questions,
+
                       Time: el.time,
+                      lang: lang,
                     });
                   }}
                 >
@@ -174,6 +198,10 @@ function Examshome() {
                           ? "rgb(205,255,199)"
                           : "#fff",
                       elevation: 5,
+                      shadowOffset: { width: -2, height: 4 },
+                      shadowColor: "#000",
+                      shadowOpacity: 0.2,
+                      shadowRadius: 3,
                       height: 100,
                       borderRadius: 10,
                     }}
@@ -204,7 +232,7 @@ function Examshome() {
           </View>
         )}
       </ScrollView>
-      {edata.length == 0 && !isLoading && (
+      {edata.length == 0 && !isLoading && !error && (
         <View
           style={{
             flexGrow: 1,

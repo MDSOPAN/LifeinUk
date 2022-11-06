@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import ExOptions from "./ExOptions";
-import { View } from "react-native";
-import {
-  BannerAd,
-  BannerAdSize,
-  TestIds,
-} from "react-native-google-mobile-ads";
+import { ScrollView, View } from "react-native";
 
 function arraysEqual(a: any, b: any) {
   if (a === b) return true;
@@ -23,7 +18,7 @@ function arraysEqual(a: any, b: any) {
   }
   return true;
 }
-function ExQuestions({ Question, nextQ, setRightans }: any) {
+function ExQuestions({ Question, nextQ, setRightans, Translation }: any) {
   let answers: Number[] = Question.answers.map((a: String) => {
     return a.charCodeAt(0) - 65;
   });
@@ -36,40 +31,75 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
 
   return (
     <>
-      <View
+      <ScrollView
         style={{
           // height: "100%",
           flexGrow: 1,
           backgroundColor: "#fff",
+        }}
+        contentContainerStyle={{
           padding: 20,
         }}
+        showsVerticalScrollIndicator={false}
       >
         <Text
           h3
           h3Style={{
             textAlign: "center",
             fontWeight: "100",
+            maxHeight: "35%",
           }}
+          adjustsFontSizeToFit
         >
           {Question.body}
         </Text>
+        {Translation && (
+          <Text
+            h3
+            h3Style={{
+              textAlign: "center",
+              marginTop: 20,
+              fontWeight: "100",
+              color: "#318CE7",
+              maxHeight: "35%",
+            }}
+            adjustsFontSizeToFit
+          >
+            Translation:
+          </Text>
+        )}
+        {Translation && (
+          <Text
+            h2
+            h3Style={{
+              textAlign: "center",
 
-        <View style={{ height: "50%", display: "flex" }}>
-          {options.map((el, ind) => {
-            return (
-              <ExOptions
-                key={ind}
-                option={el}
-                ind={ind}
-                setDisabled={setDisabled}
-                disabled={disabled}
-                reset={reset ? true : false}
-                setreset={setreset}
-                setSelectedAnswers={setSelectedAnswers}
-              />
-            );
-          })}
-        </View>
+              marginVertical: 10,
+
+              fontWeight: "100",
+              maxHeight: "30%",
+            }}
+            adjustsFontSizeToFit
+          >
+            {Translation}
+          </Text>
+        )}
+        {/* <View style={{ height: "50%", display: "flex" }}> */}
+        {options.map((el, ind) => {
+          return (
+            <ExOptions
+              key={ind}
+              option={el}
+              ind={ind}
+              setDisabled={setDisabled}
+              disabled={disabled}
+              reset={reset ? true : false}
+              setreset={setreset}
+              setSelectedAnswers={setSelectedAnswers}
+            />
+          );
+        })}
+        {/* </View> */}
         <Button
           type="outline"
           buttonStyle={{
@@ -95,20 +125,7 @@ function ExQuestions({ Question, nextQ, setRightans }: any) {
         >
           SUBMIT
         </Button>
-        <View
-          style={{
-            position: "absolute",
-            flex: 1,
-            bottom: 0,
-            alignSelf: "center",
-          }}
-        >
-          <BannerAd
-            unitId={TestIds.BANNER}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          />
-        </View>
-      </View>
+      </ScrollView>
       {/* onDidFailToReceiveAdWithError={this.bannerError} */}
     </>
   );

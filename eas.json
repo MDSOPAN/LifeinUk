@@ -15,9 +15,13 @@
     },
     "preview": {
       "distribution": "internal",
+      "developmentClient": false,
       "android": {
-        "gradleCommand": ":app:assembleDebug",
-        "buildType": "app-bundle"
+        "gradleCommand": ":app:assembleRelease",
+        "buildType": "apk"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
       }
     },
     "production": {}

@@ -17,7 +17,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mdsopan.LifeinUk"
+      "bundleIdentifier": "com.mdsopan.LifeinUk",
+      "icon": "./assets/icon.png"
     },
     "android": {
       "adaptiveIcon": {
@@ -38,6 +39,6 @@
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-2230827364955049~8916416234",
-    "ios_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx"
+    "ios_app_id": "ca-app-pub-2230827364955049~2000650911"
   }
 }

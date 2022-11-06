@@ -1,34 +1,37 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Question from "./Question";
-import { Header, Text as Tx } from "@rneui/themed";
+import { Header, Icon, Text as Tx } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  InterstitialAd,
-  TestIds,
-  useInterstitialAd,
-} from "react-native-google-mobile-ads";
+// import {
+//   BannerAd,
+//   BannerAdSize,
+//   InterstitialAd,
+//   TestIds,
+//   useInterstitialAd,
+// } from "react-native-google-mobile-ads";
 
 function IndexQuiz() {
-  let route = useRoute();
-  let Qdata: any = route.params;
+  let route: any = useRoute();
+  let Qdata: any = route.params.Qdata;
+  let lang = route.params.lang;
   let adcountdown = useRef(3);
   let navigation: any = useNavigation();
   let [question, setQuestion] = useState(0);
 
   //AD
 
-  const { isLoaded, isClosed, load, show } = useInterstitialAd(
-    TestIds.INTERSTITIAL,
-    {}
-  );
+  // const { isLoaded, isClosed, load, show } = useInterstitialAd(
+  //   TestIds.INTERSTITIAL,
+  //   {}
+  // );
 
-  useEffect(() => {
-    if (isLoaded) {
-      show();
-    }
-  }, [isLoaded]);
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     show();
+  //   }
+  // }, [isLoaded]);
 
   return (
     <>
@@ -38,21 +41,36 @@ function IndexQuiz() {
           text: "Practice Quiz",
           style: styles.heading,
         }}
+        leftComponent={
+          <Icon
+            type="ionicon"
+            name="arrow-back-outline"
+            color="#318CE7"
+            size={34}
+            style={{
+              alignSelf: "center",
+            }}
+            onPress={() => {
+              navigation.pop();
+            }}
+          />
+        }
       />
+      <StatusBar style="dark" backgroundColor="#fff" />
+      {/* <BannerAd
+        unitId={TestIds.BANNER}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+      /> */}
       {Qdata.length != 0 && (
-        <View>
+        <>
           <Question
-            Question={Qdata[question]}
+            question={Qdata[question]}
+            lang={lang}
             nextQ={() => {
               adcountdown.current = adcountdown.current - 1;
               console.log(adcountdown.current);
               if (adcountdown.current <= 0) {
-                // let inter = InterstitialAd.createForAdRequest(
-                //   TestIds.INTERSTITIAL
-                // );
-                // inter.load();
-                // inter.show();
-                load();
+                // load();
                 adcountdown.current = 3;
               }
               if (question + 1 >= Qdata.length) {
@@ -62,8 +80,7 @@ function IndexQuiz() {
               }
             }}
           />
-          <StatusBar style="dark" backgroundColor="#fff" />
-        </View>
+        </>
       )}
       {Qdata.length == 0 && (
         <View

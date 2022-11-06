@@ -21,6 +21,9 @@ function Options({
   return (
     <Button
       title={`${option}`}
+      // titleProps={{
+      //   adjustsFontSizeToFit: true,
+      // }}
       onPress={() => {
         if (!show) {
           if (pressed) {
@@ -64,24 +67,43 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "white",
     elevation: 5,
+    shadowOffset: { width: -2, height: 4 },
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
     borderRadius: 7,
     marginVertical: 10,
   },
   btnpressed: {
     backgroundColor: "rgba(21,90,117,0.220)",
     elevation: 0,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0,
+    shadowRadius: 0,
   },
   btnright: {
     backgroundColor: "rgba(29, 245, 0, 0.25)",
     elevation: 0,
+    shadowOffset: { width: 0, height: 0 },
+
+    shadowOpacity: 0,
+    shadowRadius: 0,
   },
   btnrightans: {
     backgroundColor: "rgba(29, 200, 0, 0.5)",
     elevation: 0,
+    shadowOffset: { width: 0, height: 0 },
+
+    shadowOpacity: 0,
+    shadowRadius: 0,
   },
   btnwrong: {
     backgroundColor: "rgba(245,0,0, 0.25)",
     elevation: 0,
+    shadowOffset: { width: 0, height: 0 },
+
+    shadowOpacity: 0,
+    shadowRadius: 0,
   },
   title: {
     color: "black",

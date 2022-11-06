@@ -20,6 +20,10 @@ function Qend() {
       <Header
         containerStyle={{
           elevation: 5,
+          shadowOffset: { width: -2, height: 4 },
+          shadowColor: "#000",
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
         }}
         backgroundColor="#fff"
         centerComponent={{

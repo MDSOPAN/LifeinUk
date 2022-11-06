@@ -7,6 +7,7 @@ import SvgComponent from "../home/SvgComp";
 import { Header, Text, Button, Card } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
 function ExResults() {
   let navigation = useNavigation();
   let route = useRoute();
@@ -28,6 +29,10 @@ function ExResults() {
       <Header
         containerStyle={{
           elevation: 5,
+          shadowOffset: { width: -2, height: 4 },
+          shadowColor: "#000",
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
         }}
         backgroundColor="#fff"
         centerComponent={{
@@ -54,12 +59,36 @@ function ExResults() {
         >
           Well Done!
         </Text>
-        <SvgComponent
+        {/* <SvgComponent
           percent={score}
           style={{
             marginVertical: 25,
           }}
-        />
+        /> */}
+        <AnimatedCircularProgress
+          size={220}
+          width={10}
+          fill={score}
+          tintColor="#318CE7"
+          style={{
+            marginVertical: 25,
+          }}
+          rotation={0}
+          backgroundColor="#f5f5f5"
+        >
+          {(fill) => (
+            <Text
+              style={{
+                fontSize: 24,
+                color: "#318CE7",
+                position: "absolute",
+                fontWeight: "400",
+              }}
+            >
+              {`${score}%`}
+            </Text>
+          )}
+        </AnimatedCircularProgress>
         <View
           style={{
             display: "flex",
