@@ -1,14 +1,14 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
 import { setStatusBarStyle, StatusBar } from "expo-status-bar";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-import { Button, Header, Card, ListItem, Icon } from "@rneui/themed";
+import { Button, Header, Card, ListItem, Icon, Text } from "@rneui/themed";
 import * as fs from "expo-file-system";
+import InAppReview from "react-native-in-app-review";
 
 // import mobileAds from "react-native-google-mobile-ads";
 import {
   ActivityIndicator,
   StyleSheet,
-  Text,
   Platform,
   View,
   TouchableOpacity,
@@ -16,8 +16,6 @@ import {
   Modal,
 } from "react-native";
 
-import * as SplashScreen from "expo-splash-screen";
-import SvgComponent from "./SvgComp";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useQuery, useQueryClient } from "react-query";
 import TouchableScale from "react-native-touchable-scale";
@@ -74,13 +72,20 @@ const getpercent = async (setPercent: any) => {
     let jsonstr = await fs.readAsStringAsync(
       fs.documentDirectory + "ExCompleted.txt"
     );
-    let exn = JSON.parse(jsonstr);
+    let exn: Object = JSON.parse(jsonstr);
 
     let Exlength: any = await fs.readAsStringAsync(
       fs.documentDirectory + "ExLength.txt"
     );
     if (Exlength != 0) {
-      setPercent(Math.floor((exn.length / (Exlength * 1)) * 100));
+      let vals = Object.values(exn);
+      let len = 0;
+      vals.forEach((el) => {
+        if (el == "pass") {
+          len = len + 1;
+        }
+      });
+      setPercent(Math.floor((len / (Exlength * 1)) * 100));
     } else {
       setPercent(0);
     }
@@ -167,7 +172,11 @@ function Home() {
         //   justifyContent: "center",
         // }}
         rightComponent={
-          <>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
             <Menu onSelect={(value) => settrlang(setLang, value)}>
               <MenuTrigger
                 customStyles={{
@@ -175,9 +184,9 @@ function Home() {
                 }}
               >
                 <Icon
-                  name="language"
-                  size={38}
                   type="material"
+                  name="g-translate"
+                  size={38}
                   color="#318CE7"
                 />
               </MenuTrigger>
@@ -252,9 +261,148 @@ function Home() {
                     </ListItem.Title>
                   </ListItem>
                 </MenuOption>
+                <Text
+                  style={{
+                    color: "grey",
+                    fontSize: 11,
+                    marginLeft: 5,
+                  }}
+                >
+                  Powered by Google Translate
+                </Text>
               </MenuOptions>
             </Menu>
-          </>
+            <Menu
+              style={{
+                marginHorizontal: 10,
+              }}
+            >
+              <MenuTrigger
+                customStyles={{
+                  TriggerTouchableComponent: TouchableOpacity,
+                }}
+              >
+                <Icon
+                  type="material"
+                  name="settings"
+                  size={38}
+                  color="#318CE7"
+                />
+              </MenuTrigger>
+              <MenuOptions
+                optionsContainerStyle={{
+                  marginTop: "13%",
+
+                  display: "flex",
+                }}
+              >
+                <MenuOption
+                  onSelect={() => {
+                    if (InAppReview.isAvailable()) {
+                      InAppReview.RequestInAppReview()
+                        .then((hasFlowFinishedSuccessfully) => {
+                          // when return true in android it means user finished or close review flow
+                          console.log(
+                            "InAppReview in android",
+                            hasFlowFinishedSuccessfully
+                          );
+
+                          // when return true in ios it means review flow lanuched to user.
+                          console.log(
+                            "InAppReview in ios has launched successfully",
+                            hasFlowFinishedSuccessfully
+                          );
+
+                          // 1- you have option to do something ex: (navigate Home page) (in android).
+                          // 2- you have option to do something,
+                          // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
+
+                          // 3- another option:
+                          if (hasFlowFinishedSuccessfully) {
+                            // do something for ios
+                            // do something for android
+                          }
+
+                          // for android:
+                          // The flow has finished. The API does not indicate whether the user
+                          // reviewed or not, or even whether the review dialog was shown. Thus, no
+                          // matter the result, we continue our app flow.
+
+                          // for ios
+                          // the flow lanuched successfully, The API does not indicate whether the user
+                          // reviewed or not, or he/she closed flow yet as android, Thus, no
+                          // matter the result, we continue our app flow.
+                        })
+                        .catch((error) => {
+                          //we continue our app flow.
+                          // we have some error could happen while lanuching InAppReview,
+                          // Check table for errors and code number that can return in catch.
+                          console.log(error);
+                        });
+                    }
+                  }}
+                  style={{
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    flexDirection: "row",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 5,
+                    margin: 5,
+                    borderColor: "#318CE7",
+                    borderWidth: 0.5,
+                  }}
+                >
+                  <Icon name="star-outline" size={25} color="#318CE7" />
+
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: "#318CE7",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Rate Us
+                  </Text>
+                </MenuOption>
+                <MenuOption
+                  onSelect={() => {
+                    navigation.navigate("datadoat");
+                  }}
+                  style={{
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    flexDirection: "row",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 5,
+                    margin: 5,
+                    borderColor: "#318CE7",
+                    borderWidth: 0.5,
+                  }}
+                >
+                  <Icon
+                    name="information-outline"
+                    type="material-community"
+                    size={25}
+                    color="#318CE7"
+                  />
+
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: "#318CE7",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    About the devs
+                  </Text>
+                </MenuOption>
+              </MenuOptions>
+            </Menu>
+          </View>
         }
         rightContainerStyle={{
           display: "flex",
@@ -340,10 +488,10 @@ function Home() {
               }}
             >
               <Card containerStyle={styles.card}>
-                <Card.Title>Practice Exam</Card.Title>
+                <Card.Title>Mock Test</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
-                  Start an Exam with ordered questions and limited time
+                  Start an exam with random questions and time limit
                 </Text>
               </Card>
             </TouchableScale>
@@ -363,10 +511,10 @@ function Home() {
               }}
             >
               <Card containerStyle={styles.card}>
-                <Card.Title>Exam</Card.Title>
+                <Card.Title>Practice</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
-                  Start an exam with random questions and unlimited time
+                  Start practice with ordered questions and unlimited time
                 </Text>
               </Card>
             </TouchableScale>
