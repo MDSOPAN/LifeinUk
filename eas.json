@@ -24,6 +24,19 @@
         "buildConfiguration": "Debug"
       }
     },
+    "internal": {
+      "distribution": "store",
+      "developmentClient": false,
+      "env": {
+        "ANDROID_SDK_ROOT": "/home/sopan/Android/Sdk"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      }
+    },
     "production": {}
   },
   "submit": {

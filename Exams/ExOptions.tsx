@@ -8,43 +8,36 @@ function ExOptions({
   ind,
   reset,
   setreset,
-  setDisabled,
-  disabled,
+  ispressed,
+  selectedAnswers,
 }: any) {
   let [pressed, setPressed] = useState(false);
+
   useEffect(() => {
-    if (reset) {
+    if (reset && !ispressed) {
       setPressed(false);
       setreset(false);
       setSelectedAnswers([]);
+    } else {
+      setPressed(ispressed);
+      setreset(false);
     }
-  }, [reset]);
+  }, [reset, ispressed]);
   return (
     <Button
       title={`${option}`}
       onPress={() => {
         if (pressed) {
-          setSelectedAnswers((value: String[]) => {
-            let indx = value.indexOf(ind);
-            if (indx != -1) value.splice(indx, 1);
-            if (value.length) {
-              if (disabled) setDisabled(false);
-            } else {
-              if (!disabled) setDisabled(true);
-            }
-            return value;
-          });
+          let value = [...selectedAnswers];
+          let indx = value.indexOf(ind);
+          if (indx != -1) value.splice(indx, 1);
+          setSelectedAnswers(value);
           setPressed(false);
         } else {
-          setSelectedAnswers((value: String[]) => {
-            value.push(ind);
-            if (value.length) {
-              if (disabled) setDisabled(false);
-            } else {
-              if (!disabled) setDisabled(true);
-            }
-            return value;
-          });
+          let value = [...selectedAnswers];
+
+          value.push(ind);
+          setSelectedAnswers(value);
           setPressed(true);
         }
       }}

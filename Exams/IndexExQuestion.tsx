@@ -11,7 +11,7 @@ import {
 import CountDown from "react-native-countdown-component";
 
 import * as fs from "expo-file-system";
-import { Button, Header, LinearProgress, Text } from "@rneui/themed";
+import { Button, Header, Icon, LinearProgress, Text } from "@rneui/themed";
 import {
   StackActions,
   useNavigation,
@@ -24,6 +24,11 @@ import {
 // } from "react-native-google-mobile-ads";
 import ExQuestions from "./ExQuestions";
 import { QueryClient, useQuery } from "react-query";
+import {
+  BannerAd,
+  BannerAdSize,
+  TestIds,
+} from "react-native-google-mobile-ads";
 
 function IndexExQuestion() {
   let route = useRoute();
@@ -64,10 +69,9 @@ function IndexExQuestion() {
     },
     { enabled: lang != "en" }
   );
-  if (!isLoading) {
-    console.log(data);
-  }
-  let [rightans, setRightans] = useState(0);
+
+  let [rightans, setRightans] = useState(new Set());
+  let [AnsArr, setAnsArr] = useState(new Array());
   let [question, setQuestion] = useState(0);
 
   let [fin, setFin] = useState(false);
@@ -106,8 +110,11 @@ function IndexExQuestion() {
   useEffect(() => {
     if (fin) {
       navigation.navigate("ExResults", {
-        Right: rightans,
+        Right: rightans.size,
+        Answers: AnsArr,
+        Qdata: Qdata,
         QuestionsLength: Qdata.length,
+        lang,
       });
     }
   }, [rightans, fin]);
@@ -136,7 +143,7 @@ function IndexExQuestion() {
         }}
         backgroundColor="#fff"
         centerComponent={{
-          text: `Exam ${Qdata[0].ExamNo}`,
+          text: `Test ${Qdata[0].ExamNo}`,
           style: styles.heading,
         }}
         rightComponent={
@@ -181,42 +188,71 @@ function IndexExQuestion() {
         </>
       )}
       {!isLoading && !error && (
-        <ExQuestions
-          Question={Qdata[question]}
-          Translation={lang != "en" ? data.data[question] : false}
-          setRightans={setRightans}
-          nextQ={async () => {
-            if (question + 1 >= Qdata.length) {
-              let { exists } = await fs.getInfoAsync(
-                fs.documentDirectory + "ExCompleted.txt"
-              );
-              if (!exists) {
-                let exno = new Set();
-                exno.add(Qdata[0].ExamNo);
-                let exarr = Array.from(exno);
-                await fs.writeAsStringAsync(
-                  fs.documentDirectory + "ExCompleted.txt",
-                  JSON.stringify(exarr)
-                );
-              } else {
-                let jsonstr = await fs.readAsStringAsync(
+        <>
+          <Button
+            size="md"
+            containerStyle={{
+              maxWidth: "20%",
+              borderRadius: 5,
+              margin: 10,
+            }}
+            onPress={() => {
+              if (question != 0) {
+                setQuestion(question - 1);
+              }
+            }}
+          >
+            <Icon type="ionicon" name="arrow-back-outline" color="white" />
+          </Button>
+          <ExQuestions
+            Question={Qdata[question]}
+            quesind={question}
+            Translation={lang != "en" ? data.data[question] : false}
+            setRightans={setRightans}
+            rightans={rightans}
+            selectedAns={AnsArr[question] != undefined ? AnsArr[question] : []}
+            setAnsArr={setAnsArr}
+            AnsArr={AnsArr}
+            nextQ={async () => {
+              if (question + 1 >= Qdata.length) {
+                let { exists } = await fs.getInfoAsync(
                   fs.documentDirectory + "ExCompleted.txt"
                 );
-                let exn = JSON.parse(jsonstr);
-                let exno = new Set(exn);
-                exno.add(Qdata[0].ExamNo);
-                let exarr = Array.from(exno);
-                await fs.writeAsStringAsync(
-                  fs.documentDirectory + "ExCompleted.txt",
-                  JSON.stringify(exarr)
-                );
+                if (!exists) {
+                  let exno: any = new Object();
+                  if (rightans.size > Qdata.length * 0.75) {
+                    exno[Qdata[0].ExamNo] = "pass";
+                  } else {
+                    exno[Qdata[0].ExamNo] = "fail";
+                  }
+
+                  await fs.writeAsStringAsync(
+                    fs.documentDirectory + "ExCompleted.txt",
+                    JSON.stringify(exno)
+                  );
+                } else {
+                  let jsonstr = await fs.readAsStringAsync(
+                    fs.documentDirectory + "ExCompleted.txt"
+                  );
+                  let exno = JSON.parse(jsonstr);
+                  if (rightans.size > Qdata.length * 0.75) {
+                    exno[Qdata[0].ExamNo] = "pass";
+                  } else {
+                    exno[Qdata[0].ExamNo] = "fail";
+                  }
+
+                  await fs.writeAsStringAsync(
+                    fs.documentDirectory + "ExCompleted.txt",
+                    JSON.stringify(exno)
+                  );
+                }
+                setFin(true);
+              } else {
+                setQuestion(question + 1);
               }
-              setFin(true);
-            } else {
-              setQuestion(question + 1);
-            }
-          }}
-        />
+            }}
+          />
+        </>
       )}
       {error && (
         <View style={styles.errview}>
@@ -242,10 +278,10 @@ function IndexExQuestion() {
           alignSelf: "center",
         }}
       >
-        {/* <BannerAd
+        <BannerAd
           unitId={TestIds.BANNER}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        /> */}
+        />
       </View>
       <StatusBar style="dark" backgroundColor="#fff" />
     </View>

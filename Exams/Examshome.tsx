@@ -51,13 +51,11 @@ const getcompleted = async (setCompleted: any) => {
       fs.documentDirectory + "ExCompleted.txt"
     );
     console.log("JSON", jsonstr);
-    let exn = JSON.parse(jsonstr);
-
-    let exno = new Set(Array.from(exn));
+    let exno = JSON.parse(jsonstr);
 
     setCompleted(exno);
   } else {
-    setCompleted(null);
+    setCompleted(new Object());
   }
 };
 
@@ -66,7 +64,7 @@ function Examshome() {
   let navigation: any = useNavigation();
   let route = useRoute();
   let lang = route.params;
-  let [compledted, setCompleted] = useState(new Set());
+  let [completed, setCompleted]: any = useState(new Object());
   useEffect(() => {
     getcompleted(setCompleted);
   }, []);
@@ -106,12 +104,15 @@ function Examshome() {
       >
         <StatusBar style="dark" backgroundColor="#fff" />
         <Header
+          leftContainerStyle={{
+            alignSelf: "center",
+          }}
           containerStyle={{
             borderBottomColor: "#fff",
           }}
           backgroundColor="#fff"
           centerComponent={{
-            text: "Exams",
+            text: "Mock Tests",
             style: styles.heading,
           }}
           leftComponent={
@@ -190,37 +191,35 @@ function Examshome() {
                   <ListItem
                     key={ind}
                     bottomDivider
-                    containerStyle={{
-                      marginTop: 10,
-                      borderTopWidth: 1,
-                      backgroundColor:
-                        compledted && compledted.has(ind + 1)
-                          ? "rgb(205,255,199)"
-                          : "#fff",
-                      elevation: 5,
-                      shadowOffset: { width: -2, height: 4 },
-                      shadowColor: "#000",
-                      shadowOpacity: 0.2,
-                      shadowRadius: 3,
-                      height: 100,
-                      borderRadius: 10,
-                    }}
+                    containerStyle={[
+                      styles.Ex,
+                      completed.hasOwnProperty(ind + 1) &&
+                        completed[ind + 1] == "pass" &&
+                        styles.PassedEx,
+                      completed.hasOwnProperty(ind + 1) &&
+                        completed[ind + 1] == "fail" &&
+                        styles.FailedEx,
+                    ]}
                   >
                     <ListItem.Content>
                       <ListItem.Title
-                        style={{
-                          fontSize: 25,
-                          color:
-                            compledted && compledted.has(ind + 1)
-                              ? "rgb(22,215,25)"
-                              : "#000",
-                        }}
-                      >{`Exam ${ind + 1}`}</ListItem.Title>
+                        style={[
+                          styles.title,
+                          completed.hasOwnProperty(ind + 1) &&
+                            completed[ind + 1] == "pass" &&
+                            styles.titleright,
+                          completed.hasOwnProperty(ind + 1) &&
+                            completed[ind + 1] == "fail" &&
+                            styles.titlewrong,
+                        ]}
+                      >{`Test ${ind + 1}`}</ListItem.Title>
                     </ListItem.Content>
                     <ListItem.Chevron
                       color={
-                        compledted && compledted.has(ind + 1)
-                          ? "rgb(22,215,25)"
+                        completed && completed.hasOwnProperty(ind + 1)
+                          ? completed[ind + 1] == "pass"
+                            ? "green"
+                            : "red"
                           : "#000"
                       }
                       size={40}
@@ -263,6 +262,37 @@ const styles = StyleSheet.create({
   ProgressText: {
     fontSize: 20,
     marginVertical: 10,
+  },
+  Ex: {
+    marginTop: 10,
+    borderTopWidth: 1,
+    backgroundColor: "#fff",
+    elevation: 5,
+    shadowOffset: { width: -2, height: 4 },
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    height: 100,
+    borderRadius: 10,
+  },
+  PassedEx: {
+    elevation: 0,
+    backgroundColor: "rgba(29, 200, 0, 0.5)",
+  },
+  FailedEx: {
+    elevation: 0,
+    backgroundColor: "rgba(245,0,0, 0.25)",
+  },
+  title: {
+    fontSize: 25,
+    color: "black",
+  },
+
+  titleright: {
+    color: "green",
+  },
+  titlewrong: {
+    color: "red",
   },
   errview: {
     display: "flex",

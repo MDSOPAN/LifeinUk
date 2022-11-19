@@ -1,4 +1,4 @@
-package com.mdsopan.LifeinUk.newarchitecture.components;
+package com.datadoat.LifeinUk.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

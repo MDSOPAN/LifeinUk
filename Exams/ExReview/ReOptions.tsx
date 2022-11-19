@@ -1,9 +1,9 @@
 import { Button } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-function Options({
+function ReOptions({
   option,
-  setSelectedAnswers,
+
   selectedAnswers,
   ind,
   right,
@@ -12,39 +12,23 @@ function Options({
   setreset,
 }: any) {
   let [pressed, setPressed] = useState(false);
+  console.log(selectedAnswers);
+
   useEffect(() => {
     if (reset) {
       setPressed(false);
       setreset(false);
-      setSelectedAnswers([]);
+    } else {
+      if (selectedAnswers.includes(ind)) setPressed(true);
     }
-  }, [reset]);
+  }, [reset, selectedAnswers]);
   return (
     <Button
       title={`${option}`}
       // titleProps={{
       //   adjustsFontSizeToFit: true,
       // }}
-      onPress={() => {
-        if (!show) {
-          if (pressed) {
-            const value = [...selectedAnswers];
-            let indx = value.indexOf(ind);
-            if (indx != -1) value.splice(indx, 1);
-            setSelectedAnswers(value);
-            setPressed(false);
-          } else {
-            const value = [...selectedAnswers];
-            value.push(ind);
-            setSelectedAnswers(value);
-            // setSelectedAnswers((value: String[]) => {
-            //   value.push(ind);
-            //   return value;
-            // });
-            setPressed(true);
-          }
-        }
-      }}
+
       type={pressed && !show ? "solid" : "outline"}
       containerStyle={{ borderWidth: 0, flex: 1 }}
       buttonStyle={[
@@ -121,4 +105,4 @@ const styles = StyleSheet.create({
     color: "red",
   },
 });
-export default Options;
+export default ReOptions;

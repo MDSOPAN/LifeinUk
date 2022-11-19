@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/1liut.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#fff"
     },
@@ -17,7 +17,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mdsopan.LifeinUk",
+      "bundleIdentifier": "com.datadoat.LifeinUk",
       "icon": "./assets/icon.png"
     },
     "android": {
@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.mdsopan.LifeinUk"
+      "package": "com.datadoat.LifeinUk"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,7 +38,7 @@
     "platforms": ["android", "ios"]
   },
   "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-2230827364955049~8916416234",
+    "android_app_id": "ca-app-pub-4662143029142618~1166081395",
     "ios_app_id": "ca-app-pub-2230827364955049~2000650911"
   }
 }

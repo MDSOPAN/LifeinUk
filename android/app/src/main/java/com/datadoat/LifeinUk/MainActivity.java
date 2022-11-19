@@ -1,4 +1,4 @@
-package com.mdsopan.LifeinUk;
+package com.datadoat.LifeinUk;
 
 import android.os.Build;
 import android.os.Bundle;

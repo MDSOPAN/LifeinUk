@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
-import Options from "./Options";
+import ReOptions from "./ReOptions";
 import { ActivityIndicator, Platform, ScrollView, View } from "react-native";
 import { QueryClient, useQuery } from "react-query";
 
-function Question({ question, nextQ, lang }: any) {
+function Question({ question, nextQ, lang, selAns }: any) {
   let answers: Number[] = question.answers.map((a: String) => {
     return a.charCodeAt(0) - 65;
   });
 
-  // const [tr, setTr] = useState("");
   const client = new QueryClient();
-  // useEffect(() => {
-  //   console.log("run");
-  //   client.refetchQueries("translation");
-  // }, [question.body]);
+
   const { isLoading, error, data }: any = useQuery(
     ["translation", question.body, lang],
     async () => {
@@ -41,19 +37,13 @@ function Question({ question, nextQ, lang }: any) {
     { enabled: lang != "en" }
   );
 
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [isdisabled, setDisabled] = useState(true);
-
-  useEffect(() => {
-    if (selectedAnswers.length == answers.length) {
-      setDisabled(false);
-    } else {
-      if (isdisabled == false) setDisabled(true);
-    }
-  }, [selectedAnswers]);
-  const [show, setShow] = useState(false);
+  const selectedAnswers = selAns;
+  console.log(selAns);
+  const show = true;
   const [reset, setreset] = useState(false);
-
+  useEffect(() => {
+    setreset(true);
+  }, [question]);
   let options: any[] = question.options;
   return (
     <ScrollView
@@ -71,6 +61,7 @@ function Question({ question, nextQ, lang }: any) {
         h3Style={{
           textAlign: "center",
           fontWeight: "100",
+          maxHeight: "35%",
         }}
         adjustsFontSizeToFit
       >
@@ -84,6 +75,7 @@ function Question({ question, nextQ, lang }: any) {
             marginTop: 20,
             fontWeight: "100",
             color: "#318CE7",
+            maxHeight: "35%",
           }}
           adjustsFontSizeToFit
         >
@@ -107,6 +99,7 @@ function Question({ question, nextQ, lang }: any) {
             marginVertical: 10,
 
             fontWeight: "100",
+            maxHeight: "30%",
           }}
           adjustsFontSizeToFit
         >
@@ -115,56 +108,18 @@ function Question({ question, nextQ, lang }: any) {
       )}
       {options.map((el, ind) => {
         return (
-          <Options
+          <ReOptions
             key={ind}
             option={el}
             right={answers.includes(ind) ? true : false}
             show={show}
             ind={ind}
+            selectedAnswers={selectedAnswers}
             reset={reset ? true : false}
             setreset={setreset}
-            selectedAnswers={selectedAnswers}
-            setSelectedAnswers={setSelectedAnswers}
           />
         );
       })}
-
-      <Button
-        type="outline"
-        disabled={isdisabled}
-        buttonStyle={{
-          borderWidth: 1.5,
-        }}
-        containerStyle={{
-          marginBottom: 10,
-        }}
-        onPress={() => {
-          let ans: any = selectedAnswers.sort((a, b) => (a > b ? 1 : -1));
-          setShow(true);
-        }}
-        size="md"
-      >
-        SUBMIT
-      </Button>
-
-      <Button
-        type="outline"
-        containerStyle={{
-          opacity: show ? 1 : 0,
-        }}
-        buttonStyle={{
-          borderWidth: 1.5,
-        }}
-        disabled={show ? false : true}
-        onPress={() => {
-          setShow(false);
-          nextQ();
-          setreset(true);
-        }}
-        size="md"
-      >
-        NEXT
-      </Button>
     </ScrollView>
   );
 }

@@ -18,14 +18,33 @@ function arraysEqual(a: any, b: any) {
   }
   return true;
 }
-function ExQuestions({ Question, nextQ, setRightans, Translation }: any) {
+function ExQuestions({
+  Question,
+  nextQ,
+  setRightans,
+  selectedAns,
+  rightans,
+  Translation,
+  setAnsArr,
+  AnsArr,
+  quesind,
+}: any) {
   let answers: Number[] = Question.answers.map((a: String) => {
     return a.charCodeAt(0) - 65;
   });
-
   const [selectedAnswers, setSelectedAnswers] = useState([]);
-  let [disabled, setDisabled] = useState(true);
+  useEffect(() => {
+    setSelectedAnswers(selectedAns);
+  }, [selectedAns]);
 
+  let [isdisabled, setDisabled] = useState(true);
+  useEffect(() => {
+    if (selectedAnswers.length == answers.length) {
+      setDisabled(false);
+    } else {
+      if (isdisabled == false) setDisabled(true);
+    }
+  }, [selectedAnswers]);
   const [reset, setreset] = useState(false);
   let options: any[] = Question.options;
 
@@ -47,7 +66,6 @@ function ExQuestions({ Question, nextQ, setRightans, Translation }: any) {
           h3Style={{
             textAlign: "center",
             fontWeight: "100",
-            maxHeight: "35%",
           }}
           adjustsFontSizeToFit
         >
@@ -61,7 +79,6 @@ function ExQuestions({ Question, nextQ, setRightans, Translation }: any) {
               marginTop: 20,
               fontWeight: "100",
               color: "#318CE7",
-              maxHeight: "35%",
             }}
             adjustsFontSizeToFit
           >
@@ -70,14 +87,13 @@ function ExQuestions({ Question, nextQ, setRightans, Translation }: any) {
         )}
         {Translation && (
           <Text
-            h2
-            h3Style={{
+            h4
+            h4Style={{
               textAlign: "center",
 
               marginVertical: 10,
 
               fontWeight: "100",
-              maxHeight: "30%",
             }}
             adjustsFontSizeToFit
           >
@@ -91,8 +107,8 @@ function ExQuestions({ Question, nextQ, setRightans, Translation }: any) {
               key={ind}
               option={el}
               ind={ind}
-              setDisabled={setDisabled}
-              disabled={disabled}
+              ispressed={selectedAns.includes(ind)}
+              selectedAnswers={selectedAnswers}
               reset={reset ? true : false}
               setreset={setreset}
               setSelectedAnswers={setSelectedAnswers}
@@ -108,14 +124,35 @@ function ExQuestions({ Question, nextQ, setRightans, Translation }: any) {
           containerStyle={{
             marginBottom: 10,
           }}
-          disabled={disabled}
+          disabled={isdisabled}
           onPress={() => {
-            let ans: any = selectedAnswers.sort((a, b) => (a > b ? 1 : -1));
+            let ans: any = selectedAnswers.sort((a: any, b: any) =>
+              a > b ? 1 : -1
+            );
             let isequal = arraysEqual(ans, answers);
-            console.log(isequal);
+            if (AnsArr.length > quesind) {
+              setAnsArr((val: any) => {
+                val.splice(quesind, 1, ans);
+
+                return val;
+              });
+            } else {
+              setAnsArr((val: any) => {
+                val.push(ans);
+
+                return val;
+              });
+            }
+
             if (isequal) {
               setRightans((val: any) => {
-                return val + 1;
+                val.add(quesind);
+                return val;
+              });
+            } else if (rightans.has(quesind)) {
+              setRightans((val: any) => {
+                val.delete(quesind);
+                return val;
               });
             }
             nextQ();

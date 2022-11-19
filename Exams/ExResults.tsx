@@ -3,15 +3,15 @@ import {
   StackActions,
   useRoute,
 } from "@react-navigation/native";
-import SvgComponent from "../home/SvgComp";
+
 import { Header, Text, Button, Card } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 function ExResults() {
-  let navigation = useNavigation();
+  let navigation: any = useNavigation();
   let route = useRoute();
-  let { QuestionsLength, Right }: any = route.params;
+  let { QuestionsLength, Right, Qdata, Answers, lang }: any = route.params;
 
   let score = Math.floor((Right / QuestionsLength) * 100);
 
@@ -51,14 +51,29 @@ function ExResults() {
           //   justifyContent: "center",
         }}
       >
-        <Text
-          h2
-          style={{
-            marginVertical: 25,
-          }}
-        >
-          Well Done!
-        </Text>
+        {score > 75 && (
+          <Text
+            h2
+            style={{
+              marginVertical: 25,
+            }}
+          >
+            Passed
+          </Text>
+        )}
+        {score < 75 && (
+          <Text
+            h2
+            style={{
+              marginVertical: 25,
+              maxWidth: "80%",
+            }}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+          >
+            Failed
+          </Text>
+        )}
         {/* <SvgComponent
           percent={score}
           style={{
@@ -69,7 +84,7 @@ function ExResults() {
           size={220}
           width={10}
           fill={score}
-          tintColor="#318CE7"
+          tintColor={score > 75 ? "#318CE7" : "red"}
           style={{
             marginVertical: 25,
           }}
@@ -80,7 +95,7 @@ function ExResults() {
             <Text
               style={{
                 fontSize: 24,
-                color: "#318CE7",
+                color: score > 75 ? "#318CE7" : "red",
                 position: "absolute",
                 fontWeight: "400",
               }}
@@ -104,6 +119,21 @@ function ExResults() {
             <Text style={styles.retext}>{QuestionsLength - Right}</Text>
           </Card>
         </View>
+        <Button
+          containerStyle={{
+            marginVertical: 25,
+          }}
+          onPress={() => {
+            // navigation.removeListener("beforeRemove", bafn1);
+            navigation.navigate("ReEx", {
+              Qdata,
+              Answers,
+              lang,
+            });
+          }}
+        >
+          Review
+        </Button>
         <Button
           containerStyle={{
             marginVertical: 25,

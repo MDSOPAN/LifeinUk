@@ -1,4 +1,4 @@
-package com.mdsopan.LifeinUk.newarchitecture.modules;
+package com.datadoat.LifeinUk.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

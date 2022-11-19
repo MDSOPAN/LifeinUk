@@ -1,43 +1,18 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import Question from "./Question";
-import { Header, Icon, Text as Tx } from "@rneui/themed";
+import Question from "./ReQuestoins";
+import { Header, Icon, Button, Text as Tx } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  BannerAd,
-  BannerAdSize,
-  TestIds,
-  useInterstitialAd,
-} from "react-native-google-mobile-ads";
-// import {
-//   BannerAd,
-//   BannerAdSize,
-//   InterstitialAd,
-//   TestIds,
-//   useInterstitialAd,
-// } from "react-native-google-mobile-ads";
 
-function IndexQuiz() {
+function ReIndex() {
   let route: any = useRoute();
   let Qdata: any = route.params.Qdata;
   let lang = route.params.lang;
+  let Answers = route.params.Answers;
   let adcountdown = useRef(3);
   let navigation: any = useNavigation();
   let [question, setQuestion] = useState(0);
-
-  //AD
-
-  const { isLoaded, isClosed, load, show } = useInterstitialAd(
-    TestIds.INTERSTITIAL,
-    {}
-  );
-
-  useEffect(() => {
-    if (isLoaded) {
-      show();
-    }
-  }, [isLoaded]);
 
   return (
     <>
@@ -47,7 +22,7 @@ function IndexQuiz() {
           alignSelf: "center",
         }}
         centerComponent={{
-          text: "Practice",
+          text: "Exam",
           style: styles.heading,
         }}
         leftComponent={
@@ -66,20 +41,60 @@ function IndexQuiz() {
         }
       />
       <StatusBar style="dark" backgroundColor="#fff" />
-      <BannerAd
-        unitId={TestIds.BANNER}
-        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-      />
       {Qdata.length != 0 && (
         <>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              backgroundColor: "#fff",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Button
+              size="md"
+              containerStyle={{
+                maxWidth: "20%",
+                borderRadius: 5,
+                flexGrow: 1,
+                margin: 10,
+                // alignSelf: "flex-start",
+              }}
+              onPress={() => {
+                if (question != 0) {
+                  setQuestion(question - 1);
+                }
+              }}
+            >
+              <Icon type="ionicon" name="arrow-back-outline" color="white" />
+            </Button>
+            <Button
+              size="md"
+              containerStyle={{
+                maxWidth: "20%",
+                flexGrow: 1,
+                marginLeft: "auto",
+                borderRadius: 5,
+                margin: 10,
+              }}
+              onPress={() => {
+                if (question + 1 < Qdata.length) {
+                  setQuestion(question + 1);
+                }
+              }}
+            >
+              <Icon type="ionicon" name="arrow-forward-outline" color="white" />
+            </Button>
+          </View>
           <Question
             question={Qdata[question]}
+            selAns={Answers[question]}
             lang={lang}
             nextQ={() => {
               adcountdown.current = adcountdown.current - 1;
               console.log(adcountdown.current);
               if (adcountdown.current <= 0) {
-                load();
+                // load();
                 adcountdown.current = 3;
               }
               if (question + 1 >= Qdata.length) {
@@ -123,4 +138,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-export default IndexQuiz;
+export default ReIndex;
