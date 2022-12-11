@@ -69,7 +69,7 @@ function ExQuestions({
           }}
           adjustsFontSizeToFit
         >
-          {Question.body}
+          {Question.body.trim()}
         </Text>
         {Translation && (
           <Text
@@ -97,7 +97,7 @@ function ExQuestions({
             }}
             adjustsFontSizeToFit
           >
-            {Translation}
+            {Translation.trim()}
           </Text>
         )}
         {/* <View style={{ height: "50%", display: "flex" }}> */}

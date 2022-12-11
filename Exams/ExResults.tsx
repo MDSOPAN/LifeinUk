@@ -6,7 +6,7 @@ import {
 
 import { Header, Text, Button, Card } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 function ExResults() {
   let navigation: any = useNavigation();
@@ -41,14 +41,17 @@ function ExResults() {
         }}
       />
 
-      <View
+      <ScrollView
         style={{
           backgroundColor: "white",
           flexGrow: 1,
+
+          //   justifyContent: "center",
+        }}
+        contentContainerStyle={{
           display: "flex",
           alignContent: "center",
           alignItems: "center",
-          //   justifyContent: "center",
         }}
       >
         {score > 75 && (
@@ -145,7 +148,7 @@ function ExResults() {
         >
           Back to home
         </Button>
-      </View>
+      </ScrollView>
     </>
   );
 }

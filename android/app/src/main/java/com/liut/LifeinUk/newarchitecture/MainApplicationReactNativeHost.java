@@ -1,4 +1,4 @@
-package com.datadoat.LifeinUk.newarchitecture;
+package com.liut.LifeinUk.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.datadoat.LifeinUk.BuildConfig;
-import com.datadoat.LifeinUk.newarchitecture.components.MainComponentsRegistry;
-import com.datadoat.LifeinUk.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.liut.LifeinUk.BuildConfig;
+import com.liut.LifeinUk.newarchitecture.components.MainComponentsRegistry;
+import com.liut.LifeinUk.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -27,6 +27,7 @@
     "internal": {
       "distribution": "store",
       "developmentClient": false,
+      "credentialsSource": "local",
       "env": {
         "ANDROID_SDK_ROOT": "/home/sopan/Android/Sdk"
       },

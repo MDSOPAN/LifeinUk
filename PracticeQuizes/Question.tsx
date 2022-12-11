@@ -74,7 +74,7 @@ function Question({ question, nextQ, lang }: any) {
         }}
         adjustsFontSizeToFit
       >
-        {question.body}
+        {question.body.trim()}
       </Text>
       {lang != "en" && (
         <Text
@@ -110,7 +110,7 @@ function Question({ question, nextQ, lang }: any) {
           }}
           adjustsFontSizeToFit
         >
-          {data.data}
+          {data.data.trim()}
         </Text>
       )}
       {options.map((el, ind) => {

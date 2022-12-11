@@ -38,30 +38,61 @@ function Datadoat() {
           backgroundColor: "#fff",
         }}
       >
-        {loaded && (
-          <Text
-            style={{
-              fontFamily: "doat",
-              textAlign: "center",
-              marginTop: "2%",
+        <Text
+          style={{
+            // fontFamily: "doat",
+            textAlign: "center",
+            // marginTop: "2%",
 
-              fontSize: 50,
-              fontWeight: "100",
-              color: "#318CE7",
-            }}
-          >
-            datadoat
-          </Text>
-        )}
+            fontSize: 100,
+            // fontWeight: "100",
+            // color: "#318CE7",
+            color: "#318CE7",
+
+            fontWeight: "bold",
+          }}
+        >
+          LIUT
+        </Text>
+
         <Text
           style={{
             textAlign: "center",
           }}
         >
-          We are a group that work with both small and larger businesses to
-          propel them in using online and more reliable infastructure
+          This app is owned by The Internet & Experts Ltd
         </Text>
-        <TouchableScale
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 20,
+            marginVertical: 20,
+          }}
+        >
+          Our trainers also provide professional online one to one training
+          sessions, please contact us:
+        </Text>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 20,
+          }}
+        >
+          Email: mitukar@gmail.com
+        </Text>
+
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 20,
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          Whatsapp: +447578404558
+        </Text>
+        {/* <TouchableScale
           friction={90}
           tension={100}
           activeScale={0.95}
@@ -114,25 +145,50 @@ function Datadoat() {
               </Text>
             </View>
           </View>
-        </TouchableScale>
+        </TouchableScale> */}
         <View
           style={{
-            flexDirection: "row",
-            position: "absolute",
-            width: "100%",
-            height: "10%",
-            justifyContent: "space-around",
+            // flexDirection: "row",
+            // position: "absolute",
+            // width: "100%",
+            // height: "10%",
+            // justifyContent: "space-around",
             backgroundColor: "#318CE7",
-            alignItems: "center",
-            alignContent: "center",
+            // alignItems: "center",
+            // alignContent: "center",
             borderTopStartRadius: 25,
             borderTopEndRadius: 25,
-            bottom: 0,
-
+            // bottom: 0,
+            marginTop: "auto",
             padding: 10,
           }}
         >
-          <Icon
+          {loaded && (
+            <>
+              <Text
+                style={{
+                  color: "#fff",
+                  textAlign: "center",
+                }}
+              >
+                App designed & developed by:
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "doat",
+                  textAlign: "center",
+                  marginTop: "2%",
+
+                  fontSize: 50,
+                  fontWeight: "100",
+                  color: "#fff",
+                }}
+              >
+                datadoat
+              </Text>
+            </>
+          )}
+          {/* <Icon
             color="#fff"
             name="facebook"
             type="material-community"
@@ -158,7 +214,7 @@ function Datadoat() {
             onPress={() => {
               Linking.openURL("https://instagram.com/datadoatlabs");
             }}
-          />
+          /> */}
         </View>
       </View>
     </>

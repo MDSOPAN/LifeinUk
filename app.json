@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "LifeinUk",
+    "name": "LifeintheUK",
     "slug": "LifeinUk",
-    "version": "1.0.0",
+    "version": "1.0.1",
+
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,15 +18,16 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.datadoat.LifeinUk",
+      "bundleIdentifier": "com.liut.LifeinUk",
       "icon": "./assets/icon.png"
     },
     "android": {
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.datadoat.LifeinUk"
+      "package": "com.liut.LifeinUk"
     },
     "web": {
       "favicon": "./assets/favicon.png"

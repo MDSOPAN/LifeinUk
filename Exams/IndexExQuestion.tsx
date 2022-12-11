@@ -279,7 +279,7 @@ function IndexExQuestion() {
         }}
       >
         <BannerAd
-          unitId={TestIds.BANNER}
+          unitId={"ca-app-pub-4662143029142618/9942720116"}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         />
       </View>

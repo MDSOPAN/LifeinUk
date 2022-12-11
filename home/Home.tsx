@@ -5,7 +5,7 @@ import { Button, Header, Card, ListItem, Icon, Text } from "@rneui/themed";
 import * as fs from "expo-file-system";
 import InAppReview from "react-native-in-app-review";
 
-// import mobileAds from "react-native-google-mobile-ads";
+import mobileAds from "react-native-google-mobile-ads";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -142,11 +142,11 @@ function Home() {
     if (!lang) {
       getlang(setLang, client);
     }
-    // mobileAds()
-    //   .initialize()
-    //   .then((adapterStatuses) => {
-    //     console.log("Initialization complete!");
-    //   });
+    mobileAds()
+      .initialize()
+      .then((adapterStatuses) => {
+        console.log("Initialization complete!");
+      });
   }, [isLoading, pdata]);
   return (
     <View style={styles.cont}>
@@ -397,7 +397,7 @@ function Home() {
                       fontWeight: "bold",
                     }}
                   >
-                    About the devs
+                    About
                   </Text>
                 </MenuOption>
               </MenuOptions>
