@@ -28,8 +28,8 @@ function IndexQuiz() {
 
   //AD
 
-  const { isLoaded, isClosed, load, show } = useInterstitialAd(
-    TestIds.INTERSTITIAL,
+  const { isLoaded, isClosed, load, show, error } = useInterstitialAd(
+    "ca-app-pub-4662143029142618/9782938015",
     {}
   );
 
@@ -67,7 +67,10 @@ function IndexQuiz() {
       />
       <StatusBar style="dark" backgroundColor="#fff" />
       <BannerAd
-        unitId={TestIds.BANNER}
+        unitId={"ca-app-pub-4662143029142618/9942720116"}
+        onAdFailedToLoad={(er) => {
+          console.log(er);
+        }}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
       />
       {Qdata.length != 0 && (
