@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import Options from "./Options";
-import { ActivityIndicator, Platform, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Platform,
+  ScrollView,
+  View,
+} from "react-native";
 import { QueryClient, useQuery } from "react-query";
 
 function Question({ question, nextQ, lang }: any) {
@@ -71,6 +77,7 @@ function Question({ question, nextQ, lang }: any) {
         h3Style={{
           textAlign: "center",
           fontWeight: "100",
+          maxHeight: Math.floor(Dimensions.get("window").height * 0.28),
         }}
         adjustsFontSizeToFit
       >
@@ -105,6 +112,7 @@ function Question({ question, nextQ, lang }: any) {
             textAlign: "center",
 
             marginVertical: 10,
+            maxHeight: Math.floor(Dimensions.get("window").height * 0.12),
 
             fontWeight: "100",
           }}

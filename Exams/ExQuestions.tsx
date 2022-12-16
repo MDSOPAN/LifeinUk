@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import ExOptions from "./ExOptions";
-import { ScrollView, View } from "react-native";
+import { Dimensions, ScrollView, View } from "react-native";
 
 function arraysEqual(a: any, b: any) {
   if (a === b) return true;
@@ -66,6 +66,7 @@ function ExQuestions({
           h3Style={{
             textAlign: "center",
             fontWeight: "100",
+            maxHeight: Math.floor(Dimensions.get("window").height * 0.21),
           }}
           adjustsFontSizeToFit
         >
@@ -79,6 +80,7 @@ function ExQuestions({
               marginTop: 20,
               fontWeight: "100",
               color: "#318CE7",
+              maxHeight: Math.floor(Dimensions.get("window").height * 0.9),
             }}
             adjustsFontSizeToFit
           >
