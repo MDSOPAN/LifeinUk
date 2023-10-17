@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "LifeintheUK",
+    "slug": "LifeinUk",
+    "version": "1.0.1",
+
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#fff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.liut.LifeinUk",
+      "icon": "./assets/icon.png"
+    },
+    "android": {
+      "versionCode": 3,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.liut.LifeinUk"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a1186c01-95d5-47d9-a9c1-33a7c593e1df"
+      }
+    },
+    "platforms": ["android", "ios"]
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-4662143029142618~1166081395",
+    "ios_app_id": "ca-app-pub-2230827364955049~2000650911"
+  }
+}
