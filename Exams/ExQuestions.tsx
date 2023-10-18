@@ -50,48 +50,37 @@ function ExQuestions({
 
   return (
     <>
-      <ScrollView
+      <View
         style={{
           // height: "100%",
           flexGrow: 1,
           backgroundColor: "#fff",
-        }}
-        contentContainerStyle={{
           padding: 20,
         }}
-        showsVerticalScrollIndicator={false}
+        // contentContainerStyle={{
+        //   padding: 20,
+        // }}
+        // showsVerticalScrollIndicator={false}
       >
         <Text
           h3
           h3Style={{
-            textAlign: "center",
+            textAlign: "left",
             fontWeight: "100",
-            maxHeight: Math.floor(Dimensions.get("window").height * 0.21),
+            maxHeight: Math.floor(Dimensions.get("window").height * 0.25),
           }}
           adjustsFontSizeToFit
         >
-          {Question.body.trim()}
+          <Text style={{color: '#29337A'}}>Q: </Text>{Question.body.trim()}
         </Text>
-        {Translation && (
-          <Text
-            h3
-            h3Style={{
-              textAlign: "center",
-              marginTop: 20,
-              fontWeight: "100",
-              color: "#318CE7",
-              maxHeight: Math.floor(Dimensions.get("window").height * 0.9),
-            }}
-            adjustsFontSizeToFit
-          >
-            Translation:
-          </Text>
-        )}
+        {/* {Translation && (
+          
+        )} */}
         {Translation && (
           <Text
             h4
             h4Style={{
-              textAlign: "center",
+              textAlign: "left",
 
               marginVertical: 10,
 
@@ -99,7 +88,19 @@ function ExQuestions({
             }}
             adjustsFontSizeToFit
           >
-            {Translation.trim()}
+          <Text
+            h4
+            h4Style={{
+              textAlign: "left",
+              marginTop: 20,
+              fontWeight: "100",
+              // alignSelf: 'flex-start',
+              color: "#318CE7",
+              
+              maxHeight: Math.floor(Dimensions.get("window").height * 0.2),
+            }}
+            adjustsFontSizeToFit
+          >Translation: </Text>{Translation.trim()}
           </Text>
         )}
         {/* <View style={{ height: "50%", display: "flex" }}> */}
@@ -119,12 +120,12 @@ function ExQuestions({
         })}
         {/* </View> */}
         <Button
-          type="outline"
+          type="solid"
           buttonStyle={{
-            borderWidth: 1.5,
+            // borderWidth: 1.5,
           }}
           containerStyle={{
-            marginBottom: 10,
+            marginVertical: 10,
           }}
           disabled={isdisabled}
           onPress={() => {
@@ -164,7 +165,7 @@ function ExQuestions({
         >
           SUBMIT
         </Button>
-      </ScrollView>
+      </View>
       {/* onDidFailToReceiveAdWithError={this.bannerError} */}
     </>
   );

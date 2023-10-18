@@ -13,6 +13,12 @@ import {
 } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import { useQuery, useQueryClient } from "react-query";
+import { app_url } from "../universal/app_constants";
+import { SafeAreaView } from "react-native-safe-area-context";
+// @ts-ignore
+import Done from '../assets/done.svg'
+// @ts-ignore
+import Fail from '../assets/fail.svg'
 // import { storage } from "../App";
 
 const updreset = async (updid: any, setCompleted: any) => {
@@ -69,7 +75,7 @@ function Examshome() {
     getcompleted(setCompleted);
   }, []);
   const { isLoading, error, data }: any = useQuery("Exams", async () => {
-    let res = await fetch("http://138.68.162.34:3000/api/app/getexams");
+    let res = await fetch(`http://${app_url}:3000/api/app/getexams`);
     // if (res.status == 500) {
     //   throw new Error("Database Not online");
     // }
@@ -95,17 +101,61 @@ function Examshome() {
     }
   }, [isLoading, edata]);
   return (
-    <>
+    <SafeAreaView style={styles.safearea}>
+      <StatusBar style="dark" backgroundColor="#fff" />
+      <View style={{
+          display:'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignContent: 'center',
+          justifyContent:'center',
+          backgroundColor:"#fff",
+          margin: 10
+          // height: 200
+        }}>
+          <Icon
+            type="fontawesome"
+            name="chevron-left"
+            color="#000000"
+            size={36}
+            style={{
+              alignSelf: "center",
+            }}
+            onPress={() => {
+              navigation.pop();
+            }}
+          />
+
+          <Text style={styles.heading}>
+            Mock Tests
+          </Text>
+
+          <Icon
+            type="feather"
+            name="info"
+            color="rgba(0,0,0,0.5)"
+            size={26}
+            style={{
+              alignSelf: "center",
+              margin:5,
+              marginTop: 10
+            }}
+            onPress={() => {
+              navigation.navigate('MockInfo');
+            }}
+          />
+      </View>
       <ScrollView
         style={{
           backgroundColor: "#fff",
           flexGrow: 1,
         }}
       >
-        <StatusBar style="dark" backgroundColor="#fff" />
-        <Header
+        {/* <Header
           leftContainerStyle={{
             alignSelf: "center",
+            flex: 1,
+            
           }}
           containerStyle={{
             borderBottomColor: "#fff",
@@ -116,20 +166,25 @@ function Examshome() {
             style: styles.heading,
           }}
           leftComponent={
-            <Icon
-              type="ionicon"
-              name="arrow-back-outline"
-              color="#318CE7"
-              size={34}
-              style={{
-                alignSelf: "center",
-              }}
-              onPress={() => {
-                navigation.pop();
-              }}
-            />
+              <Icon
+                type="fontawesome"
+                name="chevron-left"
+                color="#000000"
+                size={34}
+                style={{
+                  alignSelf: "center",
+                }}
+                onPress={() => {
+                  navigation.pop();
+                }}
+              />
+              
+            
           }
-        />
+          
+        /> */}
+
+        
         {isLoading && (
           <>
             <ActivityIndicator
@@ -188,7 +243,7 @@ function Examshome() {
                     });
                   }}
                 >
-                  <ListItem
+                  {/* <ListItem
                     key={ind}
                     bottomDivider
                     containerStyle={[
@@ -224,7 +279,38 @@ function Examshome() {
                       }
                       size={40}
                     />
-                  </ListItem>
+                  </ListItem> */}
+
+                  <View
+                  key={ind}
+                  style={[
+                    styles.Ex,
+                    // completed.hasOwnProperty(ind + 1) &&
+                    //   completed[ind + 1] == "pass" &&
+                    //   styles.PassedEx,
+                    // completed.hasOwnProperty(ind + 1) &&
+                    //   completed[ind + 1] == "fail" &&
+                    //   styles.FailedEx,
+                  ]}>
+                    <Text
+                        style={[
+                          styles.title,
+                          // completed.hasOwnProperty(ind + 1) &&
+                          //   completed[ind + 1] == "pass" &&
+                          //   styles.titleright,
+                          // completed.hasOwnProperty(ind + 1) &&
+                          //   completed[ind + 1] == "fail" &&
+                          //   styles.titlewrong,
+                        ]}
+                      >{`Test ${ind + 1}`}</Text>
+
+                    {completed.hasOwnProperty(ind + 1) &&
+                    completed[ind + 1] == "pass" &&
+                    <Done style={{marginLeft:'auto'}}/>}
+                    {completed.hasOwnProperty(ind + 1) &&
+                    completed[ind + 1] == "fail" &&
+                    <Fail style={{marginLeft:'auto'}}/>}
+                  </View>
                 </TouchableScale>
               );
             })}
@@ -250,14 +336,21 @@ function Examshome() {
           </Tx>
         </View>
       )}
-    </>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
+  safearea:{
+      flex: 1,
+      backgroundColor: "#fff"
+  },
   heading: {
-    color: "#318CE7",
-    fontSize: 30,
-    fontWeight: "bold",
+    color: "#000000",
+    fontSize:22,
+    marginLeft: 5,
+    flex: 1,
+    fontWeight: "600",
+    marginRight: 'auto'
   },
   ProgressText: {
     fontSize: 20,
@@ -265,14 +358,21 @@ const styles = StyleSheet.create({
   },
   Ex: {
     marginTop: 10,
-    borderTopWidth: 1,
-    backgroundColor: "#fff",
-    elevation: 5,
-    shadowOffset: { width: -2, height: 4 },
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    height: 100,
+    // borderTopWidth: 1,
+    display:'flex',
+    flexDirection: 'row',
+    // alignContent:'center',
+    // justifyContent:'center',
+    alignItems: 'center',
+    backgroundColor: "#f5f5f5",
+    paddingVertical: 25,
+    paddingHorizontal: 15,
+    // elevation: 5,
+    // shadowOffset: { width: -2, height: 4 },
+    // shadowColor: "#000",
+    // shadowOpacity: 0.2,
+    // shadowRadius: 3,
+    // height: 100,
     borderRadius: 10,
   },
   PassedEx: {

@@ -3,6 +3,7 @@ import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import ReOptions from "./ReOptions";
 import { ActivityIndicator, Platform, ScrollView, View } from "react-native";
 import { QueryClient, useQuery } from "react-query";
+import { app_url } from "../../universal/app_constants";
 
 function Question({ question, nextQ, lang, selAns }: any) {
   let answers: Number[] = question.answers.map((a: String) => {
@@ -15,7 +16,7 @@ function Question({ question, nextQ, lang, selAns }: any) {
     ["translation", question.body, lang],
     async () => {
       let res = await fetch(
-        "http://138.68.162.34:3000/api/app/translation/string",
+        `http://${app_url}:3000/api/app/translation/string`,
         {
           method: "POST",
           body: JSON.stringify({

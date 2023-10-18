@@ -3,11 +3,14 @@ import {
   StackActions,
   useRoute,
 } from "@react-navigation/native";
-
+//@ts-ignore
+import Passed from '../assets/passed.svg'
+//@ts-ignore
+import Failed from '../assets/failed.svg'
 import { Header, Text, Button, Card } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+// import { AnimatedCircularProgress } from "react-native-circular-progress";
 function ExResults() {
   let navigation: any = useNavigation();
   let route = useRoute();
@@ -55,27 +58,35 @@ function ExResults() {
         }}
       >
         {score > 75 && (
-          <Text
-            h2
-            style={{
-              marginVertical: 25,
-            }}
-          >
-            Passed
-          </Text>
+          <>
+            <Passed />
+            <Text
+              h2
+              style={{
+                marginVertical: 25,
+                color:'#29337A'
+              }}
+            >
+              Congratulations
+            </Text>
+          </>
         )}
         {score < 75 && (
+          <>
+          <Failed />
           <Text
             h2
             style={{
               marginVertical: 25,
+              color:'#29337A',
               maxWidth: "80%",
             }}
             numberOfLines={1}
             adjustsFontSizeToFit
           >
-            Failed
+            Try Again
           </Text>
+          </>
         )}
         {/* <SvgComponent
           percent={score}
@@ -83,7 +94,7 @@ function ExResults() {
             marginVertical: 25,
           }}
         /> */}
-        <AnimatedCircularProgress
+        {/* <AnimatedCircularProgress
           size={220}
           width={10}
           fill={score}
@@ -106,7 +117,7 @@ function ExResults() {
               {`${score}%`}
             </Text>
           )}
-        </AnimatedCircularProgress>
+        </AnimatedCircularProgress> */}
         <View
           style={{
             display: "flex",
@@ -126,6 +137,7 @@ function ExResults() {
           containerStyle={{
             marginVertical: 25,
           }}
+          color={'#29337A'}
           onPress={() => {
             // navigation.removeListener("beforeRemove", bafn1);
             navigation.navigate("ReEx", {
@@ -140,13 +152,20 @@ function ExResults() {
         <Button
           containerStyle={{
             marginVertical: 25,
+            width: "95%",
+            // backgroundColor: '#29337A'
           }}
+          color={'#29337A'}
           onPress={() => {
             navigation.removeListener("beforeRemove", bafn1);
             navigation.dispatch(StackActions.popToTop());
           }}
         >
-          Back to home
+          <Text style={{
+            fontSize: 24,
+            color: '#fff',
+            borderRadius: 10,
+          }}>Back to home</Text>
         </Button>
       </ScrollView>
     </>
@@ -154,11 +173,19 @@ function ExResults() {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    color: "#318CE7",
-    fontSize: 42,
+  // heading: {
+  //   color: "#318CE7",
+  //   fontSize: 42,
 
-    fontWeight: "bold",
+  //   fontWeight: "bold",
+  // },
+  heading: {
+    color: "#000000",
+    fontSize:26,
+    // marginLeft: 5,
+    // flex: 1,
+    fontWeight: "600",
+    // marginRight: 'auto'
   },
   rightcont: {
     marginLeft: 0,

@@ -1,10 +1,13 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
 import { setStatusBarStyle, StatusBar } from "expo-status-bar";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+// import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { Button, Header, Card, ListItem, Icon, Text } from "@rneui/themed";
 import * as fs from "expo-file-system";
 import InAppReview from "react-native-in-app-review";
-
+// @ts-ignore
+import LIUT from '../assets/LIUT.svg'
+// @ts-ignore
+import Done from '../assets/done.svg'
 import mobileAds from "react-native-google-mobile-ads";
 import {
   ActivityIndicator,
@@ -14,6 +17,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  Image,
+  Dimensions
 } from "react-native";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -25,6 +30,8 @@ import {
   MenuOptions,
   MenuTrigger,
 } from "react-native-popup-menu";
+import { app_url } from "../universal/app_constants";
+import { Avatar, LinearProgress } from "@rneui/base";
 
 const updreset = async (updid: any, setPercent: any) => {
   let { exists } = await fs.getInfoAsync(fs.documentDirectory + "updid.txt");
@@ -101,12 +108,19 @@ function Home() {
   let [lang, setLang] = useState("");
   let [chlang, setchlang] = useState(false);
 
+  
   const { isLoading, error, data }: any = useQuery(
     lang && "QuestionData",
     async () => {
+      // live
+      // let res = await fetch(
+      //   `http://138.68.162.34:3000/api/app/getallquestions`
+      // );
+
+      //TODO:Test
       let res = await fetch(
-        `http://138.68.162.34:3000/api/app/getallquestions`
-      );
+        `http://${app_url}:3000/api/app/getallquestions`
+       );
       // if (res.status == 500) {
       //   throw new Error("Database Not online");
       // }
@@ -162,247 +176,261 @@ function Home() {
           shadowRadius: 3,
         }}
         backgroundColor="#fff"
-        leftComponent={{
-          text: "LIUT",
+        // leftComponent={{
+        //   text: "LIUT",
 
-          style: styles.heading,
-        }}
+        //   style: styles.heading,
+        // }}
+
+        leftComponent={
+          <LIUT/>
+        }
+
         // leftContainerStyle={{
         //   display: "flex",
         //   justifyContent: "center",
         // }}
         rightComponent={
-          <View
-            style={{
-              flexDirection: "row",
+          // <View
+          //   style={{
+          //     flexDirection: "row",
+          //   }}
+          // >
+          //   <Menu onSelect={(value) => settrlang(setLang, value)}>
+          //     <MenuTrigger
+          //       customStyles={{
+          //         TriggerTouchableComponent: TouchableOpacity,
+          //       }}
+          //     >
+          //       <Icon
+          //         type="material"
+          //         name="g-translate"
+          //         size={38}
+          //         color="#318CE7"
+          //       />
+          //     </MenuTrigger>
+          //     <MenuOptions
+          //       optionsContainerStyle={{
+          //         marginTop: "13%",
+
+          //         display: "flex",
+          //       }}
+          //     >
+          //       <MenuOption
+          //         value={"en"}
+          //         style={{
+          //           flexGrow: 1,
+          //         }}
+          //       >
+          //         <ListItem bottomDivider>
+          //           <ListItem.Title>
+          //             <Text
+          //               style={{ color: lang == "en" ? "#318CE7" : "#000000" }}
+          //             >
+          //               No Translation
+          //             </Text>
+          //           </ListItem.Title>
+          //         </ListItem>
+          //       </MenuOption>
+          //       <MenuOption
+          //         value={"hi"}
+          //         style={{
+          //           flexGrow: 1,
+          //         }}
+          //       >
+          //         <ListItem bottomDivider>
+          //           <ListItem.Title>
+          //             <Text
+          //               style={{ color: lang == "hi" ? "#318CE7" : "#000000" }}
+          //             >
+          //               Hindi
+          //             </Text>
+          //           </ListItem.Title>
+          //         </ListItem>
+          //       </MenuOption>
+          //       <MenuOption
+          //         value={"ur"}
+          //         style={{
+          //           flexGrow: 1,
+          //         }}
+          //       >
+          //         <ListItem bottomDivider>
+          //           <ListItem.Title>
+          //             <Text
+          //               style={{ color: lang == "ur" ? "#318CE7" : "#000000" }}
+          //             >
+          //               Urdu
+          //             </Text>
+          //           </ListItem.Title>
+          //         </ListItem>
+          //       </MenuOption>
+          //       <MenuOption
+          //         value={"bn"}
+          //         style={{
+          //           flexGrow: 1,
+          //         }}
+          //       >
+          //         <ListItem>
+          //           <ListItem.Title>
+          //             <Text
+          //               style={{ color: lang == "bn" ? "#318CE7" : "#000000" }}
+          //             >
+          //               Bangla
+          //             </Text>
+          //           </ListItem.Title>
+          //         </ListItem>
+          //       </MenuOption>
+          //       <Text
+          //         style={{
+          //           color: "grey",
+          //           fontSize: 11,
+          //           marginLeft: 5,
+          //         }}
+          //       >
+          //         Powered by Google Translate
+          //       </Text>
+          //     </MenuOptions>
+          //   </Menu>
+          //   <Menu
+          //     style={{
+          //       marginHorizontal: 10,
+          //     }}
+          //   >
+          //     <MenuTrigger
+          //       customStyles={{
+          //         TriggerTouchableComponent: TouchableOpacity,
+          //       }}
+          //     >
+          //       <Icon
+          //         type="material"
+          //         name="settings"
+          //         size={38}
+          //         color="#318CE7"
+          //       />
+          //     </MenuTrigger>
+          //     <MenuOptions
+          //       optionsContainerStyle={{
+          //         marginTop: "13%",
+
+          //         display: "flex",
+          //       }}
+          //     >
+          //       <MenuOption
+          //         onSelect={() => {
+          //           if (InAppReview.isAvailable()) {
+          //             InAppReview.RequestInAppReview()
+          //               .then((hasFlowFinishedSuccessfully) => {
+          //                 // when return true in android it means user finished or close review flow
+          //                 console.log(
+          //                   "InAppReview in android",
+          //                   hasFlowFinishedSuccessfully
+          //                 );
+
+          //                 // when return true in ios it means review flow lanuched to user.
+          //                 console.log(
+          //                   "InAppReview in ios has launched successfully",
+          //                   hasFlowFinishedSuccessfully
+          //                 );
+
+          //                 // 1- you have option to do something ex: (navigate Home page) (in android).
+          //                 // 2- you have option to do something,
+          //                 // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
+
+          //                 // 3- another option:
+          //                 if (hasFlowFinishedSuccessfully) {
+          //                   // do something for ios
+          //                   // do something for android
+          //                 }
+
+          //                 // for android:
+          //                 // The flow has finished. The API does not indicate whether the user
+          //                 // reviewed or not, or even whether the review dialog was shown. Thus, no
+          //                 // matter the result, we continue our app flow.
+
+          //                 // for ios
+          //                 // the flow lanuched successfully, The API does not indicate whether the user
+          //                 // reviewed or not, or he/she closed flow yet as android, Thus, no
+          //                 // matter the result, we continue our app flow.
+          //               })
+          //               .catch((error) => {
+          //                 //we continue our app flow.
+          //                 // we have some error could happen while lanuching InAppReview,
+          //                 // Check table for errors and code number that can return in catch.
+          //                 console.log(error);
+          //               });
+          //           }
+          //         }}
+          //         style={{
+          //           flexGrow: 1,
+          //           flexShrink: 1,
+          //           flexDirection: "row",
+          //           alignContent: "center",
+          //           justifyContent: "center",
+          //           alignItems: "center",
+          //           padding: 5,
+          //           margin: 5,
+          //           borderColor: "#318CE7",
+          //           borderWidth: 0.5,
+          //         }}
+          //       >
+          //         <Icon name="star-outline" size={25} color="#318CE7" />
+
+          //         <Text
+          //           style={{
+          //             fontSize: 18,
+          //             color: "#318CE7",
+          //             fontWeight: "bold",
+          //           }}
+          //         >
+          //           Rate Us
+          //         </Text>
+          //       </MenuOption>
+          //       <MenuOption
+          //         onSelect={() => {
+          //           navigation.navigate("datadoat");
+          //         }}
+          //         style={{
+          //           flexGrow: 1,
+          //           flexShrink: 1,
+          //           flexDirection: "row",
+          //           alignContent: "center",
+          //           justifyContent: "center",
+          //           alignItems: "center",
+          //           padding: 5,
+          //           margin: 5,
+          //           borderColor: "#318CE7",
+          //           borderWidth: 0.5,
+          //         }}
+          //       >
+          //         <Icon
+          //           name="information-outline"
+          //           type="material-community"
+          //           size={25}
+          //           color="#318CE7"
+          //         />
+
+          //         <Text
+          //           style={{
+          //             fontSize: 18,
+          //             color: "#318CE7",
+          //             fontWeight: "bold",
+          //           }}
+          //         >
+          //           About
+          //         </Text>
+          //       </MenuOption>
+          //     </MenuOptions>
+          //   </Menu>
+          // </View>
+          <Avatar
+            size={36}
+            rounded
+            icon={{ name: 'user', type: 'font-awesome' }}
+            containerStyle={{ backgroundColor: '#29337A' }}
+            onPress={()=>{
+              navigation.navigate('settings');
             }}
-          >
-            <Menu onSelect={(value) => settrlang(setLang, value)}>
-              <MenuTrigger
-                customStyles={{
-                  TriggerTouchableComponent: TouchableOpacity,
-                }}
-              >
-                <Icon
-                  type="material"
-                  name="g-translate"
-                  size={38}
-                  color="#318CE7"
-                />
-              </MenuTrigger>
-              <MenuOptions
-                optionsContainerStyle={{
-                  marginTop: "13%",
-
-                  display: "flex",
-                }}
-              >
-                <MenuOption
-                  value={"en"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem bottomDivider>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "en" ? "#318CE7" : "#000000" }}
-                      >
-                        No Translation
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <MenuOption
-                  value={"hi"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem bottomDivider>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "hi" ? "#318CE7" : "#000000" }}
-                      >
-                        Hindi
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <MenuOption
-                  value={"ur"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem bottomDivider>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "ur" ? "#318CE7" : "#000000" }}
-                      >
-                        Urdu
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <MenuOption
-                  value={"bn"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "bn" ? "#318CE7" : "#000000" }}
-                      >
-                        Bangla
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <Text
-                  style={{
-                    color: "grey",
-                    fontSize: 11,
-                    marginLeft: 5,
-                  }}
-                >
-                  Powered by Google Translate
-                </Text>
-              </MenuOptions>
-            </Menu>
-            <Menu
-              style={{
-                marginHorizontal: 10,
-              }}
-            >
-              <MenuTrigger
-                customStyles={{
-                  TriggerTouchableComponent: TouchableOpacity,
-                }}
-              >
-                <Icon
-                  type="material"
-                  name="settings"
-                  size={38}
-                  color="#318CE7"
-                />
-              </MenuTrigger>
-              <MenuOptions
-                optionsContainerStyle={{
-                  marginTop: "13%",
-
-                  display: "flex",
-                }}
-              >
-                <MenuOption
-                  onSelect={() => {
-                    if (InAppReview.isAvailable()) {
-                      InAppReview.RequestInAppReview()
-                        .then((hasFlowFinishedSuccessfully) => {
-                          // when return true in android it means user finished or close review flow
-                          console.log(
-                            "InAppReview in android",
-                            hasFlowFinishedSuccessfully
-                          );
-
-                          // when return true in ios it means review flow lanuched to user.
-                          console.log(
-                            "InAppReview in ios has launched successfully",
-                            hasFlowFinishedSuccessfully
-                          );
-
-                          // 1- you have option to do something ex: (navigate Home page) (in android).
-                          // 2- you have option to do something,
-                          // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
-
-                          // 3- another option:
-                          if (hasFlowFinishedSuccessfully) {
-                            // do something for ios
-                            // do something for android
-                          }
-
-                          // for android:
-                          // The flow has finished. The API does not indicate whether the user
-                          // reviewed or not, or even whether the review dialog was shown. Thus, no
-                          // matter the result, we continue our app flow.
-
-                          // for ios
-                          // the flow lanuched successfully, The API does not indicate whether the user
-                          // reviewed or not, or he/she closed flow yet as android, Thus, no
-                          // matter the result, we continue our app flow.
-                        })
-                        .catch((error) => {
-                          //we continue our app flow.
-                          // we have some error could happen while lanuching InAppReview,
-                          // Check table for errors and code number that can return in catch.
-                          console.log(error);
-                        });
-                    }
-                  }}
-                  style={{
-                    flexGrow: 1,
-                    flexShrink: 1,
-                    flexDirection: "row",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 5,
-                    margin: 5,
-                    borderColor: "#318CE7",
-                    borderWidth: 0.5,
-                  }}
-                >
-                  <Icon name="star-outline" size={25} color="#318CE7" />
-
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: "#318CE7",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Rate Us
-                  </Text>
-                </MenuOption>
-                <MenuOption
-                  onSelect={() => {
-                    navigation.navigate("datadoat");
-                  }}
-                  style={{
-                    flexGrow: 1,
-                    flexShrink: 1,
-                    flexDirection: "row",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 5,
-                    margin: 5,
-                    borderColor: "#318CE7",
-                    borderWidth: 0.5,
-                  }}
-                >
-                  <Icon
-                    name="information-outline"
-                    type="material-community"
-                    size={25}
-                    color="#318CE7"
-                  />
-
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: "#318CE7",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    About
-                  </Text>
-                </MenuOption>
-              </MenuOptions>
-            </Menu>
-          </View>
+          />
         }
         rightContainerStyle={{
           display: "flex",
@@ -447,11 +475,29 @@ function Home() {
           contentContainerStyle={{
             alignContent: "center",
             alignItems: "center",
+            alignSelf:"stretch",
+            width: "100%",
+            // flex: 1
           }}
         >
+          <Text style={{
+            fontWeight: "700",
+            fontSize: 28,
+            alignSelf: "flex-start",
+            marginHorizontal: 10,
+            marginTop:20
+          }}>Hello,</Text>
+          <Text style={{
+            // fontWeight: "bold",
+            fontSize: 12,
+            marginTop: 2,
+            alignSelf: "flex-start",
+            marginHorizontal: 10,
+            color: '#545454'
+          }}>Start your quiz today..</Text>
           <Text style={styles.ProgressText}>Total Progress</Text>
           {/* <SvgComponent percent={percent} /> */}
-          <AnimatedCircularProgress
+          {/* <AnimatedCircularProgress
             size={220}
             width={10}
             fill={percent}
@@ -472,7 +518,23 @@ function Home() {
                 {`${percent}%`}
               </Text>
             )}
-          </AnimatedCircularProgress>
+          </AnimatedCircularProgress> */}
+          <View style={[styles.cardcontainer,{
+            alignItems:'center'
+          }]}>
+            <LinearProgress style={{ marginVertical: 10,width: "90%",height: 50,borderRadius: 25 }}
+              value={percent/100}
+              color="#29337A"
+              trackColor="#F6F6F6"
+              variant="determinate"/>
+            <Text style={{
+              color: '#fff',
+              position:'absolute',
+              fontSize: 20,
+              left: '10%'
+            }}>{percent}%</Text>
+          </View>
+          
           <View style={styles.cardcontainer}>
             {/* <Pressable
               onPress={() => {
@@ -487,13 +549,24 @@ function Home() {
                 navigation.navigate("Exams", lang);
               }}
             >
-              <Card containerStyle={styles.card}>
+              {/* <Card containerStyle={styles.card}>
                 <Card.Title>Mock Test</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
                   Start an exam with random questions and time limit
                 </Text>
-              </Card>
+              </Card> */}
+              <View
+              style={styles.testbutton}>
+                <Image
+                  source={require('../assets/Mock.png')}
+                />
+                <Text style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginLeft: 10
+                }}>Mock Tests</Text>
+              </View>
             </TouchableScale>
 
             <TouchableScale
@@ -510,13 +583,24 @@ function Home() {
                 navigation.navigate("Practice Exam", { Qdata, lang });
               }}
             >
-              <Card containerStyle={styles.card}>
+              {/* <Card containerStyle={styles.card}>
                 <Card.Title>Practice</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
                   Start practice with ordered questions and unlimited time
                 </Text>
-              </Card>
+              </Card> */}
+              <View
+              style={styles.testbutton}>
+                <Image
+                  source={require('../assets/Practice.png')}
+                />
+                <Text style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginLeft: 10
+                }}>Practice Tests</Text>
+              </View>
             </TouchableScale>
           </View>
         </ScrollView>
@@ -540,23 +624,42 @@ const styles = StyleSheet.create({
     display: "flex",
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
   },
   cardcontainer: {
     display: "flex",
-
+    // backgroundColor: "red",
+    width: "100%",
     justifyContent: "center",
-    alignSelf: "stretch",
+    // alignSelf: "stretch",
+    // flex: 1,
     marginVertical: 10,
   },
-  card: {
-    alignSelf: "stretch",
-    display: "flex",
-    elevation: 5,
-    shadowOffset: { width: -2, height: 4 },
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+  // card: {
+  //   alignSelf: "stretch",
+  //   display: "flex",
+  //   elevation: 5,
+  //   shadowOffset: { width: -2, height: 4 },
+  //   shadowColor: "#000",
+  //   shadowOpacity: 0.2,
+  //   shadowRadius: 3,
+  // },
+  testbutton: {
+    display:"flex",
+    flexDirection:"row",
+    alignContent:"center",
+    alignItems:'center',
+    justifyContent:'flex-start',
+    backgroundColor:"#F6F6F6",
+    borderRadius: 10,
+    // alignSelf: "stretch",
+    // flex: 1,
+    // width: width,
+    margin: 10,
+    padding: 10,
+    paddingHorizontal: 25,
+    paddingVertical: 25,
+    marginVertical: 5,
   },
   errview: {
     display: "flex",

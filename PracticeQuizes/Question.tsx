@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { QueryClient, useQuery } from "react-query";
+import { app_url } from "../universal/app_constants";
 
 function Question({ question, nextQ, lang }: any) {
   let answers: Number[] = question.answers.map((a: String) => {
@@ -25,7 +26,7 @@ function Question({ question, nextQ, lang }: any) {
     ["translation", question.body, lang],
     async () => {
       let res = await fetch(
-        "http://138.68.162.34:3000/api/app/translation/string",
+        `http://${app_url}:3000/api/app/translation/string`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -75,27 +76,38 @@ function Question({ question, nextQ, lang }: any) {
       <Text
         h3
         h3Style={{
-          textAlign: "center",
+          textAlign: "left",
           fontWeight: "100",
           maxHeight: Math.floor(Dimensions.get("window").height * 0.28),
         }}
         adjustsFontSizeToFit
       >
-        {question.body.trim()}
+        <Text style={{color: '#29337A'}}>Q: </Text>{question.body.trim()}
       </Text>
       {lang != "en" && (
-        <Text
-          h3
-          h3Style={{
-            textAlign: "center",
-            marginTop: 20,
-            fontWeight: "100",
-            color: "#318CE7",
-          }}
-          adjustsFontSizeToFit
-        >
-          Translation:
-        </Text>
+        // <View style={{
+        //   backgroundColor: '#318CE7',
+        //   padding: 15,
+        //   width: 'auto',
+        // }}>
+          <Text
+            h3
+            h3Style={{
+              textAlign: "left",
+              marginTop: 5,
+              fontWeight: "100",
+              backgroundColor: 'rgba(41,51,122,0.8)',
+              padding: 6,
+              width: 'auto',
+              fontSize: 16,
+              alignSelf: 'flex-start',
+              color: "#fff",
+            }}
+            adjustsFontSizeToFit
+          >
+            Translation
+          </Text>
+        // </View>
       )}
       {isLoading && lang != "en" && (
         <>
@@ -109,11 +121,11 @@ function Question({ question, nextQ, lang }: any) {
         <Text
           h4
           h4Style={{
-            textAlign: "center",
+            textAlign: "left",
 
             marginVertical: 10,
             maxHeight: Math.floor(Dimensions.get("window").height * 0.12),
-
+            color:'#676767',
             fontWeight: "100",
           }}
           adjustsFontSizeToFit
@@ -138,13 +150,14 @@ function Question({ question, nextQ, lang }: any) {
       })}
 
       <Button
-        type="outline"
+        type="solid"
         disabled={isdisabled}
         buttonStyle={{
-          borderWidth: 1.5,
+          // borderWidth: 1.5,
+          borderRadius: 5,
         }}
         containerStyle={{
-          marginBottom: 10,
+          marginVertical: 10,
         }}
         onPress={() => {
           let ans: any = selectedAnswers.sort((a, b) => (a > b ? 1 : -1));
