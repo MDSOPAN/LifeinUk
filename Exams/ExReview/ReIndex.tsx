@@ -1,9 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View,Text } from "react-native";
 import Question from "./ReQuestoins";
 import { Header, Icon, Button, Text as Tx } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function ReIndex() {
   let route: any = useRoute();
@@ -15,8 +16,8 @@ function ReIndex() {
   let [question, setQuestion] = useState(0);
 
   return (
-    <>
-      <Header
+    <SafeAreaView style={styles.safearea}>
+      {/* <Header
         backgroundColor="#fff"
         leftContainerStyle={{
           alignSelf: "center",
@@ -39,7 +40,34 @@ function ReIndex() {
             }}
           />
         }
-      />
+      /> */}
+      <View style={{
+          display:'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignContent: 'center',
+          justifyContent:'center',
+          backgroundColor:"#fff",
+          margin: 10
+          // height: 200
+        }}>
+          <Icon
+            type="fontawesome"
+            name="chevron-left"
+            color="#000000"
+            size={36}
+            style={{
+              alignSelf: "center",
+            }}
+            onPress={() => {
+              navigation.pop();
+            }}
+          />
+
+          <Text style={styles.heading}>
+            Test {Qdata[0].ExamNo} Review
+          </Text>
+      </View>
       <StatusBar style="dark" backgroundColor="#fff" />
       {Qdata.length != 0 && (
         <>
@@ -60,6 +88,7 @@ function ReIndex() {
                 margin: 10,
                 // alignSelf: "flex-start",
               }}
+              color={'#29337A'}
               onPress={() => {
                 if (question != 0) {
                   setQuestion(question - 1);
@@ -77,6 +106,7 @@ function ReIndex() {
                 borderRadius: 5,
                 margin: 10,
               }}
+              color={'#29337A'}
               onPress={() => {
                 if (question + 1 < Qdata.length) {
                   setQuestion(question + 1);
@@ -127,15 +157,22 @@ function ReIndex() {
           </Tx>
         </View>
       )}
-    </>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#318CE7",
-    fontSize: 30,
-    fontWeight: "bold",
+    color: "#000000",
+    fontSize:22,
+    marginLeft: 5,
+    flex: 1,
+    fontWeight: "600",
+    marginRight: 'auto'
+  },
+  safearea:{
+    flex: 1,
+    backgroundColor: "#fff"
   },
 });
 export default ReIndex;

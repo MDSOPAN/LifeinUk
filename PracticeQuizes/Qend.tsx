@@ -77,7 +77,7 @@ function Qend() {
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#318CE7",
+    color: "#29337A",
     fontSize: 42,
 
     fontWeight: "bold",

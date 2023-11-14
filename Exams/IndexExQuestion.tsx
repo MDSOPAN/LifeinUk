@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   Alert,
   Platform,
+  ScrollView,
   StyleSheet,
   View,
 } from "react-native";
@@ -29,6 +30,9 @@ import {
   BannerAdSize,
   TestIds,
 } from "react-native-google-mobile-ads";
+import { app_url } from "../universal/app_constants";
+import { SafeAreaView } from "react-native-safe-area-context";
+import TouchableScale from "react-native-touchable-scale";
 
 function IndexExQuestion() {
   let route = useRoute();
@@ -48,7 +52,7 @@ function IndexExQuestion() {
     ["Extranslation", Qdata],
     async () => {
       let res = await fetch(
-        "http://138.68.162.34:3000/api/app/translation/array",
+        `http://${app_url}:3000/api/app/translation/array`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -97,7 +101,7 @@ function IndexExQuestion() {
       );
     }
   };
-  //For Obstructio from leaving
+  //For Obstruction from leaving
   useEffect(() => {
     if (!fin) {
       navigation.addListener("beforeRemove", baf);
@@ -120,179 +124,245 @@ function IndexExQuestion() {
   }, [rightans, fin]);
 
   return (
-    <View
-      style={{
-        display: "flex",
-        flex: 1,
-        backgroundColor: "#FFF",
-      }}
-    >
-      <Header
-        containerStyle={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderBottomColor: "#fff",
-        }}
-        leftComponent={{
-          icon: "close",
-          onPress: (e) => {
-            navigation.dispatch(StackActions.pop());
-          },
-          size: 40,
-        }}
-        backgroundColor="#fff"
-        centerComponent={{
-          text: `Test ${Qdata[0].ExamNo}`,
-          style: styles.heading,
-        }}
-        rightComponent={
-          <CountDown
-            until={60 * time}
-            size={17}
-            running={!isLoading && !error}
-            onFinish={() => {
-              setFin(true);
-              // navigation.navigate("ExResults", {
-              //   Right: rightans,
-              //   QuestionsLength: Qdata.length,
-              // });
+    <SafeAreaView style={styles.safearea}>
+      <View style={{
+          display:'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignContent: 'center',
+          justifyContent:'center',
+          backgroundColor:"#fff",
+          margin: 10
+          // height: 200
+        }}>
+          <Icon
+            type="fontawesome"
+            name="chevron-left"
+            color="#000000"
+            size={36}
+            Component={TouchableScale}
+            style={{
+              alignSelf: "center",
             }}
-            digitStyle={{ backgroundColor: "white" }}
-            showSeparator
-            digitTxtStyle={{ color: "#000", fontSize: 25 }}
-            timeToShow={["M", "S"]}
-            timeLabels={{ m: "", s: "" }}
+            onPress={() => {
+              navigation.pop();
+            }}
           />
-        }
-      />
 
+          <Text style={styles.heading}>
+            Test {Qdata[0].ExamNo}
+          </Text>
+          <CountDown
+              until={60 * time}
+              size={17}
+              running={!isLoading && !error}
+              onFinish={() => {
+                setFin(true);
+                // navigation.navigate("ExResults", {
+                //   Right: rightans,
+                //   QuestionsLength: Qdata.length,
+                // });
+              }}
+              style={{
+                alignSelf: "center",
+                // margin:5,
+                // marginBottom: 5
+              }}
+              digitStyle={{ backgroundColor: "white" }}
+              showSeparator
+              digitTxtStyle={{ color: "#000", fontSize: 22 }}
+              timeToShow={["M", "S"]}
+              timeLabels={{ m: "", s: "" }}
+            />
+      </View>
       <LinearProgress
-        style={{ marginVertical: 10 }}
+        style={{ marginVertical: 0 }}
         value={question / Qdata.length}
         variant={"determinate"}
         animation={{
           duration: 500,
         }}
-        color="#318CE7"
+        trackColor="#fff"
+        color="#29337A"
       />
-      {isLoading && (
-        <>
-          <ActivityIndicator
-            style={{
-              flexGrow: 1,
-            }}
-            size={Platform.OS == "android" ? 65 : "large"}
-            color="#318CE7"
+      <ScrollView
+        style={{
+          display: "flex",
+          flex: 1,
+          backgroundColor: "#FFF",
+        }}
+        // contentContainerStyle={{
+        //     padding: 20,
+        //   }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* <Header
+          containerStyle={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderBottomColor: "#fff",
+          }}
+          leftComponent={{
+            icon: "close",
+            onPress: (e) => {
+              navigation.dispatch(StackActions.pop());
+            },
+            size: 40,
+          }}
+          backgroundColor="#fff"
+          centerComponent={{
+            text: `Test ${Qdata[0].ExamNo}`,
+            style: styles.heading,
+          }}
+          rightComponent={
+            <CountDown
+              until={60 * time}
+              size={17}
+              running={!isLoading && !error}
+              onFinish={() => {
+                setFin(true);
+                // navigation.navigate("ExResults", {
+                //   Right: rightans,
+                //   QuestionsLength: Qdata.length,
+                // });
+              }}
+              digitStyle={{ backgroundColor: "white" }}
+              showSeparator
+              digitTxtStyle={{ color: "#000", fontSize: 25 }}
+              timeToShow={["M", "S"]}
+              timeLabels={{ m: "", s: "" }}
+            />
+          }
+        /> */}
+        {/* <View
+          style={{
+            marginBottom: "auto",
+            alignSelf: "center",
+          }}
+        > */}
+          <BannerAd
+            unitId={"ca-app-pub-4662143029142618/9942720116"}
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
           />
-        </>
-      )}
-      {!isLoading && !error && (
-        <>
-          <Button
-            size="md"
-            containerStyle={{
-              maxWidth: "20%",
-              borderRadius: 5,
-              margin: 10,
-            }}
-            onPress={() => {
-              if (question != 0) {
-                setQuestion(question - 1);
-              }
-            }}
-          >
-            <Icon type="ionicon" name="arrow-back-outline" color="white" />
-          </Button>
-          <ExQuestions
-            Question={Qdata[question]}
-            quesind={question}
-            Translation={lang != "en" ? data.data[question] : false}
-            setRightans={setRightans}
-            rightans={rightans}
-            selectedAns={AnsArr[question] != undefined ? AnsArr[question] : []}
-            setAnsArr={setAnsArr}
-            AnsArr={AnsArr}
-            nextQ={async () => {
-              if (question + 1 >= Qdata.length) {
-                let { exists } = await fs.getInfoAsync(
-                  fs.documentDirectory + "ExCompleted.txt"
-                );
-                if (!exists) {
-                  let exno: any = new Object();
-                  if (rightans.size > Qdata.length * 0.75) {
-                    exno[Qdata[0].ExamNo] = "pass";
-                  } else {
-                    exno[Qdata[0].ExamNo] = "fail";
-                  }
-
-                  await fs.writeAsStringAsync(
-                    fs.documentDirectory + "ExCompleted.txt",
-                    JSON.stringify(exno)
-                  );
-                } else {
-                  let jsonstr = await fs.readAsStringAsync(
+        {/* </View> */}
+        
+        {isLoading && (
+          <>
+            <ActivityIndicator
+              style={{
+                flexGrow: 1,
+              }}
+              size={Platform.OS == "android" ? 65 : "large"}
+              color="#29337A"
+            />
+          </>
+        )}
+        {!isLoading && !error && (
+          <>
+            <Button
+              size="md"
+              containerStyle={{
+                maxWidth: "20%",
+                borderRadius: 5,
+                margin: 10,
+              }}
+              color={'#29337A'}
+              onPress={() => {
+                if (question != 0) {
+                  setQuestion(question - 1);
+                }
+              }}
+            >
+              <Icon type="ionicon" name="arrow-back-outline" color="white" />
+            </Button>
+            <ExQuestions
+              Question={Qdata[question]}
+              quesind={question}
+              Translation={lang != "en" ? data.data[question] : false}
+              setRightans={setRightans}
+              rightans={rightans}
+              selectedAns={AnsArr[question] != undefined ? AnsArr[question] : []}
+              setAnsArr={setAnsArr}
+              AnsArr={AnsArr}
+              nextQ={async () => {
+                if (question + 1 >= Qdata.length) {
+                  let { exists } = await fs.getInfoAsync(
                     fs.documentDirectory + "ExCompleted.txt"
                   );
-                  let exno = JSON.parse(jsonstr);
-                  if (rightans.size > Qdata.length * 0.75) {
-                    exno[Qdata[0].ExamNo] = "pass";
-                  } else {
-                    exno[Qdata[0].ExamNo] = "fail";
-                  }
+                  if (!exists) {
+                    let exno: any = new Object();
+                    if (rightans.size > Qdata.length * 0.75) {
+                      exno[Qdata[0].ExamNo] = "pass";
+                    } else {
+                      exno[Qdata[0].ExamNo] = "fail";
+                    }
 
-                  await fs.writeAsStringAsync(
-                    fs.documentDirectory + "ExCompleted.txt",
-                    JSON.stringify(exno)
-                  );
+                    await fs.writeAsStringAsync(
+                      fs.documentDirectory + "ExCompleted.txt",
+                      JSON.stringify(exno)
+                    );
+                  } else {
+                    let jsonstr = await fs.readAsStringAsync(
+                      fs.documentDirectory + "ExCompleted.txt"
+                    );
+                    let exno = JSON.parse(jsonstr);
+                    if (rightans.size > Qdata.length * 0.75) {
+                      exno[Qdata[0].ExamNo] = "pass";
+                    } else {
+                      exno[Qdata[0].ExamNo] = "fail";
+                    }
+
+                    await fs.writeAsStringAsync(
+                      fs.documentDirectory + "ExCompleted.txt",
+                      JSON.stringify(exno)
+                    );
+                  }
+                  setFin(true);
+                } else {
+                  setQuestion(question + 1);
                 }
-                setFin(true);
-              } else {
-                setQuestion(question + 1);
-              }
-            }}
-          />
-        </>
-      )}
-      {error && (
-        <View style={styles.errview}>
-          <Text style={styles.errtext}>Cannnot connect to server</Text>
-          <Text style={styles.errtext}>
-            Please check your internet connection
-          </Text>
-          <Button
-            containerStyle={styles.ProgressText}
-            buttonStyle={styles.errbtn}
-            title="Retry"
-            type="outline"
-            size="md"
-            onPress={() => {
-              client.invalidateQueries("QuestionData");
-            }}
-          />
-        </View>
-      )}
-      <View
-        style={{
-          marginBottom: "auto",
-          alignSelf: "center",
-        }}
-      >
-        <BannerAd
-          unitId={"ca-app-pub-4662143029142618/9942720116"}
-          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        />
-      </View>
-      <StatusBar style="dark" backgroundColor="#fff" />
-    </View>
+              }}
+            />
+          </>
+        )}
+        {error && (
+          <View style={styles.errview}>
+            <Text style={styles.errtext}>Cannnot connect to server</Text>
+            <Text style={styles.errtext}>
+              Please check your internet connection
+            </Text>
+            <Button
+              containerStyle={styles.ProgressText}
+              buttonStyle={styles.errbtn}
+              title="Retry"
+              type="outline"
+              size="md"
+              onPress={() => {
+                client.invalidateQueries("QuestionData");
+              }}
+            />
+          </View>
+        )}
+        
+        <StatusBar style="dark" backgroundColor="#fff" />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#318CE7",
-    fontSize: 30,
-    fontWeight: "bold",
+    color: "#000000",
+    fontSize:22,
+    marginLeft: 5,
+    flex: 1,
+    fontWeight: "600",
+    marginRight: 'auto'
+  },
+  safearea:{
+    flex: 1,
+    backgroundColor: "#fff"
   },
   errview: {
     display: "flex",

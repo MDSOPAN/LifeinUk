@@ -26,10 +26,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.mdsopan.LifeinUk"/>
-        <data android:scheme="exp+lifeinuk"/>
-        <data android:scheme="com.datadoat.LifeinUk"/>
         <data android:scheme="com.liut.LifeinUk"/>
+        <data android:scheme="exp+lifeinuk"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

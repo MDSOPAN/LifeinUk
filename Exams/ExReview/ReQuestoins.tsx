@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import ReOptions from "./ReOptions";
-import { ActivityIndicator, Platform, ScrollView, View } from "react-native";
+import { ActivityIndicator, Dimensions, Platform, ScrollView, View } from "react-native";
 import { QueryClient, useQuery } from "react-query";
+import { app_url } from "../../universal/app_constants";
 
 function Question({ question, nextQ, lang, selAns }: any) {
   let answers: Number[] = question.answers.map((a: String) => {
@@ -15,7 +16,7 @@ function Question({ question, nextQ, lang, selAns }: any) {
     ["translation", question.body, lang],
     async () => {
       let res = await fetch(
-        "http://138.68.162.34:3000/api/app/translation/string",
+        `http://${app_url}:3000/api/app/translation/string`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -59,51 +60,55 @@ function Question({ question, nextQ, lang, selAns }: any) {
       <Text
         h3
         h3Style={{
-          textAlign: "center",
-          fontWeight: "100",
-          maxHeight: "35%",
+          textAlign: "left",
+          fontWeight: "100",  
+          maxHeight: Math.floor(Dimensions.get("window").height * 0.25),
         }}
         adjustsFontSizeToFit
       >
-        {question.body}
+        <Text style={{color: '#29337A'}}>Q: </Text>{question.body}
       </Text>
       {lang != "en" && (
         <Text
-          h3
-          h3Style={{
-            textAlign: "center",
-            marginTop: 20,
-            fontWeight: "100",
-            color: "#318CE7",
-            maxHeight: "35%",
-          }}
-          adjustsFontSizeToFit
-        >
-          Translation:
-        </Text>
+        h3
+        h3Style={{
+          textAlign: "left",
+          marginTop: 5,
+          fontWeight: "100",
+          backgroundColor: 'rgba(41,51,122,0.8)',
+          padding: 6,
+          width: 'auto',
+          fontSize: 16,
+          alignSelf: 'flex-start',
+          color: "#fff",
+        }}
+        adjustsFontSizeToFit
+      >
+        Translation
+      </Text>
       )}
       {isLoading && lang != "en" && (
         <>
           <ActivityIndicator
-            size={Platform.OS == "android" ? 65 : "large"}
-            color="#318CE7"
+            size={Platform.OS == "android" ? 45 : "small"}
+            color="#29337A"
           />
         </>
       )}
       {!isLoading && !error && lang != "en" && (
         <Text
-          h4
-          h4Style={{
-            textAlign: "center",
+        h4
+        h4Style={{
+          textAlign: "left",
 
-            marginVertical: 10,
-
-            fontWeight: "100",
-            maxHeight: "30%",
-          }}
-          adjustsFontSizeToFit
+          marginVertical: 10,
+          maxHeight: Math.floor(Dimensions.get("window").height * 0.12),
+          color:'#676767',
+          fontWeight: "100",
+        }}
+        adjustsFontSizeToFit
         >
-          {data.data}
+          {data.data.trim()}
         </Text>
       )}
       {options.map((el, ind) => {

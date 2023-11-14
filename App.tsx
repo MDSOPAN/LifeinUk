@@ -22,6 +22,9 @@ import ExResults from "./Exams/ExResults";
 import Qend from "./PracticeQuizes/Qend";
 import ReIndex from "./Exams/ExReview/ReIndex";
 import Datadoat from "./home/Datadoat";
+import MockInfo from "./Exams/Modals/MockInfo";
+import Settings from "./Settings/Settings";
+import Tmenu from "./Settings/Modals/Tmenu";
 
 // export const storage = new MMKV();
 
@@ -43,12 +46,15 @@ export default function App() {
               >
                 <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="datadoat" component={Datadoat} />
+                <Stack.Screen name="settings" component={Settings} />
                 <Stack.Screen name="Practice Exam" component={IndexQuiz} />
                 <Stack.Screen name="Practice End" component={Qend} />
                 <Stack.Screen name="Exams" component={Examshome} />
                 <Stack.Screen name="ExQuestoins" component={IndexExQuestion} />
                 <Stack.Screen name="ExResults" component={ExResults} />
                 <Stack.Screen name="ReEx" component={ReIndex} />
+                <Stack.Screen name="MockInfo" component={MockInfo} options={{ presentation: 'transparentModal',animation: 'fade_from_bottom' }}/>
+                <Stack.Screen name="Menu" component={Tmenu} options={{ presentation: 'transparentModal',animation: 'fade_from_bottom' }}/>
               </Stack.Navigator>
             </SafeAreaView>
           </QueryClientProvider>

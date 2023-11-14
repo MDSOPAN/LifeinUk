@@ -66,10 +66,10 @@ function Options({
 
 const styles = StyleSheet.create({
   btn: {
-    borderColor: "#000",
+    borderColor: "#DADADA",
     flexGrow: 1,
     backgroundColor: "white",
-    elevation: 5,
+    // elevation: 5,
     shadowOffset: { width: -2, height: 4 },
     shadowColor: "#000",
     shadowOpacity: 0.2,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   btnpressed: {
-    backgroundColor: "rgba(21,90,117,0.220)",
+    backgroundColor: "rgba(41,51,122,0.2)",
     elevation: 0,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0,

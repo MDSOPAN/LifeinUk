@@ -50,57 +50,92 @@ function ExQuestions({
 
   return (
     <>
-      <ScrollView
+      <View
         style={{
           // height: "100%",
           flexGrow: 1,
           backgroundColor: "#fff",
-        }}
-        contentContainerStyle={{
           padding: 20,
         }}
-        showsVerticalScrollIndicator={false}
+        // contentContainerStyle={{
+        //   padding: 20,
+        // }}
+        // showsVerticalScrollIndicator={false}
       >
         <Text
           h3
           h3Style={{
-            textAlign: "center",
+            textAlign: "left",
             fontWeight: "100",
-            maxHeight: Math.floor(Dimensions.get("window").height * 0.21),
+            maxHeight: Math.floor(Dimensions.get("window").height * 0.25),
           }}
           adjustsFontSizeToFit
         >
-          {Question.body.trim()}
+          <Text style={{color: '#29337A'}}>Q: </Text>{Question.body.trim()}
         </Text>
+        {/* {Translation && (
+          
+        )} */}
         {Translation && (
+          // <Text
+          //   h4
+          //   h4Style={{
+          //     textAlign: "left",
+
+          //     marginVertical: 10,
+
+          //     fontWeight: "100",
+          //   }}
+          //   adjustsFontSizeToFit
+          // >
+          // <Text
+          //   h4
+          //   h4Style={{
+          //     textAlign: "left",
+          //     marginTop: 20,
+          //     fontWeight: "100",
+          //     // alignSelf: 'flex-start',
+          //     color: "#29337A",
+              
+          //     maxHeight: Math.floor(Dimensions.get("window").height * 0.2),
+          //   }}
+          //   adjustsFontSizeToFit
+          // >Translation: </Text>{Translation.trim()}
+          // </Text>
+          <>
           <Text
             h3
             h3Style={{
-              textAlign: "center",
-              marginTop: 20,
+              textAlign: "left",
+              marginTop: 5,
               fontWeight: "100",
-              color: "#318CE7",
-              maxHeight: Math.floor(Dimensions.get("window").height * 0.9),
+              backgroundColor: 'rgba(41,51,122,0.8)',
+              padding: 6,
+              width: 'auto',
+              fontSize: 16,
+              alignSelf: 'flex-start',
+              color: "#fff",
             }}
             adjustsFontSizeToFit
           >
-            Translation:
+            Translation
           </Text>
-        )}
-        {Translation && (
+
           <Text
-            h4
-            h4Style={{
-              textAlign: "center",
+          h4
+          h4Style={{
+            textAlign: "left",
 
-              marginVertical: 10,
-
-              fontWeight: "100",
-            }}
-            adjustsFontSizeToFit
+            marginVertical: 10,
+            maxHeight: Math.floor(Dimensions.get("window").height * 0.12),
+            color:'#676767',
+            fontWeight: "100",
+          }}
+          adjustsFontSizeToFit
           >
-            {Translation.trim()}
+          {Translation.trim()}
           </Text>
+          </>
         )}
         {/* <View style={{ height: "50%", display: "flex" }}> */}
         {options.map((el, ind) => {
@@ -119,12 +154,13 @@ function ExQuestions({
         })}
         {/* </View> */}
         <Button
-          type="outline"
+          color={'#29337A'}
+          type="solid"
           buttonStyle={{
-            borderWidth: 1.5,
+            // borderWidth: 1.5,
           }}
           containerStyle={{
-            marginBottom: 10,
+            marginVertical: 10,
           }}
           disabled={isdisabled}
           onPress={() => {
@@ -164,7 +200,7 @@ function ExQuestions({
         >
           SUBMIT
         </Button>
-      </ScrollView>
+      </View>
       {/* onDidFailToReceiveAdWithError={this.bannerError} */}
     </>
   );

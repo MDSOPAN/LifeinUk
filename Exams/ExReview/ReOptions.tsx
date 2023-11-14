@@ -50,14 +50,14 @@ function ReOptions({
 
 const styles = StyleSheet.create({
   btn: {
-    borderColor: "#000",
+    borderColor: "#DADADA",
     flexGrow: 1,
     backgroundColor: "white",
-    elevation: 5,
-    shadowOffset: { width: -2, height: 4 },
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    // elevation: 5,
+    // shadowOffset: { width: -2, height: 4 },
+    // shadowColor: "#000",
+    // shadowOpacity: 0.2,
+    // shadowRadius: 3,
     borderRadius: 7,
     marginVertical: 10,
   },

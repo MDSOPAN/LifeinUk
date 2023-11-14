@@ -1,9 +1,15 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
 import { setStatusBarStyle, StatusBar } from "expo-status-bar";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+// import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { Button, Header, Card, ListItem, Icon, Text } from "@rneui/themed";
 import * as fs from "expo-file-system";
 import InAppReview from "react-native-in-app-review";
+// @ts-ignore
+import LIUT from '../assets/LIUT.svg'
+// @ts-ignore
+import Mock from '../assets/Mock.svg'
+// @ts-ignore
+import Practice from '../assets/Practice.svg'
 
 import mobileAds from "react-native-google-mobile-ads";
 import {
@@ -14,6 +20,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  Image,
+  Dimensions,
+  TouchableWithoutFeedback
 } from "react-native";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -25,6 +34,9 @@ import {
   MenuOptions,
   MenuTrigger,
 } from "react-native-popup-menu";
+import { app_url } from "../universal/app_constants";
+import { Avatar, LinearProgress } from "@rneui/base";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const updreset = async (updid: any, setPercent: any) => {
   let { exists } = await fs.getInfoAsync(fs.documentDirectory + "updid.txt");
@@ -45,7 +57,7 @@ const updreset = async (updid: any, setPercent: any) => {
   }
 };
 
-const getlang = async (setLang: any, client: any) => {
+const getlang = async (setLang: any) => {
   let { exists } = await fs.getInfoAsync(fs.documentDirectory + "lang.txt");
 
   if (exists) {
@@ -101,12 +113,19 @@ function Home() {
   let [lang, setLang] = useState("");
   let [chlang, setchlang] = useState(false);
 
+  
   const { isLoading, error, data }: any = useQuery(
     lang && "QuestionData",
     async () => {
+      // live
+      // let res = await fetch(
+      //   `http://138.68.162.34:3000/api/app/getallquestions`
+      // );
+
+      //TODO:Test
       let res = await fetch(
-        `http://138.68.162.34:3000/api/app/getallquestions`
-      );
+        `http://${app_url}:3000/api/app/getallquestions`
+       );
       // if (res.status == 500) {
       //   throw new Error("Database Not online");
       // }
@@ -122,6 +141,7 @@ function Home() {
   useFocusEffect(
     React.useCallback(() => {
       getpercent(setPercent);
+      getlang(setLang)
       client.invalidateQueries("QuestionData");
     }, [])
   );
@@ -140,7 +160,7 @@ function Home() {
       updreset(updid, setPercent);
     }
     if (!lang) {
-      getlang(setLang, client);
+      getlang(setLang);
     }
     mobileAds()
       .initialize()
@@ -149,269 +169,101 @@ function Home() {
       });
   }, [isLoading, pdata]);
   return (
-    <View style={styles.cont}>
-      <Header
-        containerStyle={{
-          elevation: 5,
-          shadowOffset: { width: -2, height: 4 },
-          shadowColor: "#000",
-
-          alignItems: "center",
-          justifyContent: "center",
-          shadowOpacity: 0.2,
-          shadowRadius: 3,
-        }}
-        backgroundColor="#fff"
-        leftComponent={{
-          text: "LIUT",
-
-          style: styles.heading,
-        }}
-        // leftContainerStyle={{
-        //   display: "flex",
-        //   justifyContent: "center",
-        // }}
-        rightComponent={
-          <View
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <Menu onSelect={(value) => settrlang(setLang, value)}>
-              <MenuTrigger
-                customStyles={{
-                  TriggerTouchableComponent: TouchableOpacity,
-                }}
-              >
-                <Icon
-                  type="material"
-                  name="g-translate"
-                  size={38}
-                  color="#318CE7"
-                />
-              </MenuTrigger>
-              <MenuOptions
-                optionsContainerStyle={{
-                  marginTop: "13%",
-
-                  display: "flex",
-                }}
-              >
-                <MenuOption
-                  value={"en"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem bottomDivider>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "en" ? "#318CE7" : "#000000" }}
-                      >
-                        No Translation
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <MenuOption
-                  value={"hi"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem bottomDivider>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "hi" ? "#318CE7" : "#000000" }}
-                      >
-                        Hindi
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <MenuOption
-                  value={"ur"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem bottomDivider>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "ur" ? "#318CE7" : "#000000" }}
-                      >
-                        Urdu
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <MenuOption
-                  value={"bn"}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                >
-                  <ListItem>
-                    <ListItem.Title>
-                      <Text
-                        style={{ color: lang == "bn" ? "#318CE7" : "#000000" }}
-                      >
-                        Bangla
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem>
-                </MenuOption>
-                <Text
-                  style={{
-                    color: "grey",
-                    fontSize: 11,
-                    marginLeft: 5,
-                  }}
-                >
-                  Powered by Google Translate
-                </Text>
-              </MenuOptions>
-            </Menu>
-            <Menu
+    <SafeAreaView style={styles.cont}>
+      
+      <StatusBar style="dark" backgroundColor="#133279" />
+      <View style={{
+          
+          padding: 10,
+          backgroundColor:"#133279",
+          paddingBottom: "40%",
+          position: "relative"
+          // height: 200
+        }}>
+          <View style={{
+            display:'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignContent: 'center',
+            justifyContent:'center',
+            
+          }}>
+            <Icon
+              type="fontawesome"
+              name="chevron-left"
+              color="#000000"
+              size={36}
+              Component={TouchableScale}
               style={{
-                marginHorizontal: 10,
+                alignSelf: "center",
               }}
-            >
-              <MenuTrigger
-                customStyles={{
-                  TriggerTouchableComponent: TouchableOpacity,
+              onPress={() => {
+                navigation.pop();
+              }}
+            />
+            <Text style={styles.heading}>
+              LIUT
+            </Text>
+            
+              <Icon
+                size={30}
+                color={'#fff'}
+                name='globe'
+                containerStyle={{
+                  marginRight:7,
                 }}
-              >
-                <Icon
-                  type="material"
-                  name="settings"
-                  size={38}
-                  color="#318CE7"
-                />
-              </MenuTrigger>
-              <MenuOptions
-                optionsContainerStyle={{
-                  marginTop: "13%",
-
-                  display: "flex",
+                type='feather'
+                Component={TouchableWithoutFeedback}
+                onPress={()=>{
+                  navigation.navigate('settings',lang);
                 }}
-              >
-                <MenuOption
-                  onSelect={() => {
-                    if (InAppReview.isAvailable()) {
-                      InAppReview.RequestInAppReview()
-                        .then((hasFlowFinishedSuccessfully) => {
-                          // when return true in android it means user finished or close review flow
-                          console.log(
-                            "InAppReview in android",
-                            hasFlowFinishedSuccessfully
-                          );
-
-                          // when return true in ios it means review flow lanuched to user.
-                          console.log(
-                            "InAppReview in ios has launched successfully",
-                            hasFlowFinishedSuccessfully
-                          );
-
-                          // 1- you have option to do something ex: (navigate Home page) (in android).
-                          // 2- you have option to do something,
-                          // ex: (save date today to lanuch InAppReview after 15 days) (in android and ios).
-
-                          // 3- another option:
-                          if (hasFlowFinishedSuccessfully) {
-                            // do something for ios
-                            // do something for android
-                          }
-
-                          // for android:
-                          // The flow has finished. The API does not indicate whether the user
-                          // reviewed or not, or even whether the review dialog was shown. Thus, no
-                          // matter the result, we continue our app flow.
-
-                          // for ios
-                          // the flow lanuched successfully, The API does not indicate whether the user
-                          // reviewed or not, or he/she closed flow yet as android, Thus, no
-                          // matter the result, we continue our app flow.
-                        })
-                        .catch((error) => {
-                          //we continue our app flow.
-                          // we have some error could happen while lanuching InAppReview,
-                          // Check table for errors and code number that can return in catch.
-                          console.log(error);
-                        });
-                    }
-                  }}
-                  style={{
-                    flexGrow: 1,
-                    flexShrink: 1,
-                    flexDirection: "row",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 5,
-                    margin: 5,
-                    borderColor: "#318CE7",
-                    borderWidth: 0.5,
-                  }}
-                >
-                  <Icon name="star-outline" size={25} color="#318CE7" />
-
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: "#318CE7",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Rate Us
-                  </Text>
-                </MenuOption>
-                <MenuOption
-                  onSelect={() => {
-                    navigation.navigate("datadoat");
-                  }}
-                  style={{
-                    flexGrow: 1,
-                    flexShrink: 1,
-                    flexDirection: "row",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 5,
-                    margin: 5,
-                    borderColor: "#318CE7",
-                    borderWidth: 0.5,
-                  }}
-                >
-                  <Icon
-                    name="information-outline"
-                    type="material-community"
-                    size={25}
-                    color="#318CE7"
-                  />
-
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: "#318CE7",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    About
-                  </Text>
-                </MenuOption>
-              </MenuOptions>
-            </Menu>
+              />
+              <Icon
+                size={30}
+                color={'#fff'}
+                name='settings'
+                type='material'
+                Component={TouchableWithoutFeedback}
+                onPress={()=>{
+                  navigation.navigate('settings',lang);
+                }}
+              />
           </View>
-        }
-        rightContainerStyle={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 5,
-        }}
-      />
-      <StatusBar style="dark" backgroundColor="#fff" />
+          <View style={{
+            backgroundColor: "#fff",
+            elevation: 5,
+            // width: "90%",
+            padding:10,
+            borderRadius: 10,
+            position: 'absolute',
+            bottom: "-100%",
+            left: 15,
+            right: 15,
+            // zIndex: 100,
 
+          }}>
+            <View style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              
+            }}>
+              <Text style={styles.ProgressText}>Total Progress</Text>
+              <Text style={{
+                color: '#bbbbbb',
+                fontSize: 20,
+                
+              }}>{percent}%</Text>
+            </View>
+            <LinearProgress style={{ marginVertical: 15,width: "100%",height: 20,borderRadius: 25 }}
+              // value={percent/100}
+              value={0.5}
+              color="#133279"
+              trackColor="#F6F6F6"
+              variant="determinate"/>
+              
+          </View>
+      </View>
       {(isLoading || !lang) && (
         <>
           <ActivityIndicator
@@ -419,7 +271,7 @@ function Home() {
               flexGrow: 1,
             }}
             size={Platform.OS == "android" ? 65 : "large"}
-            color="#318CE7"
+            color="#29337A"
           />
         </>
       )}
@@ -430,7 +282,9 @@ function Home() {
             Please check your internet connection
           </Text>
           <Button
-            containerStyle={styles.ProgressText}
+
+          //TODO:FIx this
+            // containerStyle={styles.ProgressText}
             buttonStyle={styles.errbtn}
             title="Retry"
             type="outline"
@@ -447,32 +301,16 @@ function Home() {
           contentContainerStyle={{
             alignContent: "center",
             alignItems: "center",
+            alignSelf:"stretch",
+            width: "100%",
+            // flex: 1
           }}
         >
-          <Text style={styles.ProgressText}>Total Progress</Text>
-          {/* <SvgComponent percent={percent} /> */}
-          <AnimatedCircularProgress
-            size={220}
-            width={10}
-            fill={percent}
-            tintColor="#318CE7"
-            // onAnimationComplete={() => console.log("onAnimationComplete")}
-            rotation={0}
-            backgroundColor="#f5f5f5"
-          >
-            {(fill) => (
-              <Text
-                style={{
-                  fontSize: 24,
-                  color: "#318CE7",
-                  position: "absolute",
-                  fontWeight: "400",
-                }}
-              >
-                {`${percent}%`}
-              </Text>
-            )}
-          </AnimatedCircularProgress>
+          
+          
+         
+          
+          
           <View style={styles.cardcontainer}>
             {/* <Pressable
               onPress={() => {
@@ -487,13 +325,49 @@ function Home() {
                 navigation.navigate("Exams", lang);
               }}
             >
-              <Card containerStyle={styles.card}>
+              {/* <Card containerStyle={styles.card}>
                 <Card.Title>Mock Test</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
                   Start an exam with random questions and time limit
                 </Text>
-              </Card>
+              </Card> */}
+              <View
+              style={[styles.testbutton,{
+                marginTop: "15%"
+              }]}>
+                {/* <Image
+                  source={require('../assets/Mock.png')}
+                /> */}
+                <View style={{
+                  width: Dimensions.get('window').width *0.2,
+                  height: Dimensions.get('window').width *0.2,
+                  borderRadius: Dimensions.get('window').width *0.2/2,
+                  display: 'flex',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  alignItems:'center',
+                  backgroundColor: "#fff"
+                }}>
+
+                  <Mock />
+                </View>
+                <View>
+                  <Text style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color:'#FFF',
+                    marginLeft: 10
+                  }} adjustsFontSizeToFit>Mock Tests</Text>
+                  <Text style={{
+                    // fontWeight: "bold",
+                    fontSize: 13,
+                    color:'#FFF',
+                    marginLeft: 10,
+                    width: "70%"
+                  }} adjustsFontSizeToFit>Start an exam with ordered questions and limited time</Text>
+                </View>
+              </View>
             </TouchableScale>
 
             <TouchableScale
@@ -510,53 +384,112 @@ function Home() {
                 navigation.navigate("Practice Exam", { Qdata, lang });
               }}
             >
-              <Card containerStyle={styles.card}>
+              {/* <Card containerStyle={styles.card}>
                 <Card.Title>Practice</Card.Title>
                 <Card.Divider />
                 <Text style={{ textAlign: "center" }}>
                   Start practice with ordered questions and unlimited time
                 </Text>
-              </Card>
+              </Card> */}
+              <View
+              style={styles.testbutton}>
+                {/* <Image
+                  source={require('../assets/Practice.png')}
+                /> */}
+                <View style={{
+                  width: Dimensions.get('window').width *0.2,
+                  height: Dimensions.get('window').width *0.2,
+                  borderRadius: Dimensions.get('window').width *0.2/2,
+                  display: 'flex',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  alignItems:'center',
+                  backgroundColor: "#fff"
+                }}>
+
+                  <Practice/>
+                </View>
+                
+                <View>
+                  <Text style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color:'#FFF',
+                    marginLeft: 10
+                  }} adjustsFontSizeToFit>Practice Tests</Text>
+                  <Text style={{
+                    // fontWeight: "bold",
+                    fontSize: 13,
+                    color:'#FFF',
+                    marginLeft: 10,
+                    width: "70%"
+                  }} adjustsFontSizeToFit>Start an exam with random questions and unlimited time</Text>
+                </View>
+              </View>
             </TouchableScale>
           </View>
         </ScrollView>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#318CE7",
-    fontSize: 42,
-    width: "200%",
-    fontWeight: "bold",
+    color: "#fff",
+    fontSize:22,
+    marginLeft: 5,
+    flex: 1,
+    fontWeight: "600",
+    // marginRight: 'auto'
   },
   ProgressText: {
     fontSize: 20,
-    marginVertical: 10,
+    fontWeight: '200',
+    color: '#828282'
+    // marginVertical: 10,
+    // marginTop: 40,
   },
   cont: {
     display: "flex",
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
   },
   cardcontainer: {
     display: "flex",
-
+    // backgroundColor: "red",
+    width: "100%",
     justifyContent: "center",
-    alignSelf: "stretch",
+    // alignSelf: "stretch",
+    // flex: 1,
     marginVertical: 10,
   },
-  card: {
-    alignSelf: "stretch",
-    display: "flex",
-    elevation: 5,
-    shadowOffset: { width: -2, height: 4 },
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+  // card: {
+  //   alignSelf: "stretch",
+  //   display: "flex",
+  //   elevation: 5,
+  //   shadowOffset: { width: -2, height: 4 },
+  //   shadowColor: "#000",
+  //   shadowOpacity: 0.2,
+  //   shadowRadius: 3,
+  // },
+  testbutton: {
+    display:"flex",
+    flexDirection:"row",
+    alignContent:"center",
+    alignItems:'center',
+    justifyContent:'flex-start',
+    backgroundColor:"#133279",
+    borderRadius: 10,
+    // alignSelf: "stretch",
+    // flex: 1,
+    // width: width,
+    margin: 10,
+    padding: 10,
+    paddingHorizontal: 25,
+    paddingVertical: 25,
+    marginVertical: 5,
   },
   errview: {
     display: "flex",

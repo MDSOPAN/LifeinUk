@@ -21,7 +21,7 @@ function Datadoat() {
           <Icon
             type="ionicon"
             name="arrow-back-outline"
-            color="#318CE7"
+            color="#29337A"
             size={34}
             style={{
               alignSelf: "center",
@@ -46,8 +46,8 @@ function Datadoat() {
 
             fontSize: 100,
             // fontWeight: "100",
-            // color: "#318CE7",
-            color: "#318CE7",
+            // color: "#29337A",
+            color: "#29337A",
 
             fontWeight: "bold",
           }}
@@ -108,7 +108,7 @@ function Datadoat() {
               flexDirection: "row",
               alignContent: "center",
               alignItems: "center",
-              backgroundColor: "#318CE7",
+              backgroundColor: "#29337A",
             }}
           >
             <Icon
@@ -153,7 +153,7 @@ function Datadoat() {
             // width: "100%",
             // height: "10%",
             // justifyContent: "space-around",
-            backgroundColor: "#318CE7",
+            backgroundColor: "#29337A",
             // alignItems: "center",
             // alignContent: "center",
             borderTopStartRadius: 25,
@@ -223,7 +223,7 @@ function Datadoat() {
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#318CE7",
+    color: "#29337A",
     fontSize: 30,
     fontWeight: "bold",
   },
