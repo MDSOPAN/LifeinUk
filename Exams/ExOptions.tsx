@@ -51,7 +51,8 @@ function ExOptions({
 
 const styles = StyleSheet.create({
   btn: {
-    borderColor: "#DADADA",
+    borderColor: "#000",
+    padding: 15,
     flexGrow: 1,
     backgroundColor: "white",
     // elevation: 5,

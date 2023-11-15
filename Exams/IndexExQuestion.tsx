@@ -138,7 +138,7 @@ function IndexExQuestion() {
           <Icon
             type="fontawesome"
             name="chevron-left"
-            color="#000000"
+            color="#133279"
             size={36}
             Component={TouchableScale}
             style={{
@@ -170,20 +170,23 @@ function IndexExQuestion() {
               }}
               digitStyle={{ backgroundColor: "white" }}
               showSeparator
-              digitTxtStyle={{ color: "#000", fontSize: 22 }}
+              separatorStyle={{
+                color:'#133279'
+              }}
+              digitTxtStyle={{ color: "#133279", fontSize: 22 }}
               timeToShow={["M", "S"]}
               timeLabels={{ m: "", s: "" }}
             />
       </View>
       <LinearProgress
-        style={{ marginVertical: 0 }}
+        style={{ marginVertical: 0,height: "1%" }}
         value={question / Qdata.length}
         variant={"determinate"}
         animation={{
           duration: 500,
         }}
-        trackColor="#fff"
-        color="#29337A"
+        trackColor="#f5f5f5"
+        color="#133279"
       />
       <ScrollView
         style={{
@@ -260,7 +263,7 @@ function IndexExQuestion() {
         )}
         {!isLoading && !error && (
           <>
-            <Button
+            {/* <Button
               size="md"
               containerStyle={{
                 maxWidth: "20%",
@@ -275,7 +278,7 @@ function IndexExQuestion() {
               }}
             >
               <Icon type="ionicon" name="arrow-back-outline" color="white" />
-            </Button>
+            </Button> */}
             <ExQuestions
               Question={Qdata[question]}
               quesind={question}
@@ -285,6 +288,11 @@ function IndexExQuestion() {
               selectedAns={AnsArr[question] != undefined ? AnsArr[question] : []}
               setAnsArr={setAnsArr}
               AnsArr={AnsArr}
+              prevQ={() => {
+                if (question != 0) {
+                  setQuestion(question - 1);
+                }
+              }}
               nextQ={async () => {
                 if (question + 1 >= Qdata.length) {
                   let { exists } = await fs.getInfoAsync(
@@ -353,7 +361,7 @@ function IndexExQuestion() {
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#000000",
+    color: "#133279",
     fontSize:22,
     marginLeft: 5,
     flex: 1,

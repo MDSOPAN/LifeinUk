@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, StyleSheet, View,Text } from "react-native";
+import { ScrollView, StyleSheet, View, Text, Pressable, Dimensions, TouchableWithoutFeedback } from "react-native";
 import Question from "./ReQuestoins";
 import { Header, Icon, Button, Text as Tx } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -42,80 +42,42 @@ function ReIndex() {
         }
       /> */}
       <View style={{
-          display:'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          alignContent: 'center',
-          justifyContent:'center',
-          backgroundColor:"#fff",
-          margin: 10
-          // height: 200
-        }}>
-          <Icon
-            type="fontawesome"
-            name="chevron-left"
-            color="#000000"
-            size={36}
-            style={{
-              alignSelf: "center",
-            }}
-            onPress={() => {
-              navigation.pop();
-            }}
-          />
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        backgroundColor: "#fff",
+        margin: 10
+        // height: 200
+      }}>
+        <Icon
+          type="fontawesome"
+          name="chevron-left"
+          color="#133279"
+          size={36}
+          style={{
+            alignSelf: "center",
+          }}
+          onPress={() => {
+            navigation.pop();
+          }}
+        />
 
-          <Text style={styles.heading}>
-            Test {Qdata[0].ExamNo} Review
-          </Text>
+        <Text style={styles.heading}>
+          Test {Qdata[0].ExamNo} Review
+        </Text>
       </View>
       <StatusBar style="dark" backgroundColor="#fff" />
       {Qdata.length != 0 && (
-        <>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              backgroundColor: "#fff",
-              justifyContent: "flex-start",
-            }}
-          >
-            <Button
-              size="md"
-              containerStyle={{
-                maxWidth: "20%",
-                borderRadius: 5,
-                flexGrow: 1,
-                margin: 10,
-                // alignSelf: "flex-start",
-              }}
-              color={'#29337A'}
-              onPress={() => {
-                if (question != 0) {
-                  setQuestion(question - 1);
-                }
-              }}
-            >
-              <Icon type="ionicon" name="arrow-back-outline" color="white" />
-            </Button>
-            <Button
-              size="md"
-              containerStyle={{
-                maxWidth: "20%",
-                flexGrow: 1,
-                marginLeft: "auto",
-                borderRadius: 5,
-                margin: 10,
-              }}
-              color={'#29337A'}
-              onPress={() => {
-                if (question + 1 < Qdata.length) {
-                  setQuestion(question + 1);
-                }
-              }}
-            >
-              <Icon type="ionicon" name="arrow-forward-outline" color="white" />
-            </Button>
-          </View>
+        <ScrollView style={{
+          flexGrow: 1,
+          backgroundColor: "#fff",
+        }}
+        contentContainerStyle={{
+          padding: 10,
+        }}
+        showsVerticalScrollIndicator={false}>
           <Question
             question={Qdata[question]}
             selAns={Answers[question]}
@@ -134,7 +96,135 @@ function ReIndex() {
               }
             }}
           />
-        </>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              backgroundColor: "#fff",
+              // marginBottom: 'auto',
+              marginVertical:10,
+              justifyContent: "flex-start",
+            }}
+          >
+            <Pressable onPress={(prevQ => {
+              if (question != 0) {
+                setQuestion(question - 1);
+              }
+            })}
+            >
+              <View style={{
+                // width: Dimensions.get('window').width * 0.12,
+                // height: Dimensions.get('window').width * 0.12,
+                borderRadius: 10,
+                display: 'flex',
+                flexDirection: 'row',
+                alignContent: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 10,
+                paddingVertical:10,
+                paddingHorizontal:15,
+                paddingLeft: 0,
+                backgroundColor: "#133279",
+              }}>
+                
+
+                <Icon
+                  size={45}
+                  color={'#fff'}
+                  name='chevron-left'
+                  type='material-community'
+                  Component={TouchableWithoutFeedback}
+                  onPress={() => {
+                    if (question != 0) {
+                      setQuestion(question - 1);
+                    }
+                  }}
+                />
+                <Text style={{
+                  color:"#fff",
+                  fontSize: 18
+                }}>Previous</Text>
+              </View>
+            </Pressable>
+            {/* <Button
+              size="md"
+              containerStyle={{
+                maxWidth: "20%",
+                borderRadius: 5,
+                flexGrow: 1,
+                margin: 10,
+                // alignSelf: "flex-start",
+              }}
+              color={'#29337A'}
+              onPress={() => {
+                if (question != 0) {
+                  setQuestion(question - 1);
+                }
+              }}
+            >
+              <Icon type="ionicon" name="arrow-back-outline" color="white" />
+            </Button> */}
+            {/* <Button
+              size="md"
+              containerStyle={{
+                maxWidth: "20%",
+                flexGrow: 1,
+                marginLeft: "auto",
+                borderRadius: 5,
+                margin: 10,
+              }}
+              color={'#29337A'}
+              onPress={() => {
+                if (question + 1 < Qdata.length) {
+                  setQuestion(question + 1);
+                }
+              }}
+            >
+              <Icon type="ionicon" name="arrow-forward-outline" color="white" />
+            </Button> */}
+            <Pressable onPress={() => {
+              if (question + 1 < Qdata.length) {
+                setQuestion(question + 1);
+              }
+            }} style={{
+              marginLeft:'auto'
+            }}>
+              <View style={{
+                // width: Dimensions.get('window').width * 0.12,
+                // height: Dimensions.get('window').width * 0.12,
+                borderRadius: 10,
+                display: 'flex',
+                flexDirection: 'row',
+                alignContent: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 10,
+                paddingVertical:10,
+                paddingHorizontal:15,
+                backgroundColor: "#133279",
+              }}>
+                <Text style={{
+                  color:"#fff",
+                  fontSize: 18
+                }}>Next</Text>
+
+                <Icon
+                  size={45}
+                  color={'#fff'}
+                  name='chevron-right'
+                  type='material-community'
+                  Component={TouchableWithoutFeedback}
+                  onPress={() => {
+                    if (question + 1 < Qdata.length) {
+                      setQuestion(question + 1);
+                    }
+                  }}
+                />
+              </View>
+            </Pressable>
+          </View>
+        </ScrollView>
       )}
       {Qdata.length == 0 && (
         <View
@@ -163,14 +253,14 @@ function ReIndex() {
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#000000",
-    fontSize:22,
+    color: "#133279",
+    fontSize: 22,
     marginLeft: 5,
     flex: 1,
     fontWeight: "600",
-    marginRight: 'auto'
+    // marginRight: 'auto'
   },
-  safearea:{
+  safearea: {
     flex: 1,
     backgroundColor: "#fff"
   },

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, Card, ButtonGroup, Button } from "@rneui/themed";
 import ExOptions from "./ExOptions";
-import { Dimensions, ScrollView, View } from "react-native";
+import { Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, View } from "react-native";
+import { Icon } from "@rneui/base";
 
 function arraysEqual(a: any, b: any) {
   if (a === b) return true;
@@ -28,6 +29,7 @@ function ExQuestions({
   setAnsArr,
   AnsArr,
   quesind,
+  prevQ
 }: any) {
   let answers: Number[] = Question.answers.map((a: String) => {
     return a.charCodeAt(0) - 65;
@@ -57,21 +59,22 @@ function ExQuestions({
           backgroundColor: "#fff",
           padding: 20,
         }}
-        // contentContainerStyle={{
-        //   padding: 20,
-        // }}
-        // showsVerticalScrollIndicator={false}
+      // contentContainerStyle={{
+      //   padding: 20,
+      // }}
+      // showsVerticalScrollIndicator={false}
       >
         <Text
           h3
           h3Style={{
-            textAlign: "left",
+            textAlign: "center",
             fontWeight: "100",
-            maxHeight: Math.floor(Dimensions.get("window").height * 0.25),
+            maxHeight: Math.floor(Dimensions.get("window").height * 0.2),
+            marginBottom: 10
           }}
           adjustsFontSizeToFit
         >
-          <Text style={{color: '#29337A'}}>Q: </Text>{Question.body.trim()}
+          {Question.body.trim()}
         </Text>
         {/* {Translation && (
           
@@ -96,45 +99,29 @@ function ExQuestions({
           //     fontWeight: "100",
           //     // alignSelf: 'flex-start',
           //     color: "#29337A",
-              
+
           //     maxHeight: Math.floor(Dimensions.get("window").height * 0.2),
           //   }}
           //   adjustsFontSizeToFit
           // >Translation: </Text>{Translation.trim()}
           // </Text>
           <>
-          <Text
-            h3
-            h3Style={{
-              textAlign: "left",
-              marginTop: 5,
-              fontWeight: "100",
-              backgroundColor: 'rgba(41,51,122,0.8)',
-              padding: 6,
-              width: 'auto',
-              fontSize: 16,
-              alignSelf: 'flex-start',
-              color: "#fff",
-            }}
-            adjustsFontSizeToFit
-          >
-            Translation
-          </Text>
 
-          <Text
-          h4
-          h4Style={{
-            textAlign: "left",
 
-            marginVertical: 10,
-            maxHeight: Math.floor(Dimensions.get("window").height * 0.12),
-            color:'#676767',
-            fontWeight: "100",
-          }}
-          adjustsFontSizeToFit
-          >
-          {Translation.trim()}
-          </Text>
+            <Text
+              h4
+              h4Style={{
+                textAlign: "left",
+
+                marginVertical: 10,
+                maxHeight: Math.floor(Dimensions.get("window").height * 0.15),
+                color: '#676767',
+                fontWeight: "100",
+              }}
+              adjustsFontSizeToFit
+            >
+              <Text style={{ color: '#133279' }} adjustsFontSizeToFit>Translation:</Text> {Translation.trim()}
+            </Text>
           </>
         )}
         {/* <View style={{ height: "50%", display: "flex" }}> */}
@@ -153,7 +140,7 @@ function ExQuestions({
           );
         })}
         {/* </View> */}
-        <Button
+        {/* <Button
           color={'#29337A'}
           type="solid"
           buttonStyle={{
@@ -199,7 +186,90 @@ function ExQuestions({
           size="md"
         >
           SUBMIT
-        </Button>
+        </Button> */}
+        <View style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: "center"
+        }}>
+          <Pressable onPress={prevQ}
+            disabled={quesind == 0}>
+            <View style={{
+              width: Dimensions.get('window').width * 0.12,
+              height: Dimensions.get('window').width * 0.12,
+              borderRadius: Dimensions.get('window').width * 0.12 / 2,
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'center',
+              alignItems: 'center',
+              
+              backgroundColor: quesind != 0 ? "#133279" : "#bbbbbb",
+            }}>
+              <Icon
+                size={45}
+                color={'#fff'}
+                name='chevron-left'
+                type='material-community'
+                Component={TouchableWithoutFeedback}
+                onPress={prevQ}
+              />
+            </View>
+          </Pressable>
+          <Button
+            type="solid"
+
+            disabled={isdisabled}
+            color={'#29337A'}
+            buttonStyle={{
+              // borderWidth: 1.5,
+              borderRadius: 5,
+            }}
+            containerStyle={{
+              marginVertical: 10,
+              marginLeft: 10,
+              flex: 1,
+              borderRadius: 8
+            }}
+            onPress={() => {
+              let ans: any = selectedAnswers.sort((a: any, b: any) =>
+                a > b ? 1 : -1
+              );
+              let isequal = arraysEqual(ans, answers);
+              if (AnsArr.length > quesind) {
+                setAnsArr((val: any) => {
+                  val.splice(quesind, 1, ans);
+
+                  return val;
+                });
+              } else {
+                setAnsArr((val: any) => {
+                  val.push(ans);
+
+                  return val;
+                });
+              }
+
+              if (isequal) {
+                setRightans((val: any) => {
+                  val.add(quesind);
+                  return val;
+                });
+              } else if (rightans.has(quesind)) {
+                setRightans((val: any) => {
+                  val.delete(quesind);
+                  return val;
+                });
+              }
+              nextQ();
+              setreset(true);
+            }}
+            size="md"
+          >
+            SUBMIT
+          </Button>
+
+        </View>
       </View>
       {/* onDidFailToReceiveAdWithError={this.bannerError} */}
     </>

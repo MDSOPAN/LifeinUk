@@ -8,6 +8,7 @@ import InAppReview from "react-native-in-app-review";
 import LIUT from '../assets/LIUT.svg'
 // @ts-ignore
 import Mock from '../assets/Mock.svg'
+
 // @ts-ignore
 import Practice from '../assets/Practice.svg'
 
@@ -171,10 +172,11 @@ function Home() {
   return (
     <SafeAreaView style={styles.cont}>
       
-      <StatusBar style="dark" backgroundColor="#133279" />
+      <StatusBar style="light" backgroundColor="#133279" />
       <View style={{
           
           padding: 10,
+          paddingTop: 15,
           backgroundColor:"#133279",
           paddingBottom: "40%",
           position: "relative"
@@ -188,7 +190,7 @@ function Home() {
             justifyContent:'center',
             
           }}>
-            <Icon
+            {/* <Icon
               type="fontawesome"
               name="chevron-left"
               color="#000000"
@@ -200,7 +202,11 @@ function Home() {
               onPress={() => {
                 navigation.pop();
               }}
-            />
+            /> */}
+            <Image source={require("../assets/logo.png")} style={{
+              maxWidth: "10%",
+              aspectRatio: 1/1,
+            }}/>
             <Text style={styles.heading}>
               LIUT
             </Text>
@@ -208,14 +214,14 @@ function Home() {
               <Icon
                 size={30}
                 color={'#fff'}
-                name='globe'
+                name='google-translate'
                 containerStyle={{
                   marginRight:7,
                 }}
-                type='feather'
+                type='material-community'
                 Component={TouchableWithoutFeedback}
                 onPress={()=>{
-                  navigation.navigate('settings',lang);
+                  navigation.navigate('Menu');
                 }}
               />
               <Icon
@@ -237,8 +243,8 @@ function Home() {
             borderRadius: 10,
             position: 'absolute',
             bottom: "-100%",
-            left: 15,
-            right: 15,
+            left: 20,
+            right: 20,
             // zIndex: 100,
 
           }}>
@@ -257,7 +263,7 @@ function Home() {
             </View>
             <LinearProgress style={{ marginVertical: 15,width: "100%",height: 20,borderRadius: 25 }}
               // value={percent/100}
-              value={0.5}
+              value={percent/100}
               color="#133279"
               trackColor="#F6F6F6"
               variant="determinate"/>
@@ -463,7 +469,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // alignSelf: "stretch",
     // flex: 1,
-    marginVertical: 10,
+    marginVertical: 50,
   },
   // card: {
   //   alignSelf: "stretch",

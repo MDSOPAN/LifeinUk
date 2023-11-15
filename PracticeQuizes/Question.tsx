@@ -201,7 +201,11 @@ function Question({ question, nextQ, lang }: any) {
               name='chevron-right'
               type='font-awesome'
               Component={TouchableWithoutFeedback}
-        
+              onPress={() => {
+                setShow(false);
+                nextQ();
+                setreset(true);
+              }}
             />
             </View>
           </Pressable>

@@ -309,9 +309,9 @@ function Examshome() {
                     {completed.hasOwnProperty(ind + 1) &&
                     completed[ind + 1] == "pass" &&
                     <View style={{
-                      width: Dimensions.get('window').width *0.15,
-                      height: Dimensions.get('window').width *0.15,
-                      borderRadius: Dimensions.get('window').width *0.15/2,
+                      width: Dimensions.get('window').width *0.1,
+                      height: Dimensions.get('window').width *0.1,
+                      borderRadius: Dimensions.get('window').width *0.1/2,
                       display: 'flex',
                       alignContent: 'center',
                       justifyContent: 'center',
@@ -332,9 +332,9 @@ function Examshome() {
                     {completed.hasOwnProperty(ind + 1) &&
                     completed[ind + 1] == "fail" &&
                     <View style={{
-                      width: Dimensions.get('window').width *0.15,
-                      height: Dimensions.get('window').width *0.15,
-                      borderRadius: Dimensions.get('window').width *0.15/2,
+                      width: Dimensions.get('window').width *0.1,
+                      height: Dimensions.get('window').width *0.1,
+                      borderRadius: Dimensions.get('window').width *0.1/2,
                       display: 'flex',
                       alignContent: 'center',
                       justifyContent: 'center',
