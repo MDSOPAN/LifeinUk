@@ -5,12 +5,13 @@ import {
   StyleSheet,
   View,
   StatusBar as st,
-  Text
+  Text,
+  Dimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // @ts-ignore
-import Datadoat from '../assets/datadoat.svg'
+import Datadoat from '../assets/datadoat_labs.svg'
 
 
 export default function Settings() {
@@ -25,7 +26,7 @@ export default function Settings() {
           alignItems: 'center',
           alignContent: 'center',
           justifyContent:'center',
-          backgroundColor:"#fff",
+          backgroundColor:"#133279",
           margin: 0,
           padding: 15,
           borderBottomWidth: 5,
@@ -36,7 +37,7 @@ export default function Settings() {
           <Icon
             type="fontawesome"
             name="chevron-left"
-            color="#000000"
+            color="#fff"
             size={36}
             style={{
               alignSelf: "center",
@@ -69,7 +70,7 @@ export default function Settings() {
         <ListItem style={styles.menuitm} onPress={()=>{
           navigation.navigate('Menu');
         }}>
-            <Icon name="earth" type="material-community" color="grey" />
+            <Icon name="google-translate" type="material-community" color="grey" />
             <ListItem.Content>
             <ListItem.Title>Translation</ListItem.Title>
             </ListItem.Content>
@@ -85,9 +86,9 @@ export default function Settings() {
       }}>
         <Text style={{color:'#8F8F8F',margin: 10}}>Help and Policy</Text>  
         <ListItem bottomDivider style={styles.menuitm}>
-            <Icon name="contact-support" type="material" color="grey" />
+            <Icon name="shield-check" type="material-community" color="grey" />
             <ListItem.Content>
-            <ListItem.Title>Help</ListItem.Title>
+            <ListItem.Title>Permissions</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron />
         </ListItem>
@@ -120,7 +121,15 @@ export default function Settings() {
         marginLeft: 'auto',
         margin: 10
       }}>
-        <Datadoat />
+        <Text style={{
+          textAlign: 'center',
+          color: '#ABABAB',
+          fontSize: 16
+        }}>developed by</Text>
+        <Datadoat style={{
+          aspectRation: 1/1,
+          maxWidth: Dimensions.get('window').width * 0.5,
+        }}/>
       </View>
     </SafeAreaView>
   );
@@ -133,7 +142,7 @@ const styles = StyleSheet.create({
         minHeight: '100%'
     },
     heading: {
-        color: "#000000",
+        color: "#fff",
         fontSize:22,
         marginLeft: 5,
         flex: 1,

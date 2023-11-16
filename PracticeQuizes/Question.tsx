@@ -196,10 +196,10 @@ function Question({ question, nextQ, lang }: any) {
             backgroundColor: show ? "#133279":"#bbbbbb",
           }}>
             <Icon
-              size={30}
+              size={45}
               color={'#fff'}
               name='chevron-right'
-              type='font-awesome'
+              type='material-community'
               Component={TouchableWithoutFeedback}
               onPress={() => {
                 setShow(false);

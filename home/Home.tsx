@@ -443,10 +443,10 @@ function Home() {
 const styles = StyleSheet.create({
   heading: {
     color: "#fff",
-    fontSize:22,
+    fontSize:26,
     marginLeft: 5,
     flex: 1,
-    fontWeight: "600",
+    fontWeight: "900",
     // marginRight: 'auto'
   },
   ProgressText: {
