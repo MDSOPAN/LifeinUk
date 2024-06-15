@@ -127,12 +127,15 @@ function Question({ question, nextQ, lang }: any) {
 
             marginVertical: 10,
             maxHeight: Math.floor(Dimensions.get("window").height * 0.12),
-            color:'#676767',
+            color: "#676767",
             fontWeight: "100",
           }}
           adjustsFontSizeToFit
         >
-          <Text style={{color:"#133279"}} adjustsFontSizeToFit>Translation:</Text> {data.data.trim()}
+          <Text style={{ color: "#133279" }} adjustsFontSizeToFit>
+            Translation:
+          </Text>{" "}
+          {data.data.trim()}
         </Text>
       )}
       {options.map((el, ind) => {
@@ -151,24 +154,25 @@ function Question({ question, nextQ, lang }: any) {
         );
       })}
 
-      <View style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems:'center',
-        justifyContent:"center"
-      }}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Button
           type="solid"
-          
           disabled={isdisabled || show}
-          color={'#29337A'}
+          color={"#29337A"}
           buttonStyle={{
             // borderWidth: 1.5,
             borderRadius: 5,
           }}
           containerStyle={{
             marginVertical: 10,
-            flex: 1
+            flex: 1,
           }}
           onPress={() => {
             let ans: any = selectedAnswers.sort((a, b) => (a > b ? 1 : -1));
@@ -178,37 +182,43 @@ function Question({ question, nextQ, lang }: any) {
         >
           SUBMIT
         </Button>
-        <Pressable onPress={() => {
-          setShow(false);
-          nextQ();
-          setreset(true);
-        }}
-        disabled={!show}>
-          <View style={{
-            width: Dimensions.get('window').width *0.12,
-            height: Dimensions.get('window').width *0.12,
-            borderRadius: Dimensions.get('window').width *0.12/2,
-            display: 'flex',
-            alignContent: 'center',
-            justifyContent: 'center',
-            alignItems:'center',
-            marginLeft: 10,
-            backgroundColor: show ? "#133279":"#bbbbbb",
-          }}>
+        <Pressable
+          disabled={!show}
+          onPress={() => {
+            setShow(false);
+            nextQ();
+            setreset(true);
+          }}
+        >
+          <View
+            style={{
+              width: Dimensions.get("window").width * 0.12,
+              height: Dimensions.get("window").width * 0.12,
+              borderRadius: (Dimensions.get("window").width * 0.12) / 2,
+              display: "flex",
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: 10,
+              backgroundColor: show ? "#133279" : "#bbbbbb",
+            }}
+          >
             <Icon
               size={45}
-              color={'#fff'}
-              name='chevron-right'
-              type='material-community'
+              color={"#fff"}
+              name="chevron-right"
+              type="material-community"
               Component={TouchableWithoutFeedback}
               onPress={() => {
-                setShow(false);
-                nextQ();
-                setreset(true);
+                if (show) {
+                  setShow(false);
+                  nextQ();
+                  setreset(true);
+                }
               }}
             />
-            </View>
-          </Pressable>
+          </View>
+        </Pressable>
       </View>
       {/* <Button
         type="outline"

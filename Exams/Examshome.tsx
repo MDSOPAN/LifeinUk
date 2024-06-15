@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as fs from "expo-file-system";
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import { Button, Header, Icon, ListItem, Text as Tx } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import {
@@ -101,50 +101,50 @@ function Examshome() {
   }, [isLoading, edata]);
   return (
     <SafeAreaView style={styles.safearea}>
-      <StatusBar style="dark" backgroundColor="#fff" />
-      <View style={{
-          display:'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          alignContent: 'center',
-          justifyContent:'center',
-          backgroundColor:"#fff",
-          margin: 10
+      {/* <StatusBar style="dark" backgroundColor="#fff" /> */}
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          alignContent: "center",
+          justifyContent: "center",
+          backgroundColor: "#fff",
+          margin: 10,
           // height: 200
-        }}>
-          <Icon
-            type="fontawesome"
-            name="chevron-left"
-            color="#133279"
-            size={36}
-            Component={TouchableScale}
-            style={{
-              alignSelf: "center",
-            }}
-            onPress={() => {
-              navigation.pop();
-            }}
-          />
+        }}
+      >
+        <Icon
+          type="fontawesome"
+          name="chevron-left"
+          color="#133279"
+          size={36}
+          Component={TouchableScale}
+          style={{
+            alignSelf: "center",
+          }}
+          onPress={() => {
+            navigation.pop();
+          }}
+        />
 
-          <Text style={styles.heading}>
-            Mock Tests
-          </Text>
+        <Text style={styles.heading}>Mock Tests</Text>
 
-          <Icon
-            type="feather"
-            name="info"
-            color="rgba(0,0,0,0.5)"
-            Component={TouchableScale}
-            size={26}
-            style={{
-              alignSelf: "center",
-              margin:5,
-              marginTop: 10
-            }}
-            onPress={() => {
-              navigation.navigate('MockInfo');
-            }}
-          />
+        <Icon
+          type="feather"
+          name="info"
+          color="rgba(0,0,0,0.5)"
+          Component={TouchableScale}
+          size={26}
+          style={{
+            alignSelf: "center",
+            margin: 5,
+            marginTop: 10,
+          }}
+          onPress={() => {
+            navigation.navigate("MockInfo");
+          }}
+        />
       </View>
       <ScrollView
         style={{
@@ -185,7 +185,6 @@ function Examshome() {
           
         /> */}
 
-        
         {isLoading && (
           <>
             <ActivityIndicator
@@ -283,75 +282,79 @@ function Examshome() {
                   </ListItem> */}
 
                   <View
-                  key={ind}
-                  style={[
-                    styles.Ex,
-                    // completed.hasOwnProperty(ind + 1) &&
-                    //   completed[ind + 1] == "pass" &&
-                    //   styles.PassedEx,
-                    // completed.hasOwnProperty(ind + 1) &&
-                    //   completed[ind + 1] == "fail" &&
-                    //   styles.FailedEx,
-                  ]}>
+                    key={ind}
+                    style={[
+                      styles.Ex,
+                      // completed.hasOwnProperty(ind + 1) &&
+                      //   completed[ind + 1] == "pass" &&
+                      //   styles.PassedEx,
+                      // completed.hasOwnProperty(ind + 1) &&
+                      //   completed[ind + 1] == "fail" &&
+                      //   styles.FailedEx,
+                    ]}
+                  >
                     <Text
-                        style={[
-                          styles.title,
-                          // completed.hasOwnProperty(ind + 1) &&
-                          //   completed[ind + 1] == "pass" &&
-                          //   styles.titleright,
-                          // completed.hasOwnProperty(ind + 1) &&
-                          //   completed[ind + 1] == "fail" &&
-                          //   styles.titlewrong,
-                        ]}
-                      >{`Test ${ind + 1}`}</Text>
+                      style={[
+                        styles.title,
+                        // completed.hasOwnProperty(ind + 1) &&
+                        //   completed[ind + 1] == "pass" &&
+                        //   styles.titleright,
+                        // completed.hasOwnProperty(ind + 1) &&
+                        //   completed[ind + 1] == "fail" &&
+                        //   styles.titlewrong,
+                      ]}
+                    >{`Test ${ind + 1}`}</Text>
 
-                
                     {completed.hasOwnProperty(ind + 1) &&
-                    completed[ind + 1] == "pass" &&
-                    <View style={{
-                      width: Dimensions.get('window').width *0.1,
-                      height: Dimensions.get('window').width *0.1,
-                      borderRadius: Dimensions.get('window').width *0.1/2,
-                      display: 'flex',
-                      alignContent: 'center',
-                      justifyContent: 'center',
-                      alignItems:'center',
-                      marginLeft: 'auto',
-                      backgroundColor: "#fff"
-                    }}>
-    
-                      <Icon
-                        size={30}
-                        color={'#133279'}
-                        name='check'
-                        type='font-awesome'
-                        Component={TouchableWithoutFeedback}
-                        
-                      />
-                    </View>}
+                      completed[ind + 1] == "pass" && (
+                        <View
+                          style={{
+                            width: Dimensions.get("window").width * 0.1,
+                            height: Dimensions.get("window").width * 0.1,
+                            borderRadius:
+                              (Dimensions.get("window").width * 0.1) / 2,
+                            display: "flex",
+                            alignContent: "center",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginLeft: "auto",
+                            backgroundColor: "#fff",
+                          }}
+                        >
+                          <Icon
+                            size={30}
+                            color={"#133279"}
+                            name="check"
+                            type="font-awesome"
+                            Component={TouchableWithoutFeedback}
+                          />
+                        </View>
+                      )}
                     {completed.hasOwnProperty(ind + 1) &&
-                    completed[ind + 1] == "fail" &&
-                    <View style={{
-                      width: Dimensions.get('window').width *0.1,
-                      height: Dimensions.get('window').width *0.1,
-                      borderRadius: Dimensions.get('window').width *0.1/2,
-                      display: 'flex',
-                      alignContent: 'center',
-                      justifyContent: 'center',
-                      alignItems:'center',
-                      marginLeft: 'auto',
-                      backgroundColor: "#fff"
-                    }}>
-    
-                      <Icon
-                        size={30}
-                        color={'#133279'}
-                        name='close'
-                        type='font-awesome'
-                        Component={TouchableWithoutFeedback}
-                        
-                      />
-                    </View>}
+                      completed[ind + 1] == "fail" && (
+                        <View
+                          style={{
+                            width: Dimensions.get("window").width * 0.1,
+                            height: Dimensions.get("window").width * 0.1,
+                            borderRadius:
+                              (Dimensions.get("window").width * 0.1) / 2,
+                            display: "flex",
+                            alignContent: "center",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginLeft: "auto",
+                            backgroundColor: "#fff",
+                          }}
+                        >
+                          <Icon
+                            size={30}
+                            color={"#133279"}
+                            name="close"
+                            type="font-awesome"
+                            Component={TouchableWithoutFeedback}
+                          />
+                        </View>
+                      )}
                   </View>
                 </TouchableScale>
               );
@@ -382,17 +385,17 @@ function Examshome() {
   );
 }
 const styles = StyleSheet.create({
-  safearea:{
-      flex: 1,
-      backgroundColor: "#fff"
+  safearea: {
+    flex: 1,
+    backgroundColor: "#fff",
   },
   heading: {
     color: "#133279",
-    fontSize:22,
+    fontSize: 22,
     marginLeft: 5,
     flex: 1,
     fontWeight: "600",
-    marginRight: 'auto'
+    marginRight: "auto",
   },
   ProgressText: {
     fontSize: 20,
@@ -401,11 +404,11 @@ const styles = StyleSheet.create({
   Ex: {
     marginTop: 10,
     // borderTopWidth: 1,
-    display:'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     // alignContent:'center',
     // justifyContent:'center',
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: "#133279",
     paddingVertical: 25,
     paddingHorizontal: 15,

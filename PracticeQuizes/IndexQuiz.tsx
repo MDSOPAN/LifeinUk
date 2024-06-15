@@ -1,6 +1,6 @@
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, StyleSheet, View,Text } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import Question from "./Question";
 import { Header, Icon, Text as Tx } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -66,34 +66,34 @@ function IndexQuiz() {
           />
         }
       /> */}
-      <View style={{
-          display:'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          alignContent: 'center',
-          justifyContent:'center',
-          backgroundColor:"#fff",
-          margin: 10
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          alignContent: "center",
+          justifyContent: "center",
+          backgroundColor: "#fff",
+          margin: 10,
           // height: 200
-        }}>
-          <Icon
-            type="fontawesome"
-            name="chevron-left"
-            color="#133279"
-            size={36}
-            style={{
-              alignSelf: "center",
-            }}
-            onPress={() => {
-              navigation.pop();
-            }}
-          />
+        }}
+      >
+        <Icon
+          type="fontawesome"
+          name="chevron-left"
+          color="#133279"
+          size={36}
+          style={{
+            alignSelf: "center",
+          }}
+          onPress={() => {
+            navigation.pop();
+          }}
+        />
 
-          <Text style={styles.heading}>
-            Practice
-          </Text>
+        <Text style={styles.heading}>Practice</Text>
 
-          {/* <Icon
+        {/* <Icon
             type="feather"
             name="info"
             color="rgba(0,0,0,0.5)"
@@ -108,7 +108,7 @@ function IndexQuiz() {
             }}
           /> */}
       </View>
-      <StatusBar style="dark" backgroundColor="#fff" />
+      {/* <StatusBar style="dark" backgroundColor="#fff" /> */}
       <BannerAd
         unitId={"ca-app-pub-4662143029142618/9942720116"}
         onAdFailedToLoad={(er) => {
@@ -168,17 +168,17 @@ const styles = StyleSheet.create({
   //   fontSize: 30,
   //   fontWeight: "bold",
   // },
-  safearea:{
+  safearea: {
     flex: 1,
-    backgroundColor: "#fff"
-},
+    backgroundColor: "#fff",
+  },
   heading: {
     color: "#133279",
-    fontSize:22,
+    fontSize: 22,
     marginLeft: 5,
     flex: 1,
     fontWeight: "600",
-    marginRight: 'auto'
+    marginRight: "auto",
   },
 });
 export default IndexQuiz;

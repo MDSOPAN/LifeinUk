@@ -1,16 +1,16 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
-import { setStatusBarStyle, StatusBar } from "expo-status-bar";
+// import { setStatusBarStyle, StatusBar } from "expo-status-bar";
 // import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { Button, Header, Card, ListItem, Icon, Text } from "@rneui/themed";
 import * as fs from "expo-file-system";
 import InAppReview from "react-native-in-app-review";
 // @ts-ignore
-import LIUT from '../assets/LIUT.svg'
+import LIUT from "../assets/LIUT.svg";
 // @ts-ignore
-import Mock from '../assets/Mock.svg'
+import Mock from "../assets/Mock.svg";
 
 // @ts-ignore
-import Practice from '../assets/Practice.svg'
+import Practice from "../assets/Practice.svg";
 
 import mobileAds from "react-native-google-mobile-ads";
 import {
@@ -23,7 +23,7 @@ import {
   Modal,
   Image,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -114,7 +114,6 @@ function Home() {
   let [lang, setLang] = useState("");
   let [chlang, setchlang] = useState(false);
 
-  
   const { isLoading, error, data }: any = useQuery(
     lang && "QuestionData",
     async () => {
@@ -124,9 +123,7 @@ function Home() {
       // );
 
       //TODO:Test
-      let res = await fetch(
-        `http://${app_url}:3000/api/app/getallquestions`
-       );
+      let res = await fetch(`http://${app_url}:3000/api/app/getallquestions`);
       // if (res.status == 500) {
       //   throw new Error("Database Not online");
       // }
@@ -142,7 +139,7 @@ function Home() {
   useFocusEffect(
     React.useCallback(() => {
       getpercent(setPercent);
-      getlang(setLang)
+      getlang(setLang);
       client.invalidateQueries("QuestionData");
     }, [])
   );
@@ -171,26 +168,27 @@ function Home() {
   }, [isLoading, pdata]);
   return (
     <SafeAreaView style={styles.cont}>
-      
-      <StatusBar style="light" backgroundColor="#133279" />
-      <View style={{
-          
+      {/* <StatusBar style="light" backgroundColor="#133279" /> */}
+      <View
+        style={{
           padding: 10,
           paddingTop: 15,
-          backgroundColor:"#133279",
+          backgroundColor: "#133279",
           paddingBottom: "40%",
-          position: "relative"
+          position: "relative",
           // height: 200
-        }}>
-          <View style={{
-            display:'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignContent: 'center',
-            justifyContent:'center',
-            
-          }}>
-            {/* <Icon
+        }}
+      >
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* <Icon
               type="fontawesome"
               name="chevron-left"
               color="#000000"
@@ -203,72 +201,84 @@ function Home() {
                 navigation.pop();
               }}
             /> */}
-            <Image source={require("../assets/logo.png")} style={{
+          <Image
+            source={require("../assets/logo.png")}
+            style={{
               maxWidth: "10%",
-              aspectRatio: 1/1,
-            }}/>
-            <Text style={styles.heading}>
-              LIUT
-            </Text>
-            
-              <Icon
-                size={30}
-                color={'#fff'}
-                name='google-translate'
-                containerStyle={{
-                  marginRight:7,
-                }}
-                type='material-community'
-                Component={TouchableWithoutFeedback}
-                onPress={()=>{
-                  navigation.navigate('Menu');
-                }}
-              />
-              <Icon
-                size={30}
-                color={'#fff'}
-                name='settings'
-                type='material'
-                Component={TouchableWithoutFeedback}
-                onPress={()=>{
-                  navigation.navigate('settings',lang);
-                }}
-              />
-          </View>
-          <View style={{
+              aspectRatio: 1 / 1,
+            }}
+          />
+          <Text style={styles.heading}>LIUT</Text>
+
+          <Icon
+            size={30}
+            color={"#fff"}
+            name="google-translate"
+            containerStyle={{
+              marginRight: 7,
+            }}
+            type="material-community"
+            Component={TouchableWithoutFeedback}
+            onPress={() => {
+              navigation.navigate("Menu");
+            }}
+          />
+          <Icon
+            size={30}
+            color={"#fff"}
+            name="settings"
+            type="material"
+            Component={TouchableWithoutFeedback}
+            onPress={() => {
+              navigation.navigate("settings", lang);
+            }}
+          />
+        </View>
+        <View
+          style={{
             backgroundColor: "#fff",
             elevation: 5,
             // width: "90%",
-            padding:10,
+            padding: 10,
             borderRadius: 10,
-            position: 'absolute',
+            position: "absolute",
             bottom: "-100%",
             left: 20,
             right: 20,
             // zIndex: 100,
-
-          }}>
-            <View style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              
-            }}>
-              <Text style={styles.ProgressText}>Total Progress</Text>
-              <Text style={{
-                color: '#bbbbbb',
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.ProgressText}>Total Progress</Text>
+            <Text
+              style={{
+                color: "#bbbbbb",
                 fontSize: 20,
-                
-              }}>{percent}%</Text>
-            </View>
-            <LinearProgress style={{ marginVertical: 15,width: "100%",height: 20,borderRadius: 25 }}
-              // value={percent/100}
-              value={percent/100}
-              color="#133279"
-              trackColor="#F6F6F6"
-              variant="determinate"/>
-              
+              }}
+            >
+              {percent}%
+            </Text>
           </View>
+          <LinearProgress
+            style={{
+              marginVertical: 15,
+              width: "100%",
+              height: 20,
+              borderRadius: 25,
+            }}
+            // value={percent/100}
+            value={percent / 100}
+            color="#133279"
+            trackColor="#F6F6F6"
+            variant="determinate"
+          />
+        </View>
       </View>
       {(isLoading || !lang) && (
         <>
@@ -288,8 +298,7 @@ function Home() {
             Please check your internet connection
           </Text>
           <Button
-
-          //TODO:FIx this
+            //TODO:FIx this
             // containerStyle={styles.ProgressText}
             buttonStyle={styles.errbtn}
             title="Retry"
@@ -307,16 +316,11 @@ function Home() {
           contentContainerStyle={{
             alignContent: "center",
             alignItems: "center",
-            alignSelf:"stretch",
+            alignSelf: "stretch",
             width: "100%",
             // flex: 1
           }}
         >
-          
-          
-         
-          
-          
           <View style={styles.cardcontainer}>
             {/* <Pressable
               onPress={() => {
@@ -339,39 +343,54 @@ function Home() {
                 </Text>
               </Card> */}
               <View
-              style={[styles.testbutton,{
-                marginTop: "15%"
-              }]}>
+                style={[
+                  styles.testbutton,
+                  {
+                    marginTop: "15%",
+                  },
+                ]}
+              >
                 {/* <Image
                   source={require('../assets/Mock.png')}
                 /> */}
-                <View style={{
-                  width: Dimensions.get('window').width *0.2,
-                  height: Dimensions.get('window').width *0.2,
-                  borderRadius: Dimensions.get('window').width *0.2/2,
-                  display: 'flex',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  alignItems:'center',
-                  backgroundColor: "#fff"
-                }}>
-
+                <View
+                  style={{
+                    width: Dimensions.get("window").width * 0.2,
+                    height: Dimensions.get("window").width * 0.2,
+                    borderRadius: (Dimensions.get("window").width * 0.2) / 2,
+                    display: "flex",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#fff",
+                  }}
+                >
                   <Mock />
                 </View>
                 <View>
-                  <Text style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    color:'#FFF',
-                    marginLeft: 10
-                  }} adjustsFontSizeToFit>Mock Tests</Text>
-                  <Text style={{
-                    // fontWeight: "bold",
-                    fontSize: 13,
-                    color:'#FFF',
-                    marginLeft: 10,
-                    width: "70%"
-                  }} adjustsFontSizeToFit>Start an exam with ordered questions and limited time</Text>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: 20,
+                      color: "#FFF",
+                      marginLeft: 10,
+                    }}
+                    adjustsFontSizeToFit
+                  >
+                    Mock Tests
+                  </Text>
+                  <Text
+                    style={{
+                      // fontWeight: "bold",
+                      fontSize: 13,
+                      color: "#FFF",
+                      marginLeft: 10,
+                      width: "70%",
+                    }}
+                    adjustsFontSizeToFit
+                  >
+                    Start an exam with ordered questions and limited time
+                  </Text>
                 </View>
               </View>
             </TouchableScale>
@@ -397,39 +416,49 @@ function Home() {
                   Start practice with ordered questions and unlimited time
                 </Text>
               </Card> */}
-              <View
-              style={styles.testbutton}>
+              <View style={styles.testbutton}>
                 {/* <Image
                   source={require('../assets/Practice.png')}
                 /> */}
-                <View style={{
-                  width: Dimensions.get('window').width *0.2,
-                  height: Dimensions.get('window').width *0.2,
-                  borderRadius: Dimensions.get('window').width *0.2/2,
-                  display: 'flex',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  alignItems:'center',
-                  backgroundColor: "#fff"
-                }}>
-
-                  <Practice/>
+                <View
+                  style={{
+                    width: Dimensions.get("window").width * 0.2,
+                    height: Dimensions.get("window").width * 0.2,
+                    borderRadius: (Dimensions.get("window").width * 0.2) / 2,
+                    display: "flex",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  <Practice />
                 </View>
-                
+
                 <View>
-                  <Text style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    color:'#FFF',
-                    marginLeft: 10
-                  }} adjustsFontSizeToFit>Practice Tests</Text>
-                  <Text style={{
-                    // fontWeight: "bold",
-                    fontSize: 13,
-                    color:'#FFF',
-                    marginLeft: 10,
-                    width: "70%"
-                  }} adjustsFontSizeToFit>Start an exam with random questions and unlimited time</Text>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: 20,
+                      color: "#FFF",
+                      marginLeft: 10,
+                    }}
+                    adjustsFontSizeToFit
+                  >
+                    Practice Tests
+                  </Text>
+                  <Text
+                    style={{
+                      // fontWeight: "bold",
+                      fontSize: 13,
+                      color: "#FFF",
+                      marginLeft: 10,
+                      width: "70%",
+                    }}
+                    adjustsFontSizeToFit
+                  >
+                    Start an exam with random questions and unlimited time
+                  </Text>
                 </View>
               </View>
             </TouchableScale>
@@ -443,7 +472,7 @@ function Home() {
 const styles = StyleSheet.create({
   heading: {
     color: "#fff",
-    fontSize:26,
+    fontSize: 26,
     marginLeft: 5,
     flex: 1,
     fontWeight: "900",
@@ -451,8 +480,8 @@ const styles = StyleSheet.create({
   },
   ProgressText: {
     fontSize: 20,
-    fontWeight: '200',
-    color: '#828282'
+    fontWeight: "200",
+    color: "#828282",
     // marginVertical: 10,
     // marginTop: 40,
   },
@@ -481,12 +510,12 @@ const styles = StyleSheet.create({
   //   shadowRadius: 3,
   // },
   testbutton: {
-    display:"flex",
-    flexDirection:"row",
-    alignContent:"center",
-    alignItems:'center',
-    justifyContent:'flex-start',
-    backgroundColor:"#133279",
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    backgroundColor: "#133279",
     borderRadius: 10,
     // alignSelf: "stretch",
     // flex: 1,

@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 
 import {
@@ -125,61 +125,61 @@ function IndexExQuestion() {
 
   return (
     <SafeAreaView style={styles.safearea}>
-      <View style={{
-          display:'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          alignContent: 'center',
-          justifyContent:'center',
-          backgroundColor:"#fff",
-          margin: 10
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          alignContent: "center",
+          justifyContent: "center",
+          backgroundColor: "#fff",
+          margin: 10,
           // height: 200
-        }}>
-          <Icon
-            type="fontawesome"
-            name="chevron-left"
-            color="#133279"
-            size={36}
-            Component={TouchableScale}
-            style={{
-              alignSelf: "center",
-            }}
-            onPress={() => {
-              navigation.pop();
-            }}
-          />
+        }}
+      >
+        <Icon
+          type="fontawesome"
+          name="chevron-left"
+          color="#133279"
+          size={36}
+          Component={TouchableScale}
+          style={{
+            alignSelf: "center",
+          }}
+          onPress={() => {
+            navigation.pop();
+          }}
+        />
 
-          <Text style={styles.heading}>
-            Test {Qdata[0].ExamNo}
-          </Text>
-          <CountDown
-              until={60 * time}
-              size={17}
-              running={!isLoading && !error}
-              onFinish={() => {
-                setFin(true);
-                // navigation.navigate("ExResults", {
-                //   Right: rightans,
-                //   QuestionsLength: Qdata.length,
-                // });
-              }}
-              style={{
-                alignSelf: "center",
-                // margin:5,
-                // marginBottom: 5
-              }}
-              digitStyle={{ backgroundColor: "white" }}
-              showSeparator
-              separatorStyle={{
-                color:'#133279'
-              }}
-              digitTxtStyle={{ color: "#133279", fontSize: 22 }}
-              timeToShow={["M", "S"]}
-              timeLabels={{ m: "", s: "" }}
-            />
+        <Text style={styles.heading}>Test {Qdata[0].ExamNo}</Text>
+        <CountDown
+          until={60 * time}
+          size={17}
+          running={!isLoading && !error}
+          onFinish={() => {
+            setFin(true);
+            // navigation.navigate("ExResults", {
+            //   Right: rightans,
+            //   QuestionsLength: Qdata.length,
+            // });
+          }}
+          style={{
+            alignSelf: "center",
+            // margin:5,
+            // marginBottom: 5
+          }}
+          digitStyle={{ backgroundColor: "white" }}
+          showSeparator
+          separatorStyle={{
+            color: "#133279",
+          }}
+          digitTxtStyle={{ color: "#133279", fontSize: 22 }}
+          timeToShow={["M", "S"]}
+          timeLabels={{ m: "", s: "" }}
+        />
       </View>
       <LinearProgress
-        style={{ marginVertical: 0,height: "1%" }}
+        style={{ marginVertical: 0, height: "1%" }}
         value={question / Qdata.length}
         variant={"determinate"}
         animation={{
@@ -244,12 +244,12 @@ function IndexExQuestion() {
             alignSelf: "center",
           }}
         > */}
-          <BannerAd
-            unitId={"ca-app-pub-4662143029142618/9942720116"}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          />
+        <BannerAd
+          unitId={"ca-app-pub-4662143029142618/9942720116"}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        />
         {/* </View> */}
-        
+
         {isLoading && (
           <>
             <ActivityIndicator
@@ -285,7 +285,9 @@ function IndexExQuestion() {
               Translation={lang != "en" ? data.data[question] : false}
               setRightans={setRightans}
               rightans={rightans}
-              selectedAns={AnsArr[question] != undefined ? AnsArr[question] : []}
+              selectedAns={
+                AnsArr[question] != undefined ? AnsArr[question] : []
+              }
               setAnsArr={setAnsArr}
               AnsArr={AnsArr}
               prevQ={() => {
@@ -352,8 +354,8 @@ function IndexExQuestion() {
             />
           </View>
         )}
-        
-        <StatusBar style="dark" backgroundColor="#fff" />
+
+        {/* <StatusBar style="dark" backgroundColor="#fff" /> */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -362,15 +364,15 @@ function IndexExQuestion() {
 const styles = StyleSheet.create({
   heading: {
     color: "#133279",
-    fontSize:22,
+    fontSize: 22,
     marginLeft: 5,
     flex: 1,
     fontWeight: "600",
-    marginRight: 'auto'
+    marginRight: "auto",
   },
-  safearea:{
+  safearea: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   errview: {
     display: "flex",
