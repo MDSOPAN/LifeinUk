@@ -14,22 +14,19 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.liut.LifeinUk",
       "icon": "./assets/icon.jpg"
     },
     "android": {
-      "versionCode": 4,
+      "versionCode": 5,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.liut.LifeinUk",
-      "targetSdkVersion": 33
+      "package": "com.liut.LifeinUk"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,13 +36,8 @@
         "projectId": "a1186c01-95d5-47d9-a9c1-33a7c593e1df"
       }
     },
-    "platforms": [
-      "android",
-      "ios"
-    ],
-    "plugins": [
-      "expo-font"
-    ]
+    "platforms": ["android", "ios"],
+    "plugins": ["expo-font"]
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-4662143029142618~1166081395",
