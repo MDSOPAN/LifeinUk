@@ -1,5 +1,5 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
-// import { setStatusBarStyle, StatusBar } from "expo-status-bar";
+import { setStatusBarStyle, StatusBar } from "expo-status-bar";
 // import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { Button, Header, Card, ListItem, Icon, Text } from "@rneui/themed";
 import * as fs from "expo-file-system";
@@ -168,7 +168,7 @@ function Home() {
   }, [isLoading, pdata]);
   return (
     <SafeAreaView style={styles.cont}>
-      {/* <StatusBar style="light" backgroundColor="#133279" /> */}
+      <StatusBar style="light" backgroundColor="#133279" />
       <View
         style={{
           padding: 10,

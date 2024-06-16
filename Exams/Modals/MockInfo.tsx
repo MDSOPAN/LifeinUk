@@ -11,7 +11,7 @@ import {
 import Mock from "../../assets/mockinfo.svg";
 import { Icon } from "@rneui/base";
 import { useNavigation } from "@react-navigation/native";
-// import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 
 function MockInfo() {
   let navigation: any = useNavigation();
@@ -24,7 +24,7 @@ function MockInfo() {
         backgroundColor: "#40404040",
       }}
     >
-      {/* <StatusBar style="light" backgroundColor="#40404040" /> */}
+      <StatusBar style="light" backgroundColor="#40404040" />
       <Pressable
         style={{
           flexGrow: 1,

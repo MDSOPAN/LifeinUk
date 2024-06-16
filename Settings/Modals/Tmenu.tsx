@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View, Text, Pressable } from "react-native";
-// import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 //@ts-ignore
 import Mock from "../../assets/mockinfo.svg";
 import { Icon, ListItem } from "@rneui/base";
@@ -43,7 +43,7 @@ function Tmenu() {
         backgroundColor: "#40404040",
       }}
     >
-      {/* <StatusBar style="light" backgroundColor="#40404040" /> */}
+      <StatusBar style="light" backgroundColor="#40404040" />
       <Pressable
         style={{
           flexGrow: 1,

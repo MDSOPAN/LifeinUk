@@ -1,4 +1,4 @@
-// import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 
 import {
@@ -355,7 +355,7 @@ function IndexExQuestion() {
           </View>
         )}
 
-        {/* <StatusBar style="dark" backgroundColor="#fff" /> */}
+        <StatusBar style="dark" backgroundColor="#fff" />
       </ScrollView>
     </SafeAreaView>
   );

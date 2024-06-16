@@ -1,4 +1,4 @@
-// import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import Question from "./Question";
@@ -108,7 +108,7 @@ function IndexQuiz() {
             }}
           /> */}
       </View>
-      {/* <StatusBar style="dark" backgroundColor="#fff" /> */}
+      <StatusBar style="dark" backgroundColor="#fff" />
       <BannerAd
         unitId={"ca-app-pub-4662143029142618/9942720116"}
         onAdFailedToLoad={(er) => {

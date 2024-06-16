@@ -1,4 +1,4 @@
-// import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ScrollView,
@@ -76,7 +76,7 @@ function ReIndex() {
 
         <Text style={styles.heading}>Test {Qdata[0].ExamNo} Review</Text>
       </View>
-      {/* <StatusBar style="dark" backgroundColor="#fff" /> */}
+      <StatusBar style="dark" backgroundColor="#fff" />
       {Qdata.length != 0 && (
         <ScrollView
           style={{

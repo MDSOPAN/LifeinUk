@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as fs from "expo-file-system";
-// import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import { Button, Header, Icon, ListItem, Text as Tx } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import {
@@ -101,7 +101,7 @@ function Examshome() {
   }, [isLoading, edata]);
   return (
     <SafeAreaView style={styles.safearea}>
-      {/* <StatusBar style="dark" backgroundColor="#fff" /> */}
+      <StatusBar style="dark" backgroundColor="#fff" />
       <View
         style={{
           display: "flex",
