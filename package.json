@@ -12,12 +12,14 @@
     "@react-navigation/native-stack": "^6.9.0",
     "@rneui/base": "^4.0.0-rc.6",
     "@rneui/themed": "^4.0.0-rc.6",
+    "@tanstack/react-query": "^5.45.0",
     "expo": "^51.0.14",
     "expo-dev-client": "~4.0.18",
     "expo-file-system": "~17.0.1",
     "expo-font": "~12.0.7",
     "expo-modules-core": "~1.12.15",
     "expo-splash-screen": "~0.27.5",
+    "expo-status-bar": "~1.12.1",
     "expo-storage": "^46.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -33,8 +35,7 @@
     "react-native-svg-transformer": "^1.1.0",
     "react-native-touchable-scale": "^2.2.0",
     "react-native-web": "~0.19.10",
-    "react-query": "^3.39.2",
-    "expo-status-bar": "~1.12.1"
+    "react-query": "^3.39.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

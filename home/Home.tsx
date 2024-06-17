@@ -129,6 +129,7 @@ function Home() {
       // }
 
       let ares = await res.json();
+      console.log(ares);
       if (ares.status == "Failed") {
         throw new Error("Could not connect to the database");
       }
@@ -295,7 +296,8 @@ function Home() {
         <View style={styles.errview}>
           <Text style={styles.errtext}>Cannnot connect to server</Text>
           <Text style={styles.errtext}>
-            Please check your internet connection
+            {/* Please check your internet connection */}
+            {error}
           </Text>
           <Button
             //TODO:FIx this
