@@ -296,8 +296,7 @@ function Home() {
         <View style={styles.errview}>
           <Text style={styles.errtext}>Cannnot connect to server</Text>
           <Text style={styles.errtext}>
-            {/* Please check your internet connection */}
-            {error}
+            Please check your internet connection
           </Text>
           <Button
             //TODO:FIx this
@@ -308,6 +307,7 @@ function Home() {
             size="md"
             onPress={() => {
               client.invalidateQueries("QuestionData");
+              console.log(error);
             }}
           />
         </View>
