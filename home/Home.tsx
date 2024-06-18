@@ -129,7 +129,7 @@ function Home() {
       // }
 
       let ares = await res.json();
-      console.log(ares);
+      // console.log(ares);
       if (ares.status == "Failed") {
         throw new Error("Could not connect to the database");
       }

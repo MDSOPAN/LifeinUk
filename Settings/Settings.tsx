@@ -6,12 +6,15 @@ import {
   View,
   StatusBar as st,
   Text,
-  Dimensions
+  Dimensions,
+  Linking,
+  Alert
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // @ts-ignore
 import Datadoat from '../assets/datadoat_labs.svg'
+import { app_url } from "../universal/app_constants";
 
 
 export default function Settings() {
@@ -85,15 +88,26 @@ export default function Settings() {
         borderColor: '#F0F0F0'
       }}>
         <Text style={{color:'#8F8F8F',margin: 10}}>Help and Policy</Text>  
-        <ListItem bottomDivider style={styles.menuitm}>
+        {/* <ListItem bottomDivider style={styles.menuitm}>
             <Icon name="shield-check" type="material-community" color="grey" />
             <ListItem.Content>
             <ListItem.Title>Permissions</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron />
-        </ListItem>
+        </ListItem> */}
         
-        <ListItem style={styles.menuitm}>
+        <ListItem style={styles.menuitm} onPress={async ()=>{
+          let url=`https://www.termsfeed.com/live/12d92d4e-4da3-45ee-8f6a-b130d3526f59`;
+          const supported = await Linking.canOpenURL(url);
+
+          if (supported) {
+            // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+            // by some browser in the mobile
+            await Linking.openURL(url);
+          } else {
+            Alert.alert(`Could not open. Browser error`);
+          }
+        }}>
             <Icon name="assignment-turned-in" type="material" color="grey" />
             <ListItem.Content>
             <ListItem.Title>Privacy Policy</ListItem.Title>
@@ -106,7 +120,18 @@ export default function Settings() {
         marginTop: 5
       }}>
         <Text style={{color:'#8F8F8F',margin: 10}}>Other</Text>  
-        <ListItem style={styles.menuitm}>
+        <ListItem style={styles.menuitm} onPress={async ()=>{
+          let url=`https://play.google.com/store/apps/details?id=com.liut.LifeinUk`;
+          const supported = await Linking.canOpenURL(url);
+
+          if (supported) {
+            // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+            // by some browser in the mobile
+            await Linking.openURL(url);
+          } else {
+            Alert.alert(`Could not open. Browser error`);
+          }
+        }}>
             <Icon name="star" type="material" color="grey" />
             <ListItem.Content>
             <ListItem.Title>Rate Us</ListItem.Title>

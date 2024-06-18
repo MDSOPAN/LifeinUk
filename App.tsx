@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MenuProvider } from "react-native-popup-menu";
 import * as fs from "expo-file-system";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-// import * as SplashScreen from "expo-splash-screen";
+import * as SplashScreen from "expo-splash-screen";
 //@ts-ignore
 import Passed from "./assets/passed.svg";
 import {
@@ -43,9 +43,11 @@ const getifOpened = async (setOpened: any) => {
 
   if (exists) {
     setOpened(true);
+    SplashScreen.hideAsync();
   } else {
     await fs.writeAsStringAsync(fs.documentDirectory + "opened.txt", "true");
     setOpened(false);
+    SplashScreen.hideAsync();
   }
 };
 const slides = [
@@ -75,7 +77,7 @@ const slides = [
 export default function App() {
   let client = new QueryClient();
   const Stack = createNativeStackNavigator();
-
+  SplashScreen.preventAutoHideAsync();
   let slider: any = useRef(null);
 
   let [opened, setOpened] = useState(false);
